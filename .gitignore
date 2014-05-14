@@ -1,0 +1,5 @@
+# Reload log files
+*.qvw.log
+
+# temp files for tests
+Tests/temp/*

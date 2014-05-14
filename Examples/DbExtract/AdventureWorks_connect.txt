@@ -1,0 +1,1 @@
+OLEDB CONNECT32 TO [Provider=Microsoft.Jet.OLEDB.4.0;Data Source=DbExtract\AdventureWorksSample.mdb;];

@@ -1,0 +1,3 @@
+// Sample of adding fields to Calendar
+,week(Date) as [$(_fieldPrefix)Week]
+,WeekYear(Date) & '-' & week(Date) as [$(_fieldPrefix)Year-Week]

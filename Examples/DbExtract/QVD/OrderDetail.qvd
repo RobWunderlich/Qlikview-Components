@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+ <QvdTableHeader>
+   <QvBuildNo>12018</QvBuildNo>
+   <CreatorDoc>C:\QVC_Root\trunk\Examples\DbExtract.qvw</CreatorDoc>
+   <CreateUtcTime>2013-11-28 04:16:45</CreateUtcTime>
+   <SourceCreateUtcTime></SourceCreateUtcTime>
+   <SourceFileUtcTime></SourceFileUtcTime>
+   <SourceFileSize>-1</SourceFileSize>
+   <StaleUtcTime></StaleUtcTime>
+   <TableName>OrderDetail</TableName>
+   <Fields>
+     <QvdFieldHeader>
+       <FieldName>SalesOrderDetailID</FieldName>
+       <BitOffset>0</BitOffset>
+       <BitWidth>16</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>,</Dec>
+         <Thou>.</Thou>
+       </NumberFormat>
+       <NoOfSymbols>405</NoOfSymbols>
+       <Offset>0</Offset>
+       <Length>2025</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>SalesOrderID</FieldName>
+       <BitOffset>32</BitOffset>
+       <BitWidth>7</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>,</Dec>
+         <Thou>.</Thou>
+       </NumberFormat>
+       <NoOfSymbols>91</NoOfSymbols>
+       <Offset>2025</Offset>
+       <Length>455</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$date</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>CarrierTrackingNumber</FieldName>
+       <BitOffset>20</BitOffset>
+       <BitWidth>6</BitWidth>
+       <Bias>-2</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>38</NoOfSymbols>
+       <Offset>2480</Offset>
+       <Length>532</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>OrderQty</FieldName>
+       <BitOffset>16</BitOffset>
+       <BitWidth>4</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>,</Dec>
+         <Thou>.</Thou>
+       </NumberFormat>
+       <NoOfSymbols>10</NoOfSymbols>
+       <Offset>3012</Offset>
+       <Length>50</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>ProductID</FieldName>
+       <BitOffset>26</BitOffset>
+       <BitWidth>6</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>,</Dec>
+         <Thou>.</Thou>
+       </NumberFormat>
+       <NoOfSymbols>50</NoOfSymbols>
+       <Offset>3062</Offset>
+       <Length>250</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>SpecialOfferID</FieldName>
+       <BitOffset>0</BitOffset>
+       <BitWidth>0</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>,</Dec>
+         <Thou>.</Thou>
+       </NumberFormat>
+       <NoOfSymbols>1</NoOfSymbols>
+       <Offset>3312</Offset>
+       <Length>5</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>UnitPrice</FieldName>
+       <BitOffset>46</BitOffset>
+       <BitWidth>5</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>MONEY</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>.</Dec>
+         <Thou>,</Thou>
+       </NumberFormat>
+       <NoOfSymbols>20</NoOfSymbols>
+       <Offset>3317</Offset>
+       <Length>180</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>UnitPriceDiscount</FieldName>
+       <BitOffset>0</BitOffset>
+       <BitWidth>0</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>MONEY</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>.</Dec>
+         <Thou>,</Thou>
+       </NumberFormat>
+       <NoOfSymbols>1</NoOfSymbols>
+       <Offset>3497</Offset>
+       <Length>5</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>LineTotal</FieldName>
+       <BitOffset>39</BitOffset>
+       <BitWidth>7</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>68</NoOfSymbols>
+       <Offset>3502</Offset>
+       <Length>1373</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>ModifiedDate</FieldName>
+       <BitOffset>51</BitOffset>
+       <BitWidth>4</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>DATE</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>14</NoOfSymbols>
+       <Offset>4875</Offset>
+       <Length>70</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$date</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>OrderDetail.ExtractTimestamp</FieldName>
+       <BitOffset>55</BitOffset>
+       <BitWidth>1</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>TIMESTAMP</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt>M/D/YYYY h:mm:ss[.fff] TT</Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>2</NoOfSymbols>
+       <Offset>4945</Offset>
+       <Length>18</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+   </Fields>
+   <Compression></Compression>
+   <RecordByteSize>7</RecordByteSize>
+   <NoOfRecords>405</NoOfRecords>
+   <Offset>4963</Offset>
+   <Length>2835</Length>
+   <Lineage>
+     <LineageInfo>
+       <Discriminator></Discriminator>
+       <Statement>SQL SELECT SalesOrderDetailID  FROM SalesOrderDetail</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator></Discriminator>
+       <Statement>[_qvctemp.den.DeleteKeys]:
+	LOAD [SalesOrderDetailID] as [_qvctemp.den.DeleteKeysField]
+	;SQL SELECT SalesOrderDetailID  FROM SalesOrderDetail</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>AUTOGENERATE</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>INLINE</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=DbExtract\AdventureWorksSample.mdb;</Discriminator>
+       <Statement>LOAD *, now(1) as ExtractTimestamp;SQL SELECT * FROM SalesOrderDetail
+	WHERE ModifiedDate &gt;= #2001-07-14 00:00:00#	
+	</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=DbExtract\AdventureWorksSample.mdb;</Discriminator>
+       <Statement>LOAD *, now(1) as ExtractTimestamp;SQL SELECT * FROM SalesOrderHeader
+	WHERE ModifiedDate &gt;= #2001-07-21 00:00:00#	
+	</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=DbExtract\AdventureWorksSample.mdb;</Discriminator>
+       <Statement>SQL SELECT * FROM SalesOrderDetail
+	WHERE ModifiedDate &gt;= #2001-07-14 00:00:00#	
+	</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=DbExtract\AdventureWorksSample.mdb;</Discriminator>
+       <Statement>SQL SELECT * FROM SalesOrderHeader
+	WHERE ModifiedDate &gt;= #2001-07-21 00:00:00#	
+	</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>RESIDENT _qvctemp.den.DeleteKeys</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>STORE - DbExtract\QVD\OrderDetail.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>STORE - DbExtract\QVD\Orders.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>c:\qvc_root\trunk\examples\dbextract\adventureworks_connect.txt</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>c:\qvc_root\trunk\examples\dbextract\qvd\orderdetail.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>c:\qvc_root\trunk\examples\dbextract\qvd\orders.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>c:\qvc_root\trunk\examples\dbextract\sampleextractlist.xls</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+   </Lineage>
+   <Comment>Order line item detail</Comment>
+ </QvdTableHeader>
+ “  ”  •                          	   
+                                                                      !   "   #   $   %   &   '   (   )   *   +   ,   -   .   /   0   1   2   3   4   5   6   7   8   9   :   ;   <   =   >   ?   @   A   B   C   D   E   F   G   H   I   J   K   L   M   N   O   P   Q   R   S   T   U   V   W   X   Y   Z   [   \   ]   ^   _   `   a   b   c   d   e   f   g   h   i   j   k   l   m   n   o   p   q   r   s   t   u   v   w   x   y   z   {   |   }   ~      €      ‚   ƒ   „   …   †   ‡   ˆ   ‰   Š   ‹   Œ               ‘   ’   “   ”   •   –   —   ˜   ™   š   ›   œ         Ÿ       ¡   ¢   £   ¤   ¥   ¦   §   ¨   ©   ª   «   ¬   ­   ®   ¯   °   ±   ²   ³   ´   µ   ¶   ·   ¸   ¹   º   »   ¼   ½   ¾   ¿   À   Á   Â   Ã   Ä   Å   Æ   Ç   È   É   Ê   Ë   Ì   Í   Î   Ï   Ğ   Ñ   Ò   Ó   Ô   Õ   Ö   ×   Ø   Ù   Ú   Û   Ü   İ   Ş   ß   à   á   â   ã   ä   å   æ   ç   è   é   ê   ë   ì   í   î   ï   ğ   ñ   ò   ó   ô   õ   ö   ÷   ø   ù   ú   û   ü   ı   ş   ÿ                      	  
+                                               !  "  #  $  %  &  '  (  )  *  +  ,  -  .  /  0  1  2  3  4  5  6  7  8  9  :  ;  <  =  >  ?  @  A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z  [  \  ]  ^  _  `  a  b  c  d  e  f  g  h  i  j  k  l  m  n  o  p  q  r  s  t  u  v  w  x  y  z  {  |  }  ~    €    ‚  ƒ  „  …  †  ‡  ˆ  ‰  Š  ‹  Œ          ‘  ’  ãª  äª  åª  ‹ª  Œª  ª  ª  ª  ª  ‘ª  ’ª  “ª  ”ª  •ª  –ª  —ª  ˜ª  ™ª  šª  ›ª  œª  ª  ª  Ÿª   ª  ¡ª  ¢ª  £ª  ¤ª  ¥ª  ¦ª  §ª  ¨ª  ©ª  ªª  «ª  ¬ª  ­ª  ®ª  ¯ª  °ª  ±ª  ²ª  ³ª  ´ª  µª  ¶ª  ·ª  ¸ª  ¹ª  ºª  »ª  ¼ª  ½ª  ¾ª  ¿ª  Àª  Áª  Âª  Ãª  Äª  Åª  Æª  Çª  Èª  Éª  Êª  Ëª  Ìª  Íª  Îª  Ïª  Ğª  Ñª  Òª  Óª  Ôª  Õª  Öª  ×ª  Øª  Ùª  Úª  Ûª  Üª  İª  Şª  ßª  àª  áª  âª  4911-403C-98 6431-4D57-83 4E0A-4F89-AE 2E53-4802-85 1E90-4FBF-B6 2F44-4BA1-BB 19F0-4638-8E D46A-40CA-8D 4DFB-4B10-A6 365D-4C9A-BE B65C-4867-86 F101-4649-85 DFD9-41B7-94 F4B5-48D0-BA 260F-4DCF-A1 4C12-4FF9-80 5069-4470-BE 11BA-4D19-B7 8E3A-4564-99 FBD8-4CE4-8B 918F-49F3-AD FF1F-4DD0-98 6D51-449D-B3 ECD4-43A8-A8 2299-44F7-95 8C01-4CC0-A9 C519-4AB3-88 FBD0-4F71-80 61FA-475A-AC 16F4-456B-9A DCD9-4C9A-AB 7A3C-492F-A6 272B-4319-9E BFA9-470E-B4 EC62-4BB3-9B EC3D-48E0-A6 A89C-4D25-B9 50C1-41FA-BE                      	      
+   ñ  ğ    	  
+          Ê  Ì  Å  È  Ç  ú  ö  é  ç  ë  Ë  æ    å  Ä  ü    Ú  ò  Õ  ı     ô  û  Ü  Ù  Ò  í  ø  Ö  İ  â  ş  ó  Ã  Æ  ù  ì  ÿ  î  ï     ×£p=Šô«@åĞ"Ûù£Ÿ@åĞ"ÛùßŸ@óSt$×<@ÍÌÌÌÌÌ@åĞ"Ûù¾@9´Èv¾/4@'Â†§W7z@1¬ZV‹@®GázN‰@•Ô	h¢U†@ cîZÂ”†@š™™™™•‰@n£¼şf@•C‹ìÅ @î|?5^Nv@Š°áé•Rf@®Gáúª@½ãÉØ…@®Gáú]ª@    ×£p=Šô«@3578.270000 åĞ"Ûù£Ÿ@2024.994000 ¬Zdûº·@6074.982000 åĞ"ÛùßŸ@2039.994000 åĞ"Ûùß¯@4079.988000 6«>W[¡U@86.521200 óSt$×<@28.840400 š™™™™A@34.200000 åĞ"Ûù¾$@10.373000 9´Èv¾/T@80.746000 'Â†§W7z@419.458900 1¬ZV‹@874.794000 ®GázN‰@809.760000 •Ô	h¢U†@714.704300 •Ô	h¢U–@1429.408600 åĞ"Ûù¾4@20.746000 óSt$×\@115.361600  cîZÂ”–@1445.189800 åĞ"Ûù£¯@4049.988000 9´Èv¾/D@40.373000 š™™™™•™@1637.400000 åĞ"Ûù£¿@8099.976000 óSt$×L@57.680800 Ház®;Y@100.932500 ¥½©“@1258.376700 X9´È–b @2097.294500 n£¼şv@367.876400 1¬ZV«@3499.176000 “:M„>@551.814600 'Â†§W7Š@838.917800 •C‹ìÅ @2146.962000 î|?5^Nv@356.898000 %•Ã€´@5248.764000 n£¼şf@183.938200 gDioğ½€@535.742400 Š°áé•Rf@178.580800 ¬Zdûç·@6119.982000 9´Èv¾/4@20.186500 š™™™™1@17.100000 %•Ã€¤@2624.382000 •C‹ìÅ°@4293.924000 âé•²lğ¦@2936.212300 ¥½©£@2516.753400 6«>W[¡e@173.042400 “:M„>‘@1103.629200 1¬ZV›@1749.588000 î|?5^N–@1427.592000 'Â†§W7š@1677.835600 ²ï§Æº@1070.694000 ÍÌÌÌÌÌ@5.700000 ÍÌÌÌÌÌ&@11.400000 î|?5^N†@713.796000 Š°áé•Rv@357.161600 åĞ"Ûù¾@5.186500 ÍÌÌÌÌÌ6@22.800000 …ëQ¸î9@25.932500 X9´Èv/@15.559500 V-²GN@60.559500 ¬ZdûºÇ@12149.964000 Âõ(|ÆÃ@10124.970000 kšwœB~­@3775.130100 1¬ZV»@6998.352000 X9´Èvr@288.404000 X9´Èv?@31.119000  cîZÂ”†@722.594900 ®Gáúª@3399.990000 ½ãÉØ…@699.098200 ®Gáú]ª@3374.990000 Ş  Ñ  Ò  Ó  Ô  Õ  Ö  ×  Ø  Ù  Ú  Û  Ü  İ  YÜ	»Pä@œLRmTCä@                  ƒ@ˆ !Aˆ  ƒ@ˆ  ƒˆ  ƒˆ "‚ˆ	   ƒˆ
+ !$ƒÂˆ  (Ãˆ #,ƒ‰ "0D‰ $4ƒ„‰ 08Å‰ 0<„Š @@FŠ @D…†Š BH‡Š D0…G‰ DLÈˆ BP…ÈŠ ATAˆ BIˆ B4…‰‰ BX
+‹ D…Jˆ B‚ˆ B(Ëˆ BIˆ E\…‹‰  Q`Ì‰! Ud†Ì‰" RhM‹# Tl†Š$ QpN‹% U8†Ì‰& QtÌ‰' Rx†Î‰( P ‹) P|†Š* Q€Ì‰+ P„†Ï‹, S<Š- Pˆ†P‹. QŒŒ/ P‹0 Q”Ì‰1 P˜†P‹2 Pœ†Ï‹3 P †Œ4 Q¤Ì‰5 P¨†Š6 `”Å‰7 pˆˆ8 tTˆJˆ9 p$Ãˆ: p(Ãˆ; rIˆ< q’ˆ= pˆˆ> pˆ@ˆ? ‚4‰‰‰@ €‰ˆA €¬‰’‰B ‚L	ËˆC ‚	IˆD ‚0	D‰E ‚T	IˆF €‰@ˆG ƒ,‰‰H €‰@ˆI `
+Å‰J  
+‹K „ŠÏ‹L |ŠŠM ’xŠÎ‰N ¤
+Å‰O ¡°‰P  ‹ˆQ  ‹@ˆR  T‹@ˆS ±|ŒŠT ² ”‹U ¶”ŒÔ‰V ³tÕ‰W ³LŒÕˆX ³hV‹Y ²¬Œ‰‰Z ²4Œ‰‰[ ²lŒŠ\ ´0ŒG‰] ²ˆM‹^ ±¨ŒŠ_ ±´Ì‰` ²dŒÎ‰a ±˜N‹b ²`ŒÎ‰c ²¤ŒÎ‰d ²pM‹e °(Ãˆf ²xŒÎ‰g ´„×‹h ³<Ši ´8Œ×‰j ± Œk ´$Èˆl ±ŒŒm °\Œ’‰n ±œØ‹o ±€Ì‰p ÀH†Šq Ğ°‰r Ò,‰s Ò‚ˆt Ğ@ˆu à ‹v â$Ëˆw à|Šx âxÎ‰y â„Ù‹z â€Î‰{ â¨Š| â`Î‰} à(Ãˆ~ à4’‰ à\’‰€ ó,‰ òIˆ‚ ğ ˆƒ  m‘Š„ M‘Âˆ…  ‰‘P‹† µ‘Î‰‡  9Å‰ˆ ¡Œ‰ e‘Î‰Š  1‘Z‰‹ ]‘‰‰Œ  5‘’‰ ­‘„‰ =’Š $µ“×‰ %5“‹‰‘ "¡Œ’  ]“’‰“ "9“Î‰” "=“Š• "1D‰–  m“Š— !M“Âˆ˜ 2	Iˆ™ 2Iˆš 0±”‰› 1UAˆœ 4-‰ AM•Âˆ @‹Ÿ @=•Š  @eÅ‰¡ B]•‰‰¢ D••×‰£ Bu•Î‰¤ @Å‰¥ E1•[‰¦ @­•’‰§ @m•Š¨ B‰M‹© P•Å‰ª R¡Œ« PuÅ‰¬ R…–Ù‹­ Q9Ì‰® Rµ–Î‰¯ Q1\‰° T]–„‰± R‰M‹² P}–Š³ RqM‹´ P)Ãˆµ PeÅ‰¶ R=–Š· RMËˆ¸ Pm–Š¹ P©–Šº Q5–œ‰» P­–’‰¼ `•Å‰½ be—Î‰¾ bMËˆ¿ q•Ì‰À r}˜ŠÁ r¡ŒÂ t­˜„‰Ã p‰˜P‹Ä p5˜’‰Å rMËˆÆ rqM‹Ç p=˜ŠÈ pµÅ‰É r”‹Ê r]˜‰‰Ë quÌ‰Ì q1\‰Í pÅ‰Î ƒM™ÕˆÏ …9™Ì‰Ğ €…™Ï‹Ñ €­™’‰Ò €‰™P‹Ó ‚]™‰‰Ô eÌ‰Õ ‚iM‹Ö =™Š× €yÅ‰Ø ‚µ™Î‰Ù ‚¡ŒÚ €‹Û ‚%ËˆÜ ‚a™Î‰İ ‚•™Î‰Ş €}™Šß ‚)Ëˆà ‚5™‰‰á €q™P‹â ‚1D‰ã ’=šŠä 9Å‰å ’•šÎ‰æ ’ešÎ‰ç MÃˆè ¢	Iˆé ¢MËˆê ¢‚ˆë  !›ˆì  ]›’‰í ¢5›‰‰î ¡1\‰ï ¤U›Jˆğ £]ˆñ  ›ˆò ¡­›œ‰ó ¥›]ˆô £-›‰õ ²mœŠö ²9œÎ‰÷ °•Å‰ø ²=œŠù °eÅ‰ú °Å‰û ÁuÌ‰ü ÀÅ‰ı ÀmŠş ÀqP‹ÿ Ñ=Š Ğ9Å‰ĞeÅ‰àyÅ‰âuŸÎ‰ğq P‹ò• Î‰ñ9 Ì‰ğ¡ Œğ Å‰	ò‰ M‹
+òm Šò= Šñu Ì‰ğe Å‰ò ”‹b!Ì‰¢!Œr!M‹ !‹ª¡Š¦¡×‰f¡Î‰–¡Ô‰š!N‹ ¡Œ‚!Õ‰Š!M‹j!M‹†¡Ù‹v¡Ì‰z¡Î‰¶¡Î‰ >¡Š!’!”‹":!Ş‰#n¡Š$N"Ãˆ%f"Å‰&2"D‰'–¢Î‰( >£Š)5f¤Ì‰*0r¤P‹+8n¤Š,2j$M‹-9N$ßˆ.0z$Å‰/4~¤Š02¢$Œ18>¤Š21^¤œ‰33:$Õ‰41†$Ø‹532¤_‰64&$Èˆ76–¤Ô‰82ª¤Š94*$Èˆ:2v¤Î‰;0b$Å‰<2$”‹=0¦$Å‰>0¤Œ?1¶$Ì‰@16¤œ‰A0‚$Å‰B2Š$M‹C4®¤„‰D2š$M‹EA*¥ÂˆF@¥ˆGC.¥‰HB®¥‰‰IA%’ˆJB^¥‰‰K@"¥ˆLA%AˆM@¥ˆN@¥@ˆOQ
+&AˆPQ&’ˆQRN&ËˆRP¦ˆSQ*¦ÂˆTP®¦’‰UP^¦’‰VP"¦ˆWR&‚ˆXP2¦Z‰YU6¦‹‰Zb"'‚ˆ[bº§ÈŠ\`J§†Š]`R'àŠ^e§]ˆ_c']ˆ`b.'‰aeV§]ˆbp:(Å‰c ) ˆd ª`Œe «`Œf ¼,¡Œg ­`Œh À. i / j °á”k ±`”l Ä2 ˜m Ä3 ˜n `4¡œo 5 ˜p  6 ˜q  7  r À8  s 9 ¨t À: ¨u  ; ¨v À< ¨w ¼=¡¬x À> °y Ä? °z À@ °{ A °| ÄB ¸} tC¡¼~ ÀD ¸ ÀE À€ tF¡Ä ÀG À‚ H Èƒ É`Ì„ Ê`Ì…  K È† ÌáÌ‡ ÄM Èˆ ÄN Ğ‰ O ĞŠ Ğ`Ô‹ ÀQ ØŒ ÄR Ø S Ø ÄT Ø U à  V à‘  ×`ä’ X à“ ÀY è” ÄZ è

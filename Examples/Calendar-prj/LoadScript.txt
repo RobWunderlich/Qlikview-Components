@@ -1,0 +1,69 @@
+﻿///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$#,##0.00;($#,##0.00)';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+
+///$tab Includes
+$(Include=..\qvc_runtime\qvc.qvs)
+///$tab SalesData
+Sales:
+LOAD 
+	Date, 
+	date(Date+45) as [Produced Date], 
+     OrderID, 
+     OrderQty, 
+     Sales
+FROM
+SalesData.csv
+(txt, codepage is 1252, embedded labels, delimiter is ',', msq)
+;
+
+///$tab Basic
+/**********************
+Basic Calendar using defaults
+***********************/
+// Get min/max values for calendar using "Date" field
+CALL Qvc.GetFieldValues('vDate', 'Date', 'Sales');
+// Build a Calendar with default name
+CALL Qvc.Calendar(vDate.Min, vDate.Max);
+///$tab Customized
+/**********************
+Calendar using some customization
+***********************/
+//-- Rename the Day field to "Day of Month" --
+SET Qvc.Calendar.v.Field.Day=Day of Month;
+
+//-- Use the extension mechanism to add new field(s) to the calendar --
+// Directory where CalendarExtFields.qvs lives.
+SET Qvc.Global.Extension.Directory=..\etc;
+
+// Get min/max values for calendar using [Produced Date] field
+CALL Qvc.GetFieldValues('vDate', 'Produced Date', 'Sales');
+// Build a second Calendar with a name and prefix for fieldnames and Set variables.
+CALL Qvc.Calendar(vDate.Min, vDate.Max, 'Produced Calendar', 'Produced ');
+
+SET Qvc.Calendar.v.Field.Day=Day;  // That change was global so set it back
+///$tab Calendar no Set vars
+/**********************
+Another Calendar. This time don't generate Set variables
+***********************/
+SET Qvc.Calendar.v.CreateSetVariables = 0;	// Don't generate Set vars
+CALL Qvc.Calendar(vDate.Min, vDate.Max, 'Island Calendar', 'Island ');
+///$tab Fiscal
+/**********************
+A Fiscal Calendar. We specify the StartMonth of the Year.
+***********************/
+SET Qvc.Calendar.v.CreateSetVariables = 0;	// Don't generate Set vars
+CALL Qvc.Calendar(vDate.Min, vDate.Max, 'Fiscal Calendar', 'Fiscal ', 4);
+///$tab Cleanup
+SET vDate.Min=;
+SET vDate.Max=;
+
+CALL Qvc.Cleanup;

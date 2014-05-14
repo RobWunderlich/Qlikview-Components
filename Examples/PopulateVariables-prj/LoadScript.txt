@@ -1,0 +1,43 @@
+﻿///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$#,##0.00;($#,##0.00)';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+
+///$tab Includes
+$(Include=..\qvc_runtime\qvc.qvs)
+///$tab Data
+// Some variables that will be created using SET
+MyVars1:
+LOAD var1, 
+     value1
+FROM
+C:\QVC_Root\trunk\Examples\PopulateVariables_Input.xls
+(biff, embedded labels, table is [MyVars1$]);
+
+
+// Some variables that will be created using LET.
+// Strings values should be quoted
+MyVars2:
+LOAD var2, 
+     value2
+FROM
+C:\QVC_Root\trunk\Examples\PopulateVariables_Input.xls
+(biff, embedded labels, table is [MyVars2$]);
+///$tab Example
+// The MyVars1 table has two fields, first variable name, second variable value to be assigned.
+// The Fieldnames are irrelevant. 
+// Call with the default SET method.
+CALL Qvc.PopulateVariables('MyVars1');
+
+
+// Call requesting the LET method. The second parm of true indicates use the LET method.
+CALL Qvc.PopulateVariables('MyVars2', 1);
+///$tab Cleanup
+CALL Qvc.Cleanup;

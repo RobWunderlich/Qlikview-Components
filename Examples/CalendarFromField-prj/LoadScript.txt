@@ -1,0 +1,43 @@
+﻿///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$#,##0.00;($#,##0.00)';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+
+///$tab Includes
+$(Include=..\qvc_runtime\qvc.qvs);
+///$tab SalesData
+Directory;
+Sales:
+LOAD 
+	if(year(Date)=2009, pick(mod(Date,2)+1, 'A','B')
+	,pick(mod(Date,4)+1, 'A','B','C','D')
+	) as Product,
+	Date as OrderDate, 
+     OrderID, 
+     OrderQty, 
+     Sales
+FROM
+SalesData.csv
+(txt, codepage is 1252, embedded labels, delimiter is ',', msq)
+;
+
+///$tab Calendars
+// Build a Calendar from an existing field.
+CALL Qvc.CalendarFromField('OrderDate');
+
+
+/**********************
+A Fiscal Calendar. We specify the StartMonth of the Year.
+//***********************/
+SET Qvc.Calendar.v.CreateSetVariables = 0;	// Don't generate Set vars
+CALL Qvc.CalendarFromField('OrderDate', 'Fiscal Calendar', 'Fiscal ', '4');
+
+///$tab Cleanup
+CALL Qvc.Cleanup;

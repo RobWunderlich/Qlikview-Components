@@ -1,0 +1,25 @@
+﻿Qvc.LogMessage_Level,Qvc.LogMessage
+INFO,00001 4/3/2014 3:12:09 PM; #Qvc.Test# REGISTER Qvc.IncrementalSetup
+INFO,00002 4/3/2014 3:12:09 PM; #Qvc.Test# REGISTER Qvc.IncrementalStore
+INFO,00003 4/3/2014 3:12:10 PM; QVD temp\MyTable.qvd does not exist. Doing full reload where 1=1.
+INFO,"00004 4/3/2014 3:12:10 PM; #Qvc.Test# SUCCESS MyTable base load: Expected: ""3"" Actual ""3"""
+INFO,"00005 4/3/2014 3:12:10 PM; #Qvc.Test# SUCCESS MyTable base value: Expected: ""300"" Actual ""300"""
+INFO,"00006 4/3/2014 3:12:10 PM; temp\MyTable.qvd updated, rows=3"
+INFO,"00007 4/3/2014 3:12:10 PM; #Qvc.Test# SUCCESS MyTable dropped: Expected: ""-1"" Actual ""-1"""
+INFO,"00008 4/3/2014 3:12:10 PM; temp\MyTable.qvd exists, rows=3"
+INFO,"00009 4/3/2014 3:12:10 PM; Loading rows where Update >='01-03-2011 00:00:00'"
+INFO,"00010 4/3/2014 3:12:10 PM; temp\MyTable.qvd updated, rows=4"
+INFO,"00011 4/3/2014 3:12:10 PM; #Qvc.Test# SUCCESS MyTable updates dropped: Expected: ""-1"" Actual ""-1"""
+INFO,"00012 4/3/2014 3:12:10 PM; #Qvc.Test# SUCCESS MyTable updated rows: Expected: ""4"" Actual ""4"""
+INFO,"00013 4/3/2014 3:12:10 PM; #Qvc.Test# SUCCESS MyTable updated value: Expected: ""450"" Actual ""450"""
+INFO,00014 4/3/2014 3:12:10 PM; ForceFullReload requested. Doing full reload where 1=1.
+INFO,"00015 4/3/2014 3:12:10 PM; temp\MyTable.qvd updated, rows=2"
+INFO,"00016 4/3/2014 3:12:10 PM; #Qvc.Test# SUCCESS MyTable after ForceFullReload: Expected: ""2"" Actual ""2"""
+INFO,00017 4/3/2014 3:12:10 PM; QVD temp\MyTableRevision.qvd does not exist. Doing full reload where 1=1.
+INFO,"00018 4/3/2014 3:12:10 PM; #Qvc.Test# SUCCESS MyTableRevision base value: Expected: ""300"" Actual ""300"""
+INFO,"00019 4/3/2014 3:12:10 PM; temp\MyTableRevision.qvd updated, rows=3"
+INFO,"00020 4/3/2014 3:12:10 PM; temp\MyTableRevision.qvd exists, rows=3"
+INFO,00021 4/3/2014 3:12:10 PM; Loading rows where Revision >9003
+INFO,"00022 4/3/2014 3:12:10 PM; temp\MyTableRevision.qvd updated, rows=4"
+INFO,"00023 4/3/2014 3:12:10 PM; #Qvc.Test# SUCCESS MyTableRevision updated value: Expected: ""450"" Actual ""450"""
+INFO,"00024 4/3/2014 3:12:10 PM; #Qvc.Test# SUCCESS ScriptErrorCount: Expected: ""0"" Actual ""0"""

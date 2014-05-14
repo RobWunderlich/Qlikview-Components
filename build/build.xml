@@ -1,0 +1,192 @@
+<project name="Build Qlikview Components" 
+	basedir="../" default="build">
+	<!-- Properties specified in this project  -->
+	<property file="build/build.properties" />
+	<property file="Qvc_Source/Qvc_Global.qvs" />
+	<property name="build.dir" value="Qvc_Runtime"/>
+	<property name="dist.dir" value="../Qvc_dist/dist"/>
+	<property name="test.work" value="../testwork"/>
+	<echo message="Qvc Version ${Qvc.Global.v.Version}"/>
+
+
+	<target name="build" description="Build QVC Runtime" depends="clean">
+		<!-- Merge all the source qvs files into the single Qvc.qvs -->
+		<!-- Make Qvc_Global the first file -->
+		<!-- Note:  fixlastline="yes" and striplinecomments do not play well together,
+			so I'm first copying to a temp file and then doing the strip to a final file -->
+		<concat destfile="${build.dir}/Temp_Qvc.qvs" force="true" fixlastline="yes">
+			 <header filtering="no" trimleading="yes" trim="yes">
+			 REM ===== Begin of Qlikview Components included Qvc.qvs version ${Qvc.Global.v.Version} =====;
+			 </header>
+			<fileset dir="Qvc_Source" includes="Qvc_Global.qvs"/>
+		</concat>
+		
+		<!-- Merge everything but Qvc_Global -->
+		<concat destfile="${build.dir}/Temp_Qvc.qvs" force="true" append="true" fixlastline="yes">
+			<fileset dir="Qvc_Source">
+				<exclude name="Qvc_Global.qvs"/>
+				<include name="*.qvs"/>
+			</fileset>
+			<footer filtering="no" trimleading="yes" trim="yes">
+			REM ===== End of Qlikview Components included Qvc.qvs version ${Qvc.Global.v.Version} =====;
+			</footer>
+
+		</concat>
+		
+		<!-- Copy to final dest and edit the ///$tab indicator lines -->
+		<copy file="${build.dir}/Temp_Qvc.qvs" tofile="${build.dir}/Qvc.qvs"
+			overwrite="true" verbose="true">
+			<!-- Remove tab indicator lines -->
+			<filterchain>
+				<striplinecomments>
+				  <comment value="///$tab"/>
+				</striplinecomments>
+			</filterchain>
+		</copy>
+		<!-- Delete the temp file -->
+		<delete file="${build.dir}/Temp_Qvc.qvs"/>		
+		
+		<!-- Copy Locale files -->
+		<copy todir="${build.dir}/language">
+			<fileset dir="Qvc_Source/language" includes="**"/>
+		</copy>
+
+	</target>
+
+
+	<target name="doc" description="Create API Doc" depends="build">
+
+		<exec executable="${qve.dir}\${qve.executable}"
+			dir="${qve.dir}"
+			failonerror="true"
+			>
+			<arg value="/NoSecurity"/>
+			<arg value="/r"/>
+			<arg path="Doc/QvcDocumentation.qvw"/>
+		</exec>
+
+	</target>
+
+	<target name="clean">
+		<delete dir="${build.dir}"/>
+	</target>
+
+	<target name="dist" description="Create distribution" depends="build, versionTests,  doc">
+		<delete dir="${dist.dir}"/>
+		<mkdir dir="${dist.dir}"/>
+		<!-- Create executable distribution -->
+		<zip destfile="${dist.dir}/qvc-${Qvc.Global.v.Version}.zip">
+			<zipfileset dir="." prefix="QlikviewComponents-${Qvc.Global.v.Version}">
+				<exclude name="**/**-prj/**"/>
+				<include name="Doc/QvcDocumentation.qvw"/>
+				<include name="Doc/Qlikview Components Release Notes V${Qvc.Global.v.Version}.pdf"/>
+				<include name="Doc/ExpandInterval_Doc.pdf"/>
+				<include name="etc/**"/>
+				<include name="Examples/**"/>
+				<include name="Qvc_Runtime/**"/>
+				<include name="LICENSE"/>
+				<include name="ReadMe.txt"/>
+			</zipfileset>
+		</zip>
+		
+		<!-- Create source distribution -->
+		<zip destfile="${dist.dir}/qvc-source-${Qvc.Global.v.Version}.zip">
+			<zipfileset dir="." prefix="QlikviewComponents-source-${Qvc.Global.v.Version}">
+				<include name="**"/>
+				<exclude name=".svn/**"/>
+				<exclude name="Tools/TableExtract/**"/>
+			</zipfileset>
+		</zip>
+	</target>
+	
+
+
+
+
+	<target name="defaultTests" description="Run all tests using default version" depends="build">
+		<!-- Reload the TestsDriver.qvw -->
+		<exec executable="${qve.dir}\${qve.executable}"
+				dir="${qve.dir}"
+				failonerror="true"
+				>
+			<arg value="/NoSecurity"/>
+			<arg value="/r"/>
+			<arg value="/vvQve.Dir=${qve.dir}"/>
+			<arg path="Tests/TestDriver.qvw"/>
+		</exec>
+
+		<!-- Test if the signal file was created that indicates all tests passed -->
+		<available property="tests.passed" file="tests/temp/TestDriver_Success.txt"/>
+		<!-- Fail the build unless all tests passed -->
+		<fail unless="tests.passed" message="*** Tests failed ***"/>
+
+	</target>
+
+	<target name="versionTests" description="Run all tests against all versions" depends="build">
+		<!-- Copy qvc_runtime to testwork -->
+		<copy todir="${test.work}/${build.dir}">
+			<fileset dir="${build.dir}" includes="**"/>
+		</copy>
+		
+		<!-- Test against QV9 -->
+		<!--
+		<antcall target="_RunTestVersion">
+			<param name="test.version" value="QV9"/>
+			<param name="test.version.qve.dir" value="${qve.dir.QV9}"/>
+		</antcall>
+		-->
+		
+		<!-- Test against QV10 -->
+		<antcall target="_RunTestVersion">
+			<param name="test.version" value="QV10"/>
+			<param name="test.version.qve.dir" value="${qve.dir.QV10}"/>
+		</antcall>
+		
+		<!-- Test against QV11 -->
+		<antcall target="_RunTestVersion">
+			<param name="test.version" value="QV11"/>
+			<param name="test.version.qve.dir" value="${qve.dir.QV11}"/>
+		</antcall>
+		
+		<!-- Test if the signal file was created that indicates all tests passed -->
+		<condition property="version.tests.passed">
+			<and>
+				<available file="${test.work}/QV10/temp/TestDriver_Success.txt"/>
+				<available file="${test.work}/QV11/temp/TestDriver_Success.txt"/>
+			</and>
+		</condition>
+		<!-- Fail the build unless all tests passed -->
+		<fail unless="version.tests.passed" message="*** Some version tests failed ***"/>
+
+	</target>
+
+	<target name="_RunTestVersion" description="Run tests against a QV Version">
+		<copy todir="${test.work}/${build.dir}">
+			<fileset dir="${build.dir}" includes="**"/>
+		</copy>
+		<property name="test.version.dir" location="${test.work}/${test.version}"/>
+
+		<delete dir="${test.version.dir}"/>
+		<copy todir="${test.version.dir}">
+			<fileset dir="Tests" includes="**"/>
+		</copy>
+		<echo message="Testing ${test.version} using ${test.version.qve.dir}"/>
+		<exec executable="${test.version.qve.dir}\${qve.executable}" dir="${test.version.qve.dir}" failonerror="true">
+			<arg value="/NoSecurity" />
+			<arg value="/r" />
+			<arg value="/vvQve.Dir=${test.version.qve.dir}" />
+			<arg path="${test.version.dir}/TestDriver.qvw" />
+		</exec>
+
+		<!-- Test if the signal file was created that indicates all tests passed -->
+		<available property="tests.passed" value="PASSED" file="${test.version.dir}/temp/TestDriver_Success.txt"/>
+		<condition property="tests.passed" value="FAILED">
+			<not>
+				<available file="${test.version.dir}/temp/TestDriver_Success.txt"/>
+			</not>
+		</condition>
+		<echo message="${test.version} testing ${tests.passed}"/>
+	</target>
+
+
+</project>

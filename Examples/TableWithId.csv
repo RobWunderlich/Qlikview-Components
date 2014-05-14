@@ -1,0 +1,7 @@
+RecordId, Event, Value
+1, Alarm, 100
+2, Alarm, 140
+3, Sample, 90
+4, Sample, 80
+5, Stop, 100
+6, Start, 120

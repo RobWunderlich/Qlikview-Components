@@ -1,0 +1,176 @@
+﻿///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$#,##0.00;($#,##0.00)';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+///$tab Setup
+$(Include=..\qvc_runtime\qvc.qvs)
+
+// The directory for the QVD file
+SET Qvc.Loader.v.QvdDirectory='QVD';
+
+// How far back to load if First Load 
+LET Qvc.Loader.v.BaseValue = num(MakeDate(2000,01,01));
+
+// Datetime literal format for Excel - Shipper exercise
+SET Qvc.Loader.v.DatabaseDatetimeMask = 'MM/DD/YYYY';
+
+// Will the max Modfield value be stored with the QVD?
+// The recommended value is True. This will greatly speed up subsequent loads. 
+SET Qvc.Loader.v.StoreMaxModFieldValue = -1;
+///$tab  
+///$tab Insert/Update Example
+CALL Qvc.Log('>>>  Incremental Load with inserts & updates');
+
+// Calling parameters are Tablename, UpdateColumn, QVD_PrimaryKey.
+CALL Qvc.IncrementalSetup ('Rates', 'LastUpdate', 'RateId');  
+
+//*** If SQL, the CONNECT statement would go here ***
+// Add SQL/LOAD statement here
+Directory;
+[$(Qvc.Loader.v.Tablename)]:		// vTablename is set by the IncrementalSetup routine.
+// Load script goes here. Be sure to include the WHERE condition below.
+// This sample uses an excel file as the datasource. Source would typically be a SQL database.
+LOAD *
+FROM
+[Rates.xls]
+(biff, embedded labels, table is Sheet1$)
+WHERE $(Qvc.Loader.v.IncrementalExpression)	// IncrementalExpression is set up the Qvc.IncrementalSetup routine.
+;
+
+// Log the ending stats
+Call Qvc.Log ('$(Qvc.Loader.v.Tablename) loaded, rows=' & num(NoOfRows('$(Qvc.Loader.v.Tablename)'), '#,##0'));
+
+// Update the QVD with the changed rows
+CALL Qvc.IncrementalStore 
+///$tab Example with Delete
+//Repeating the IncrementalReload example, this time with Deletes.
+
+CALL Qvc.Log('>>>  Incremental Load with inserts, updates and deletes');
+
+// Calling parameters are Tablename, UpdateColumn, QVD_PrimaryKey.
+CALL Qvc.IncrementalSetup ('RatesWithDelete', 'LastUpdate', 'RateId'); 
+
+// Add SQL/LOAD statement here
+Directory;
+[$(Qvc.Loader.v.Tablename)]:		// vTablename is set by the IncrementalSetup routine.
+// Load script goes here. Be sure to include the WHERE condition below.
+LOAD *
+FROM
+[Rates.xls]
+(biff, embedded labels, table is Sheet1$)
+WHERE $(Qvc.Loader.v.IncrementalExpression)	// IncrementalExpression is set up the Qvc.IncrementalSetup routine.
+;
+
+
+// Load the Primary Keys of the rows we want to keep -- all keys in the current DB.
+DbKeys:
+LOAD 
+	RateId as RateId2
+FROM
+[Rates.xls]
+(biff, embedded labels, table is Sheet1$)
+WHERE RateId < 21
+;
+
+
+// Log the ending stats
+Call Qvc.Log ('$(Qvc.Loader.v.Tablename) loaded, rows=' & num(NoOfRows('$(Qvc.Loader.v.Tablename)'), '#,##0'));
+
+// Update the QVD with the changed rows
+CALL Qvc.IncrementalStore ('DbKeys');
+
+///$tab Example with Full Reload
+CALL Qvc.Log('>>>  Full Reload example');
+
+// Calling parameters are Tablename, UpdateColumn, QVD_PrimaryKey, ForceFullReload.
+CALL Qvc.IncrementalSetup ('Rates', 'LastUpdate', 'RateId', -1);  
+
+
+// Add SQL/LOAD statement here
+Directory;
+[$(Qvc.Loader.v.Tablename)]:		// vTablename is set by the IncrementalSetup routine.
+// Load script goes here. Be sure to include the WHERE condition below.
+LOAD *
+FROM
+[Rates.xls]
+(biff, embedded labels, table is Sheet1$)
+WHERE $(Qvc.Loader.v.IncrementalExpression)	// IncrementalExpression is set up the Qvc.IncrementalSetup routine.
+;
+
+// Update the QVD. The ForceFullReload will be carried forward from IncrementalSetup so no QVD merge will take place.
+CALL Qvc.IncrementalStore 
+
+///$tab Generic Key example
+CALL Qvc.Log('>>>  Generic (non-unique Primary Key) example');
+
+// Create a test QVD
+GenericKeySample:
+LOAD * INLINE [
+Id, Set, ModDate
+1, A, 02/25/2012
+2, A, 02/25/2012
+3, A, 02/26/2012
+]
+;
+STORE GenericKeySample INTO [$(Qvc.Loader.v.QvdDirectory)\GenericKeySample.qvd];
+DROP TABLE GenericKeySample;
+/////// End of testdata setup /////////
+
+// Calling parameters are Tablename, UpdateColumn, QVD_PrimaryKey.
+CALL Qvc.IncrementalSetup ('GenericKeySample', 'ModDate', 'ModDate');  
+
+
+// Add SQL/LOAD statement here
+Directory;
+[$(Qvc.Loader.v.Tablename)]:		// vTablename is set by the IncrementalSetup routine.
+// Load script goes here. Be sure to include the WHERE condition below.
+// We will pull in the new set for 2/26
+LOAD * INLINE [
+Id, Set, ModDate
+4, B, 02/26/2012
+5, B, 02/26/2012
+]
+WHERE $(Qvc.Loader.v.IncrementalExpression)	// IncrementalExpression is set up the Qvc.IncrementalSetup routine.
+;
+
+
+// Specify that we are using a generic key. This has to be specified before IncrementalStore is called.
+SET Qvc.Loader.v.KeyFieldIsUnique = 0;
+
+// Update the QVD. 
+CALL Qvc.IncrementalStore 
+///$tab Idenitty/Revision example
+// In this example the table has inserts only and uses an incrementing Identity field. 
+CALL Qvc.Log('>>>  Identity/Revision example');
+
+SET Qvc.Loader.v.ModField.Type=Revision;
+SET Qvc.Loader.v.BaseValue=;
+// Calling parameters are Tablename, UpdateColumn, QVD_PrimaryKey, ForceFullReload.
+CALL Qvc.IncrementalSetup ('TableWithId', 'RecordId', 'RecordId');  
+
+Directory;
+// Add SQL/LOAD statement here
+[$(Qvc.Loader.v.Tablename)]:		// vTablename is set by the IncrementalSetup routine.
+// Load script goes here. Be sure to include the WHERE condition below.
+LOAD RecordId, 
+     Event, 
+     Value
+FROM
+TableWithId.csv
+(txt, codepage is 1252, embedded labels, delimiter is ',', msq)
+WHERE $(Qvc.Loader.v.IncrementalExpression)	// IncrementalExpression is set up the Qvc.IncrementalSetup routine.
+;
+
+
+// Update the QVD. The ForceFullReload will be carried forward from IncrementalSetup so no QVD merge will take place.
+CALL Qvc.IncrementalStore 
+
+///$tab Cleanup
+CALL Qvc.Cleanup;

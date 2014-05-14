@@ -1,0 +1,4 @@
+﻿Qvc.LogMessage_Level,Qvc.LogMessage
+INFO,00001 7/30/2012 1:58:56 PM; This is an INFO message
+WARNING,00002 7/30/2012 1:58:56 PM; This is a WARNING message
+ERROR,00003 7/30/2012 1:58:56 PM; This is an ERROR message

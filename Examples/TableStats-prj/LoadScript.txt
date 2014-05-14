@@ -1,0 +1,55 @@
+﻿///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$#,##0.00;($#,##0.00)';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+
+///$tab Includes
+$(Include=..\qvc_runtime\qvc.qvs)
+///$tab Data
+BigTable:
+LOAD 1 as X AutoGenerate 2000;
+
+tabA:
+LOAD * INLINE [
+F1, F2
+a, b
+c, d
+e, f
+]
+;
+tabB:
+LOAD * INLINE [
+Fa, Fb, Fc
+1, 2, 3
+1, 2, 3
+3, 4 , 5
+1, 2, 3
+1, 2, 3
+]
+;
+/***************************
+Log stats for all tables. Include a message.
+***************************/
+Call Qvc.TableStats ('***After join of sales');
+
+
+/***************************
+Limit the tables listed.
+***************************/
+Call Qvc.TableStats ('***Just some tables', 'tab*, dummyTab');
+
+Call Qvc.Log (' ');		// Put a blank line in Log
+/***************************
+Log stats for all tables. No message.
+***************************/
+DROP TABLE tabB;
+Call Qvc.TableStats;	// No message parm
+///$tab Cleanup
+CALL Qvc.Cleanup;

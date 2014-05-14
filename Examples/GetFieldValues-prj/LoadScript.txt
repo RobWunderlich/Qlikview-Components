@@ -1,0 +1,74 @@
+﻿///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$#,##0.00;($#,##0.00)';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+
+///$tab Includes
+$(Include=..\qvc_runtime\qvc.qvs)
+///$tab Data
+data:
+LOAD * INLINE [
+OrderId
+2
+1
+5
+6
+7
+8
+3
+2
+2
+]
+;
+
+
+data2:
+NOCONCATENATE 
+LOAD * INLINE [
+OrderId
+2
+15
+7
+8
+]
+;
+///$tab Example
+// Test from FieldValues
+CALL Qvc.GetFieldValues('vField', 'OrderId');
+
+// Test from Resident table
+CALL Qvc.GetFieldValues('vResident', 'OrderId', 'data');
+
+// Test from QVD
+STORE data into MasterData.qvd;
+DROP TABLE data;
+
+CALL Qvc.GetFieldValues('vQVD', 'OrderId', 'MasterData.qvd');
+
+Results:
+LOAD * INLINE [
+Value, Type
+$(vField.Max), Max from FieldValue
+$(vField.Min), Min from FieldValue
+$(vResident.Max), Max from Resident
+$(vResident.Min), Min from Resident
+$(vQVD.Max), Max from QVD
+$(vQVD.Min), Min from QVD
+]
+;
+
+SET vField.Max=;
+SET vField.Min=;
+SET vResident.Max=;
+SET vResident.Min=;
+SET vQVD.Max=;
+SET vQVD.Min=;
+///$tab Cleanup
+CALL Qvc.Cleanup;

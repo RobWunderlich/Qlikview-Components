@@ -1,0 +1,6 @@
+///$tab Main
+/****************************
+* Sample local configuration file for Qvc.
+****************************/
+// -1/0. Write logs to external file. Default is false.
+//SET Qvc.Log.v.WriteLogFile=-1;

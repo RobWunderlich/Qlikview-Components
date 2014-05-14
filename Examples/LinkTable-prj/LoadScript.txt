@@ -1,0 +1,47 @@
+﻿///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$#,##0.00;($#,##0.00)';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+
+///$tab Includes
+$(Include=..\qvc_runtime\qvc.qvs);
+///$tab Data
+Order:
+LOAD *, recno() as OrderId INLINE [
+Product, Color, Size, Quantity, Customer
+Pant, Blue, Med, 100, ABC Store, 1
+Pant, Blue, Large, 200, Walmart, 1
+Shoe, Red, M10, 50, Walmart, 2
+Shoe, Red, M11, 50, Walmart, 2
+Shoe, Red, M11, 75, Shoes R Us, 2
+]
+;
+
+Supplier:
+LOAD * INLINE [
+SupplierId, Product, Color, Size
+2, Pant, Blue, Small
+1, Pant, Blue, Med
+1, Pant, Blue, Large
+2, Pant, Green, Small
+2, Shoe, Red, M10
+3, Shoe, Red, M11
+4, Shoe, Red, M12
+]
+;
+///$tab LinkTable example
+/****************
+Call LinkTable for each table to remove the synthetic key
+*****************/
+CALL Qvc.LinkTable('LinkTable', 'Order', 'Product, Color, Size');
+CALL Qvc.LinkTable('LinkTable', 'Supplier', 'Product, Color, Size');
+///$tab Cleanup
+CALL Qvc.Cleanup;
+

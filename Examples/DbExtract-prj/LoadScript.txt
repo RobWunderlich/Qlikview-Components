@@ -1,0 +1,60 @@
+﻿///$tab Main
+SET ThousandSep='.';
+SET DecimalSep=',';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$#,##0.00;($#,##0.00)';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+
+///$tab Setup
+// Include the Qvc library
+$(Include=..\qvc_runtime\qvc.qvs)
+
+// The directory for the QVD file
+SET Qvc.Loader.v.QvdDirectory='DbExtract\QVD';
+
+// The Directory where Connection String Files are kept
+SET Qvc.Loader.v.ConnectionDir=DbExtract;
+
+// Generate ExtractTimestamp field in each extracted table.
+SET Qvc.Loader.v.CreateExtractTimestampField=-1;
+
+
+// Set up datetime literal format for MS Access (our sample DB).
+SET _Qvc.Loader.v.Predicate.MSACCESS.Datetime = '>= #' & timestamp($1, 'YYYY-MM-DD hh:mm:ss') & '#';
+SET Qvc.Loader.v.Database=MSACCESS;
+
+///$tab Parameter Table
+Directory;
+// Load the parameter table that will be used as input to Qvc.DbExtract().
+// A sample extract list that ilustrates the use of various options.
+ExtractList:
+LOAD 
+	RecNo() as RecId,
+	ConnectionFilename, 
+     ConnectionString, 
+     TableName, 
+     QvdName, 
+     Columns, 
+     LoadStatement,
+     ExtractMode, 
+     Deletes,
+     KeyField, 
+     UniqueKey, 
+     UpdateField, 
+     UpdateFieldType,
+     StaleAfter,
+     TableComment
+FROM
+DbExtract\SampleExtractList.xls
+(biff, embedded labels, table is [Extracts$])
+WHERE left(TableName,1) <> '#'
+;
+
+CALL Qvc.DbExtract('ExtractList');
+///$tab Cleanup
+CALL Qvc.Cleanup;

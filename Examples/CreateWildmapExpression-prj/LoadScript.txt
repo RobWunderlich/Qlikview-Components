@@ -1,0 +1,58 @@
+﻿///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$#,##0.00;($#,##0.00)';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+
+///$tab Includes
+$(Include=..\qvc_runtime\qvc.qvs);
+///$tab Data
+// Load the WildMap table. Note this is not a real MAPPING table. 
+// Do not use the MAPPING prefix on the load. 
+// The first field can contain qlikview wilcard characters.
+WildMapTable:
+LOAD * INLINE [
+Key, Label
+A1590, Premium Fuel
+*99, Freight
+?15*, Fuels
+?17*, Lube
+*, Other
+]
+;
+
+/*********************************************************************************
+Call CreateWildMapExpression. This will return a pick(match()) mapping expression
+in variable vMapExpr.
+*********************************************************************************/
+CALL Qvc.CreateWildMapExpression(vMapExpr, 'WildMapTable');
+
+// The wildmap table can normally be dropped at this point. I'll leave it for illustration of the example.
+//DROP TABLE WildMapTable;
+///$tab Use Expression
+/*
+We will now use the vMapExpr variable to map "PartNo" to "PartGroup".
+*/
+
+Orders:
+LOAD *, $(vMapExpr(PartNo)) as PartGroup 
+INLINE [
+Customer, PartNo
+A, A1501
+A, A1589
+A, A1590
+A, A159099
+A, Z17901
+A, Z17FF6
+A, C2200
+]
+;
+///$tab Cleanup
+// Cleanup Qvc
+CALL Qvc.Cleanup;

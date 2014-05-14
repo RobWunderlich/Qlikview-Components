@@ -1,0 +1,55 @@
+﻿///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$#,##0.00;($#,##0.00)';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+
+
+///$tab Includes
+$(Include=..\qvc_runtime\qvc.qvs);
+///$tab Example
+DIRECTORY QVD;		// Change to QVD Directory
+
+// Create table with 3 Orders.
+
+Orders:
+LOAD * INLINE [
+OrderId, Quantity
+1, 100
+2, 200
+3, 300
+]
+;
+
+// Overwrite the QVD. Orders.qvd now has only 3 Orders.
+STORE Orders INTO Orders.qvd (qvd);
+// Drop loaded table
+DROP TABLE Orders;
+
+// Load some Order updates. Add 2 new OrderId and update the Quantity in OrderId=1.
+Orders:
+LOAD * INLINE [
+OrderId, Quantity
+4, 400
+5, 500
+1, 999
+]
+;
+
+/************************************
+Update the QVD with loaded changes.
+************************************/
+CALL Qvc.UpdateQvd ('Orders', 'Orders.qvd', 'OrderId');
+
+// Drop loaded table
+DROP TABLE Orders;
+// Load QVD to show that we have updates.
+LOAD * FROM Orders.qvd (qvd);
+///$tab Cleanup
+CALL Qvc.Cleanup;

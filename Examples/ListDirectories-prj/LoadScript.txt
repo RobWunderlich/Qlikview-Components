@@ -1,0 +1,40 @@
+﻿///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$#,##0.00;($#,##0.00)';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+
+///$tab Includes
+$(Include=..\qvc_runtime\qvc.qvs);
+///$tab ListDirs with Callback
+/****************
+Define a subroutine for callback
+*****************/
+SUB MyDirSub (filepath)
+	MyDirs:
+	LOAD
+		'$(filepath)' as [My File Path],
+		FileTime('$(filepath)') as [My File Time]
+	AutoGenerate 1
+	;
+END SUB
+
+/****************
+Call ListDirectories. The "MyDirSub" will be called for each dir found.
+*****************/
+CALL Qvc.ListDirectories('..', '*', -1, 'MyDirSub');
+///$tab ListDirs with default table
+/****************
+Call ListDirectories. Subdirectories will not be scanned. No callback, so the default "Qvc.ListDirectoriesTable" will be created.
+*****************/
+CALL Qvc.ListDirectories('..', '*', -1);
+
+///$tab Cleanup
+CALL Qvc.Cleanup;
+

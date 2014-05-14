@@ -1,0 +1,3 @@
+﻿Log Message_Level,Log Message
+INFO,00006 2/23/2014 12:33:34 PM; Starting Phase 2
+INFO,00007 2/23/2014 12:33:34 PM; Ending Phase 2

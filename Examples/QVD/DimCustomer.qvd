@@ -1,0 +1,683 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+ <QvdTableHeader>
+   <QvBuildNo>11282</QvBuildNo>
+   <CreatorDoc>C:\Qlikview-NoBackup\Lineage\Loaders\DBTest.qvw</CreatorDoc>
+   <CreateUtcTime>2012-07-27 21:46:38</CreateUtcTime>
+   <SourceCreateUtcTime></SourceCreateUtcTime>
+   <SourceFileUtcTime></SourceFileUtcTime>
+   <SourceFileSize>-1</SourceFileSize>
+   <StaleUtcTime></StaleUtcTime>
+   <TableName>DimCustomer</TableName>
+   <Fields>
+     <QvdFieldHeader>
+       <FieldName>CustomerKey</FieldName>
+       <BitOffset>0</BitOffset>
+       <BitWidth>8</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>.</Dec>
+         <Thou>,</Thou>
+       </NumberFormat>
+       <NoOfSymbols>200</NoOfSymbols>
+       <Offset>0</Offset>
+       <Length>1000</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$numeric</String>
+         <String>$integer</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>GeographyKey</FieldName>
+       <BitOffset>94</BitOffset>
+       <BitWidth>7</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>.</Dec>
+         <Thou>,</Thou>
+       </NumberFormat>
+       <NoOfSymbols>90</NoOfSymbols>
+       <Offset>1000</Offset>
+       <Length>450</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$numeric</String>
+         <String>$integer</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>CustomerAlternateKey</FieldName>
+       <BitOffset>8</BitOffset>
+       <BitWidth>8</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>200</NoOfSymbols>
+       <Offset>1450</Offset>
+       <Length>2400</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$ascii</String>
+         <String>$text</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Title</FieldName>
+       <BitOffset>123</BitOffset>
+       <BitWidth>1</BitWidth>
+       <Bias>-2</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>0</NoOfSymbols>
+       <Offset>3850</Offset>
+       <Length>0</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$ascii</String>
+         <String>$text</String>
+         <String>$keypart</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>FirstName</FieldName>
+       <BitOffset>16</BitOffset>
+       <BitWidth>8</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>163</NoOfSymbols>
+       <Offset>3850</Offset>
+       <Length>1274</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$text</String>
+         <String>$keypart</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>MiddleName</FieldName>
+       <BitOffset>89</BitOffset>
+       <BitWidth>5</BitWidth>
+       <Bias>-2</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>17</NoOfSymbols>
+       <Offset>5124</Offset>
+       <Length>51</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$ascii</String>
+         <String>$text</String>
+         <String>$keypart</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>LastName</FieldName>
+       <BitOffset>24</BitOffset>
+       <BitWidth>8</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>134</NoOfSymbols>
+       <Offset>5175</Offset>
+       <Length>1008</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$text</String>
+         <String>$keypart</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>NameStyle</FieldName>
+       <BitOffset>0</BitOffset>
+       <BitWidth>0</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>.</Dec>
+         <Thou>,</Thou>
+       </NumberFormat>
+       <NoOfSymbols>1</NoOfSymbols>
+       <Offset>6183</Offset>
+       <Length>5</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$numeric</String>
+         <String>$integer</String>
+         <String>$keypart</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>BirthDate</FieldName>
+       <BitOffset>32</BitOffset>
+       <BitWidth>8</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>199</NoOfSymbols>
+       <Offset>6188</Offset>
+       <Length>3184</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$numeric</String>
+         <String>$integer</String>
+         <String>$keypart</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>MaritalStatus</FieldName>
+       <BitOffset>124</BitOffset>
+       <BitWidth>1</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>2</NoOfSymbols>
+       <Offset>9372</Offset>
+       <Length>6</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$ascii</String>
+         <String>$text</String>
+         <String>$keypart</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Suffix</FieldName>
+       <BitOffset>125</BitOffset>
+       <BitWidth>1</BitWidth>
+       <Bias>-2</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>0</NoOfSymbols>
+       <Offset>9378</Offset>
+       <Length>0</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$ascii</String>
+         <String>$text</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Gender</FieldName>
+       <BitOffset>126</BitOffset>
+       <BitWidth>1</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>2</NoOfSymbols>
+       <Offset>9378</Offset>
+       <Length>6</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$ascii</String>
+         <String>$text</String>
+         <String>$keypart</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>EmailAddress</FieldName>
+       <BitOffset>40</BitOffset>
+       <BitWidth>8</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>200</NoOfSymbols>
+       <Offset>9384</Offset>
+       <Length>5898</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$text</String>
+         <String>$keypart</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>YearlyIncome</FieldName>
+       <BitOffset>101</BitOffset>
+       <BitWidth>4</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>MONEY</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>.</Dec>
+         <Thou>,</Thou>
+       </NumberFormat>
+       <NoOfSymbols>14</NoOfSymbols>
+       <Offset>15282</Offset>
+       <Length>70</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$numeric</String>
+         <String>$integer</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>TotalChildren</FieldName>
+       <BitOffset>72</BitOffset>
+       <BitWidth>8</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>.</Dec>
+         <Thou>,</Thou>
+       </NumberFormat>
+       <NoOfSymbols>6</NoOfSymbols>
+       <Offset>15352</Offset>
+       <Length>30</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$numeric</String>
+         <String>$integer</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>NumberChildrenAtHome</FieldName>
+       <BitOffset>80</BitOffset>
+       <BitWidth>3</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>.</Dec>
+         <Thou>,</Thou>
+       </NumberFormat>
+       <NoOfSymbols>6</NoOfSymbols>
+       <Offset>15382</Offset>
+       <Length>30</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$numeric</String>
+         <String>$integer</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>EnglishEducation</FieldName>
+       <BitOffset>83</BitOffset>
+       <BitWidth>3</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>5</NoOfSymbols>
+       <Offset>15412</Offset>
+       <Length>79</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$ascii</String>
+         <String>$text</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>SpanishEducation</FieldName>
+       <BitOffset>86</BitOffset>
+       <BitWidth>3</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>5</NoOfSymbols>
+       <Offset>15491</Offset>
+       <Length>130</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$text</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>FrenchEducation</FieldName>
+       <BitOffset>105</BitOffset>
+       <BitWidth>3</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>5</NoOfSymbols>
+       <Offset>15621</Offset>
+       <Length>54</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$text</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>EnglishOccupation</FieldName>
+       <BitOffset>117</BitOffset>
+       <BitWidth>2</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>4</NoOfSymbols>
+       <Offset>15675</Offset>
+       <Length>52</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$ascii</String>
+         <String>$text</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>SpanishOccupation</FieldName>
+       <BitOffset>119</BitOffset>
+       <BitWidth>2</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>4</NoOfSymbols>
+       <Offset>15727</Offset>
+       <Length>61</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$text</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>FrenchOccupation</FieldName>
+       <BitOffset>121</BitOffset>
+       <BitWidth>2</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>4</NoOfSymbols>
+       <Offset>15788</Offset>
+       <Length>40</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$text</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>HouseOwnerFlag</FieldName>
+       <BitOffset>127</BitOffset>
+       <BitWidth>1</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>2</NoOfSymbols>
+       <Offset>15828</Offset>
+       <Length>14</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$numeric</String>
+         <String>$integer</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>NumberCarsOwned</FieldName>
+       <BitOffset>108</BitOffset>
+       <BitWidth>3</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>.</Dec>
+         <Thou>,</Thou>
+       </NumberFormat>
+       <NoOfSymbols>5</NoOfSymbols>
+       <Offset>15842</Offset>
+       <Length>25</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$numeric</String>
+         <String>$integer</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>AddressLine1</FieldName>
+       <BitOffset>48</BitOffset>
+       <BitWidth>8</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>199</NoOfSymbols>
+       <Offset>15867</Offset>
+       <Length>3806</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$text</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>AddressLine2</FieldName>
+       <BitOffset>111</BitOffset>
+       <BitWidth>3</BitWidth>
+       <Bias>-2</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>6</NoOfSymbols>
+       <Offset>19673</Offset>
+       <Length>56</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$text</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Phone</FieldName>
+       <BitOffset>56</BitOffset>
+       <BitWidth>8</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>157</NoOfSymbols>
+       <Offset>19729</Offset>
+       <Length>2583</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$ascii</String>
+         <String>$text</String>
+         <String>$keypart</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>DateFirstPurchase</FieldName>
+       <BitOffset>64</BitOffset>
+       <BitWidth>8</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>162</NoOfSymbols>
+       <Offset>22312</Offset>
+       <Length>2592</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$numeric</String>
+         <String>$integer</String>
+         <String>$timestamp</String>
+         <String>$date</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>CommuteDistance</FieldName>
+       <BitOffset>114</BitOffset>
+       <BitWidth>3</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>5</NoOfSymbols>
+       <Offset>24904</Offset>
+       <Length>56</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$ascii</String>
+         <String>$text</String>
+       </Tags>
+     </QvdFieldHeader>
+   </Fields>
+   <Compression></Compression>
+   <RecordByteSize>16</RecordByteSize>
+   <NoOfRecords>200</NoOfRecords>
+   <Offset>24960</Offset>
+   <Length>3200</Length>
+   <Lineage>
+     <LineageInfo>
+       <Discriminator>Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security Info=False;Data Source=ROB_WORK;Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Workstation ID=ROB_WORK;Use Encryption for Data=False;Tag with column collation when possible=False</Discriminator>
+       <Statement>SQL SELECT TOP 200 *
+FROM AdventureWorksDW2008R2.dbo.DimCustomer</Statement>
+     </LineageInfo>
+   </Lineage>
+   <Comment></Comment>
+ </QvdTableHeader>
+ ¯*  ˘*  ˙*  ˚*  ¸*  ˝*  ˛*  ˇ*   +  +  +  +  +  +  +  +  +  	+  
++  +  +  +  +  +  +  +  +  +  +  +  +  +  +  +  +  +  +  +  +  +   +  !+  "+  #+  $+  %+  &+  '+  (+  )+  *+  ++  ,+  -+  .+  /+  0+  1+  2+  3+  4+  5+  6+  7+  8+  9+  :+  ;+  <+  =+  >+  ?+  @+  A+  B+  C+  D+  E+  F+  G+  H+  I+  J+  K+  L+  M+  N+  O+  P+  Q+  R+  S+  T+  U+  V+  W+  X+  Y+  Z+  [+  \+  ]+  ^+  _+  `+  a+  b+  c+  d+  e+  f+  g+  h+  i+  j+  k+  l+  m+  n+  o+  p+  q+  r+  s+  t+  u+  v+  w+  x+  y+  z+  {+  |+  }+  ~+  +  Ä+  Å+  Ç+  É+  Ñ+  Ö+  Ü+  á+  à+  â+  ä+  ã+  å+  ç+  é+  è+  ê+  ë+  í+  ì+  î+  ï+  ñ+  ó+  ò+  ô+  ö+  õ+  ú+  ù+  û+  ü+  †+  °+  ¢+  £+  §+  •+  ¶+  ß+  ®+  ©+  ™+  ´+  ¨+  ≠+  Æ+  Ø+  ∞+  ±+  ≤+  ≥+  ¥+  µ+  ∂+  ∑+  ∏+  π+  ∫+  ª+  º+  Ω+  æ+  ø+     %                  (          c    z  -  I  '   4   5     a  *  7              #   	      !   W  1      Ç  E  R  "   3     g  
+               #  ;  K  x     $      B  P  Y  q  Q  2               &   i  {  ~  3     .  Å  :  N  _  y  )  Å  t  v  \  w  j  8  d  r  (  ,  p  `  6  }  AW00011000 AW00011001 AW00011002 AW00011003 AW00011004 AW00011005 AW00011006 AW00011007 AW00011008 AW00011009 AW00011010 AW00011011 AW00011012 AW00011013 AW00011014 AW00011015 AW00011016 AW00011017 AW00011018 AW00011019 AW00011020 AW00011021 AW00011022 AW00011023 AW00011024 AW00011025 AW00011026 AW00011027 AW00011028 AW00011029 AW00011030 AW00011031 AW00011032 AW00011033 AW00011034 AW00011035 AW00011036 AW00011037 AW00011038 AW00011039 AW00011040 AW00011041 AW00011042 AW00011043 AW00011044 AW00011045 AW00011046 AW00011047 AW00011048 AW00011049 AW00011050 AW00011051 AW00011052 AW00011053 AW00011054 AW00011055 AW00011056 AW00011057 AW00011058 AW00011059 AW00011060 AW00011061 AW00011062 AW00011063 AW00011064 AW00011065 AW00011066 AW00011067 AW00011068 AW00011069 AW00011070 AW00011071 AW00011072 AW00011073 AW00011074 AW00011075 AW00011076 AW00011077 AW00011078 AW00011079 AW00011080 AW00011081 AW00011082 AW00011083 AW00011084 AW00011085 AW00011086 AW00011087 AW00011088 AW00011089 AW00011090 AW00011091 AW00011092 AW00011093 AW00011094 AW00011095 AW00011096 AW00011097 AW00011098 AW00011099 AW00011100 AW00011101 AW00011102 AW00011103 AW00011104 AW00011105 AW00011106 AW00011107 AW00011108 AW00011109 AW00011110 AW00011111 AW00011112 AW00011113 AW00011114 AW00011115 AW00011116 AW00011117 AW00011118 AW00011119 AW00011120 AW00011121 AW00011122 AW00011123 AW00011124 AW00011125 AW00011126 AW00011127 AW00011128 AW00011129 AW00011130 AW00011131 AW00011132 AW00011133 AW00011134 AW00011135 AW00011136 AW00011137 AW00011138 AW00011139 AW00011140 AW00011141 AW00011142 AW00011143 AW00011144 AW00011145 AW00011146 AW00011147 AW00011148 AW00011149 AW00011150 AW00011151 AW00011152 AW00011153 AW00011154 AW00011155 AW00011156 AW00011157 AW00011158 AW00011159 AW00011160 AW00011161 AW00011162 AW00011163 AW00011164 AW00011165 AW00011166 AW00011167 AW00011168 AW00011169 AW00011170 AW00011171 AW00011172 AW00011173 AW00011174 AW00011175 AW00011176 AW00011177 AW00011178 AW00011179 AW00011180 AW00011181 AW00011182 AW00011183 AW00011184 AW00011185 AW00011186 AW00011187 AW00011188 AW00011189 AW00011190 AW00011191 AW00011192 AW00011193 AW00011194 AW00011195 AW00011196 AW00011197 AW00011198 AW00011199 Jon Eugene Ruben Christy Elizabeth Julio Janet Marco Rob Shannon Jacquelyn Curtis Lauren Ian Sydney Chloe Wyatt Clarence Luke Jordan Destiny Ethan Seth Russell Alejandro Harold Jessie Jill Jimmy Bethany Theresa Denise Jaime Ebony Wendy Jennifer Diana Marc Jesse Amanda Megan Nathan Adam Leonard Christine Jaclyn Jeremy Carol Alan Daniel Heidi Ana Deanna Gilbert Michele Carl Ashlee Todd Noah Angela Chase Jessica Grace Caleb Tiffany Carolyn Willie Linda Casey Amy Levi Felicia Blake Leah Gina Donald Damien Savannah Alyssa Lucas Emily Ryan Tamara Hunter Abigail Trevor Dalton Cheryl Aimee Cedric Chad Andr√©s Edwin Mallory Latasha Abby Julia Cassie Edgar Candace Bianca Kari Meredith Crystal Micheal Leslie Alvin Clinton April Evan Beth Orlando Byron Philip Ross Dana Shaun Jan Samantha Caroline Melissa Larry Marcus Brianna Jasmine Tanya Javier Nicole Eduardo Jonathan Edward Karla Ernest Theodore Melinda James Maria Hannah Jason Maurice Gabriel Devin Jocelyn Ashley David Bryce Gabrielle Sarah Nicholas Luis Mason Jose Molly Stephanie Meghan Catherine Lawrence Carson Kristi Jacqueline Alfredo Andrea Brooke V L G C M D R F J E T A W S H K P Yang Huang Torres Zhu Johnson Ruiz Alvarez Mehta Verhoff Carlson Suarez Lu Walker Jenkins Bennett Young Hill Wang Rai Lal King Wilson Zhang Edwards Xie Beck Sai Zhao Jimenez Moreno Yuan Ramos Stone Nath Gonzalez Dominguez Russell Garcia Hernandez Martin Murphy Carter Sanchez Simmons Flores Nara Powell Zheng Lopez Price Munoz Raje Andersen Diaz Zhou Gao Reed Henderson Butler Liang Navarro Raji Serrano Luo Ye Arun Anderson Chander Baker Cox Phillips Brown Davis Bryant Perez He Ma Kumar Anand Rubio Ross Nelson Chande Sara Fernandez Liu Lin Kapoor Gutierrez Blanco Cai Deng Zeng James Jim√©nez Vazquez Jordan Carson Long Wright Rivera Richardson Griffin Townsend Harris Morgan Taylor Ramirez Patterson Coleman Goel Wu Gill Shen Williams Robinson Roberts Hughes Tang Wood Brooks Alexander Martinez Barnes Rodriguez Howard Adams Thomas Lee Cooper Morris Gray Romero Sanders     Bd  1970-04-08 ˘b  1969-05-14 Sc  1969-08-12 Ëf  1972-02-15 óg  1972-08-08 Lc  1969-08-05 «c  1969-12-06 áa  1968-05-09 ¬a  1968-07-07 aa  1968-04-01 *a  1968-02-06 Ã`  1967-11-04 Ãf  1972-01-18 ïg  1972-08-06 <g  1972-05-09 ¶v  1983-02-27 ‚v  1983-04-28 .E  1948-06-26 óE  1948-10-09 Au  1982-03-07 v  1982-09-20 ıu  1982-09-03 v  1982-10-12 v  1982-10-11 v  1982-09-17 OG  1949-12-23 ¥G  1950-04-03 ¨H  1950-12-07 ºG  1950-04-11 ∫H  1950-12-21 ˘H  1951-02-22 ÆI  1951-08-22 fI  1951-06-11 ŒI  1951-09-23 nI  1951-06-19 hJ  1952-02-24 _v  1982-12-18 ›t  1981-11-27 ÑJ  1952-03-23 ëK  1952-12-17 gt  1981-08-01 ≥t  1981-10-16 6t  1981-06-13 [r  1980-02-24 /L  1953-05-24 óM  1954-05-19 ]M  1954-03-22 FM  1954-02-27 RN  1954-11-22 °x  1984-07-18 sO  1955-09-07 QO  1955-08-04 TO  1955-08-07 ¬x  1984-08-20 ,P  1956-03-10 'P  1956-03-05 ±Q  1957-04-03 qR  1957-10-12 6S  1958-04-27 S  1958-04-01 S  1958-03-17 ˚R  1958-02-27 ¨q  1979-09-02 q  1979-04-07 r  1979-12-07 ˜n  1977-10-09 (o  1977-11-27 1s  1980-09-25 8U  1959-09-23 6U  1959-09-21 çT  1959-04-05 ﬂT  1959-06-26 ST  1959-02-06 ~V  1960-08-14 åV  1960-08-28 IX  1961-11-16 ÀW  1961-07-13 X  1961-09-19 To  1978-01-10 )Z  1963-03-11 ©Z  1963-07-17 ≠d  1970-07-24 ∏d  1970-08-04 *d  1970-03-15 X  1961-09-12 —W  1961-07-19 nX  1961-12-23 X  1961-10-03 RX  1961-11-25 -W  1961-02-05 hX  1961-12-17 gW  1961-04-04 Àe  1971-05-06 Jf  1971-09-10 Ü^  1966-04-01 _  1966-09-01 	_  1966-08-10 Í]  1965-10-27 7]  1965-05-01 ]  1965-03-08 S\  1964-09-15 Ûb  1969-05-08 ‚b  1969-04-21 (b  1968-10-17 La  1968-03-11 pb  1968-12-28 b  1968-09-11 ﬂZ  1963-09-09 [`  1967-07-14 Õ`  1967-11-05 »^  1966-06-06 a^  1966-02-23 '_  1966-09-09 _^  1966-02-21 ø^  1966-05-28 V^  1966-02-12 C_  1966-10-07 Ú\  1965-02-21 ¡W  1961-07-03 	8  1939-04-10 9  1940-08-09 ì\  1964-11-18 ≠[  1964-04-02 ¸[  1964-06-20 ŸW  1961-07-27 ˛U  1960-04-08  L  1953-04-07 ›q  1979-10-21 
+r  1979-12-05 êq  1979-08-05 ﬂw  1984-01-06 !x  1984-03-12 y  1984-10-26 ’x  1984-09-08 êG  1950-02-26 üw  1983-11-03 *v  1982-10-26 »u  1982-07-20 v  1982-09-15 &=  1942-11-09 ºs  1981-02-11 >t  1981-06-21 tt  1981-08-14 µs  1981-02-04 hw  1983-09-09 ¬w  1983-12-08 H>  1943-08-26 ~=  1943-02-05 A  1945-08-16 £@  1945-04-20 @  1945-03-15 ⁄A  1946-02-25 .r  1980-01-10 ”r  1980-06-23 s  1980-08-21 >r  1980-01-26 Jr  1980-02-07 Yq  1979-06-11 –q  1979-10-08 ªq  1979-09-17 Ro  1978-01-08 ∫o  1978-04-22 äo  1978-03-05 ¨p  1978-12-20 «o  1978-05-05 §n  1977-07-18 ‚l  1976-04-24 Em  1976-08-01 Bg  1972-05-15 hg  1972-06-22 ﬁf  1972-02-05 gf  1971-10-09 íf  1971-11-21 Af  1971-09-01 f  1971-07-13 ÿ_  1967-03-05 ”f  1972-01-25 [B  1946-07-04 ˚C  1947-08-24 ¥C  1947-06-14 C  1947-01-02 ÎC  1947-08-08 jE  1948-08-25 AE  1948-07-15 ΩE  1948-11-16 ñE  1948-10-08 
+E  1948-05-21 ±D  1948-02-22 vE  1948-09-06 *E  1948-06-22 JG  1949-12-18 ÍF  1949-09-13 F  1949-02-13 ãF  1949-06-10 ÄG  1950-02-10 ıG  1950-06-07  H  1950-06-18 °H  1950-11-26 çH  1950-11-06 M S M F jon24@adventure-works.com eugene10@adventure-works.com ruben35@adventure-works.com christy12@adventure-works.com elizabeth5@adventure-works.com julio1@adventure-works.com janet9@adventure-works.com marco14@adventure-works.com rob4@adventure-works.com shannon38@adventure-works.com jacquelyn20@adventure-works.com curtis9@adventure-works.com lauren41@adventure-works.com ian47@adventure-works.com sydney23@adventure-works.com chloe23@adventure-works.com wyatt32@adventure-works.com shannon1@adventure-works.com clarence32@adventure-works.com luke18@adventure-works.com jordan73@adventure-works.com destiny7@adventure-works.com ethan20@adventure-works.com seth46@adventure-works.com russell7@adventure-works.com alejandro45@adventure-works.com harold3@adventure-works.com jessie16@adventure-works.com jill13@adventure-works.com jimmy9@adventure-works.com bethany10@adventure-works.com theresa13@adventure-works.com denise10@adventure-works.com jaime41@adventure-works.com ebony19@adventure-works.com wendy12@adventure-works.com jennifer93@adventure-works.com chloe27@adventure-works.com diana2@adventure-works.com marc3@adventure-works.com jesse15@adventure-works.com amanda53@adventure-works.com megan28@adventure-works.com nathan11@adventure-works.com adam10@adventure-works.com leonard18@adventure-works.com christine4@adventure-works.com jaclyn12@adventure-works.com jeremy26@adventure-works.com carol8@adventure-works.com alan23@adventure-works.com daniel18@adventure-works.com heidi19@adventure-works.com ana0@adventure-works.com deanna33@adventure-works.com gilbert35@adventure-works.com michele19@adventure-works.com carl12@adventure-works.com marc6@adventure-works.com ashlee19@adventure-works.com jon28@adventure-works.com todd14@adventure-works.com noah5@adventure-works.com angela41@adventure-works.com chase21@adventure-works.com jessica29@adventure-works.com grace62@adventure-works.com caleb40@adventure-works.com tiffany17@adventure-works.com carolyn30@adventure-works.com willie40@adventure-works.com linda31@adventure-works.com casey6@adventure-works.com amy16@adventure-works.com levi6@adventure-works.com felicia4@adventure-works.com blake9@adventure-works.com leah7@adventure-works.com gina1@adventure-works.com donald20@adventure-works.com damien32@adventure-works.com savannah39@adventure-works.com angela17@adventure-works.com alyssa37@adventure-works.com lucas7@adventure-works.com emily1@adventure-works.com ryan43@adventure-works.com tamara6@adventure-works.com hunter64@adventure-works.com abigail25@adventure-works.com trevor18@adventure-works.com dalton37@adventure-works.com cheryl4@adventure-works.com aimee13@adventure-works.com cedric15@adventure-works.com chad9@adventure-works.com andr√©s18@adventure-works.com edwin39@adventure-works.com mallory7@adventure-works.com adam2@adventure-works.com latasha10@adventure-works.com abby4@adventure-works.com julia7@adventure-works.com cassie13@adventure-works.com edgar11@adventure-works.com candace15@adventure-works.com jessie9@adventure-works.com bianca7@adventure-works.com kari25@adventure-works.com ruben1@adventure-works.com curtis5@adventure-works.com meredith34@adventure-works.com crystal3@adventure-works.com micheal11@adventure-works.com leslie7@adventure-works.com alvin20@adventure-works.com clinton14@adventure-works.com april1@adventure-works.com alvin21@adventure-works.com evan8@adventure-works.com beth8@adventure-works.com orlando19@adventure-works.com byron9@adventure-works.com philip4@adventure-works.com ross1@adventure-works.com dana2@adventure-works.com shaun16@adventure-works.com jan11@adventure-works.com samantha35@adventure-works.com julia17@adventure-works.com caroline21@adventure-works.com amanda7@adventure-works.com melissa31@adventure-works.com angela23@adventure-works.com larry14@adventure-works.com marcus14@adventure-works.com brianna30@adventure-works.com jasmine7@adventure-works.com lauren23@adventure-works.com tanya2@adventure-works.com javier1@adventure-works.com nicole42@adventure-works.com eduardo55@adventure-works.com jonathan4@adventure-works.com edward48@adventure-works.com jasmine46@adventure-works.com karla20@adventure-works.com ernest6@adventure-works.com ross32@adventure-works.com theodore14@adventure-works.com russell6@adventure-works.com melinda9@adventure-works.com james77@adventure-works.com angela34@adventure-works.com megan25@adventure-works.com hunter50@adventure-works.com maria47@adventure-works.com hannah32@adventure-works.com jason46@adventure-works.com brianna57@adventure-works.com maurice4@adventure-works.com emily27@adventure-works.com chase10@adventure-works.com gabriel21@adventure-works.com devin63@adventure-works.com jocelyn18@adventure-works.com ashley18@adventure-works.com jasmine43@adventure-works.com david83@adventure-works.com bryce8@adventure-works.com carol5@adventure-works.com jonathan43@adventure-works.com gabrielle58@adventure-works.com sarah13@adventure-works.com nicholas19@adventure-works.com luis24@adventure-works.com mason25@adventure-works.com jose6@adventure-works.com nathan55@adventure-works.com molly18@adventure-works.com april18@adventure-works.com devin13@adventure-works.com stephanie19@adventure-works.com jasmine19@adventure-works.com meghan3@adventure-works.com ashley31@adventure-works.com sarah25@adventure-works.com jennifer63@adventure-works.com catherine16@adventure-works.com lawrence14@adventure-works.com carson17@adventure-works.com kristi39@adventure-works.com james79@adventure-works.com ian72@adventure-works.com jacqueline0@adventure-works.com megan55@adventure-works.com alfredo10@adventure-works.com andrea18@adventure-works.com brooke3@adventure-works.com jacqueline1@adventure-works.com ê_ `Í  p Ä8 †Ü 0u   N  @ú  '   q ò ¿‘ –˚ ∞≠                                       Bachelors Partial College High School Partial High School Graduate Degree Licenciatura Estudios universitarios (en curso) Educaci√≥n secundaria Educaci√≥n secundaria (en curso) Estudios de postgrado Bac + 4 Baccalaur√©at Bac + 2 Niveau bac Bac + 3 Professional Management Skilled Manual Clerical Profesional Gesti√≥n Obrero especializado Administrativo Cadre Direction Technicien Employ√©    1     0                 3761 N. 14th St 2243 W St. 5844 Linden Land 1825 Village Pl. 7553 Harness Circle 7305 Humphrey Drive 2612 Berry Dr 942 Brook Street 624 Peabody Road 3839 Northgate Road 7800 Corrinne Court 1224 Shoenic 4785 Scott Street 7902 Hudson Ave. 9011 Tank Drive 244 Willow Pass Road 9666 Northridge Ct. 7330 Saddlehill Lane 244 Rivewview 7832 Landing Dr 7156 Rose Dr. 8148 W. Lake Dr. 1769 Nicholas Drive 4499 Valley Crest 8734 Oxford Place 2596 Franklin Canyon Road 8211 Leeds Ct. 213 Valencia Place 9111 Rose Ann Ave 6385 Mark Twain 636 Vine Hill Way 6465 Detroit Ave. 626 Bentley Street 5927 Rainbow Dr 5167 Condor Place 1873 Mt. Whitney Dr 3981 Augustine Drive 8915 Woodside Way 8357 Sandy Cove Lane 9353 Creekside Dr. 3350 Kingswood Circle 5826 Escobar 1397 Paraiso Ct. 1170 Shaw Rd 6935 Candle Dr 7466 La Vista Ave. 2356 Orange St 2812 Mazatlan 1803 Potomac Dr. 6064 Madrid 2741 Gainborough Dr. 8085 Sunnyvale Avenue 2514 Via Cordona 1660 Stonyhill Circle 5825 B Way 8811 The Trees Dr. 5464 Janin Pl. 6930 Lake Nadine Place 6645 Sinaloa 8255 Highland Road 6574 Hemlock Ave. 8808 Geneva Ave 9794 Marion Ct 4927 Virgil Street 2721 Alexander Pl. 9343 Ironwood Way 4739 Garden Ave. 9563 Pennsylvania Blvd. 3608 Sinclair Avenue 4606 Springwood Court 6260 Vernal Drive 9808 Shaw Rd. 9513 Roslyn Drive 2262 Kirkwood Ct. 4661 Bluetail 786 Eastgate Ave 5436 Clear 1291 Arguello Blvd. 1349 Sol St. 4236 Malibu Place 9941 Stonehedge Dr. 1210 Trafalgar Circle 6040 Listing Ct 867 La Orinda Place 8668 St. Celestine Court 7926 Stephanie Way 2939 Wesley Ct. 3791 Rossmor Parkway 4308 Sand Pointe Lane 2685 Blackburn Ct 5781 Sharon Dr. 6083 San Jose 7297 Kaywood Drive 1833 Olympic Drive 3407 Oak Brook Place 1681 Lighthouse Way 5423 Los Gatos Ct. 719 William Way 6452 Harris Circle 4378 Westminster Place 6954 Ranch Road 7074 N. Spoonwood Court 2196 Coat Ct. 9448 San Marino Ct. 6127 Lilly Lane 5029 Blue Ridge 3063 Blue Jay Drive 7530 Eola 9178 Thornhill Place 1984 Glendale Circle 4052 Mt. Wilson Way 7610 Northridge Ct. 2773 Kirkwood Dr 596 Marfargoa Drive 7941 Cristobal 7759 Azalea Avenue 7943 Cunha Ct. 485 Ash Lane 3853 Wildcat Circle 4157 Sierra Ridge 7401 Las Palmas 7743 Hames Dr 3187 Hackamore Lane 2775 Mt. Olivet Pl. 6973 Dublin Court 8481 Zartop Street 57 Wolf Way 9409 The Alameda 1606 Alderwood Lane 7397 Central Blvd. 3884 Bates Court 9573 Royal Oak Rd. 6832 Fruitwood Dr 3828 Baltic Sea Ct 7034 Carson 9068 Quiet Place Drive 9005 Eagle Ct. 2457 Matterhorn Court 8105 Pembrook Court 6155 Wilbur Drive 8935 Etcheverry Dr. 1101 C Street 6255 Macalvey Dr. 165 East Lane Road 7607 Pine Hollow Road 1961 Oak Grove Road 3272 Corrie Lane 1832 RiverRock Dr 1201 Paso Del Rio Way 9120 Pinewood Court 4755 Easley Drive 805 Rainier Dr. 6827 Seagull Court 8877 Weatherly Drive 6898 Holiday Hills 8356 Mori Court 9452 Mariposa Ct. 1832 Preston Ct. 6771 Bundros Court 6793 Bonifacio St. 2886 Chaparral Court 1562 Black Walnut P.O. Box 8070 8002 Crane Court 4231 Highland Dr. 3376 Bank Way 6993 Whyte Park Ave. 9183 Via Del Sol 38 Shangri-la Rd. 1841 Blackwood Drive 6281 Edward Ave 3731 Chinquapin Ct 5621 Arcadia Pl. 5636 Mt. Whitney Dr. 1318 Lasalle Street 6943 Patterson Blvd. 5753 Megan Dr. 3991 Rambling Rose Drive 8927 Daylight Place 5556 Riverland Dr. 3531 Brookview Drive 1085 Greenbelt Way 6968 Mildred Ln. 7502 Contuti Avenue 5872 L St. 8834 San Jose Ave. 4815 Paraiso Ct. 2429 Longview Road 6542 Stonewood Drive 2995 Youngsdale Dr. 1769 Lislin Ct 673 Old Mountain View Dr. 5941 Gill Dr. 872 Mark Twain Dr 8411 Mt. Olivet Place 2499 Greendell Pl 1883 Green View Court 5192 Dumbarton Drive 8948 Chinquapin Court # 21 # 701 # 101 Unit 13c12 Space # 45 Unit B-105 1 (11) 500 555-0162 1 (11) 500 555-0110 1 (11) 500 555-0184 1 (11) 500 555-0131 1 (11) 500 555-0151 1 (11) 500 555-0126 1 (11) 500 555-0164 1 (11) 500 555-0169 1 (11) 500 555-0117 717-555-0164 817-555-0185 431-555-0156 208-555-0142 135-555-0171 1 (11) 500 555-0195 1 (11) 500 555-0137 262-555-0112 550-555-0163 622-555-0158 589-555-0185 452-555-0188 746-555-0186 1 (11) 500 555-0178 1 (11) 500 555-0116 1 (11) 500 555-0146 1 (11) 500 555-0182 1 (11) 500 555-0136 1 (11) 500 555-0177 115-555-0183 229-555-0112 1 (11) 500 555-0114 1 (11) 500 555-0183 961-555-0176 295-555-0145 404-555-0199 296-555-0181 1 (11) 500 555-0163 1 (11) 500 555-0113 654-555-0180 1 (11) 500 555-0135 1 (11) 500 555-0155 1 (11) 500 555-0168 859-555-0113 1 (11) 500 555-0192 1 (11) 500 555-0129 1 (11) 500 555-0181 1 (11) 500 555-0149 1 (11) 500 555-0112 1 (11) 500 555-0174 1 (11) 500 555-0191 767-555-0113 451-555-0162 892-555-0184 278-555-0186 712-555-0141 944-555-0167 1 (11) 500 555-0145 1 (11) 500 555-0130 1 (11) 500 555-0125 1 (11) 500 555-0185 1 (11) 500 555-0127 1 (11) 500 555-0165 1 (11) 500 555-0154 196-555-0114 1 (11) 500 555-0111 478-555-0117 579-555-0195 561-555-0140 863-555-0172 850-555-0184 539-555-0198 178-555-0152 612-555-0141 532-555-0117 853-555-0174 559-555-0115 1 (11) 500 555-0161 1 (11) 500 555-0115 1 (11) 500 555-0157 1 (11) 500 555-0186 1 (11) 500 555-0123 1 (11) 500 555-0124 1 (11) 500 555-0166 1 (11) 500 555-0121 1 (11) 500 555-0132 1 (11) 500 555-0179 1 (11) 500 555-0134 1 (11) 500 555-0187 1 (11) 500 555-0198 1 (11) 500 555-0172 111-555-0118 175-555-0139 456-555-0174 424-555-0137 918-555-0126 928-555-0118 598-555-0174 442-555-0119 954-555-0117 557-555-0146 832-555-0121 763-555-0134 152-555-0162 190-555-0184 149-555-0113 178-555-0196 857-555-0115 1 (11) 500 555-0139 1 (11) 500 555-0194 355-555-0153 847-555-0111 918-555-0186 891-555-0125 158-555-0199 974-555-0177 694-555-0176 319-555-0183 947-555-0172 184-555-0114 764-555-0116 617-555-0150 502-555-0138 354-555-0134 131-555-0194 178-555-0156 730-555-0128 178-555-0176 845-555-0127 134-555-0196 403-555-0152 868-555-0188 949-555-0138 418-555-0127 539-555-0162 157-555-0182 117-555-0182 135-555-0185 702-555-0144 735-555-0197 567-555-0176 147-555-0199 967-555-0188 173-555-0121 180-555-0133 857-555-0111 795-555-0117 656-555-0171 240-555-0142 123-555-0181 725-555-0117 596-555-0190 266-555-0112 560-555-0150 342-555-0110 715-555-0178 215-555-0156 413-555-0174 õñ  2005-07-22 óñ  2005-07-18 èñ  2005-07-10 Üñ  2005-07-01 üñ  2005-07-26 áñ  2005-07-02 †ñ  2005-07-27 ëñ  2005-07-12 °ñ  2005-07-28 £ñ  2005-07-30 ññ  2005-07-17 Æô  2007-09-17  ô  2007-10-15 µô  2007-09-24 uô  2007-07-22 ãô  2007-08-13 îñ  2005-07-15 ôñ  2005-07-20 éô  2007-08-16 aô  2007-07-02 zô  2007-07-27 wô  2007-07-24 ìô  2007-08-21 ö  2007-12-29 éñ  2005-07-09 òñ  2005-07-19 ¢ñ  2005-07-29 ¨ñ  2005-08-08 ®ñ  2005-08-04 πñ  2005-08-21 ∂ñ  2005-08-18 ≠ñ  2005-08-09 yô  2007-07-26 Æñ  2005-08-10 ¿ô  2007-10-05 qô  2007-07-18 xô  2007-07-25 „ô  2007-11-09 √ñ  2005-08-31 «ô  2007-10-12 ™ñ  2005-08-06 ±ñ  2005-08-13 ßô  2007-09-10 ªñ  2005-08-23 Œö  2008-07-01 ∏ñ  2005-08-20 tô  2007-07-21 ßñ  2005-08-03 ¡ñ  2005-08-29 Ωñ  2005-08-25 Ãñ  2005-09-09 îô  2007-08-22 ÷ñ  2005-09-19 –ñ  2005-09-13 jô  2007-07-11 oô  2007-07-16 |ô  2007-07-29 åô  2007-08-14 ˙ô  2007-12-02 Iö  2008-02-19 €ô  2007-11-01 Ûñ  2005-10-18 ˛ñ  2005-10-29 üô  2007-09-02 ‚ñ  2005-10-01 ˜ñ  2005-10-22 Òñ  2005-10-16 ëô  2007-08-19 ≠ô  2007-09-16 Ïñ  2005-10-11 iô  2007-07-10 gô  2007-07-08 ∑ö  2008-06-08 ö  2008-01-03 õô  2007-08-29 pô  2007-07-17 có  2006-02-07 Äô  2007-08-02 Íñ  2005-10-09 Èñ  2005-10-08 ƒô  2007-10-09 „ñ  2005-10-02 Ìñ  2005-10-12 Êñ  2005-10-05 çô  2007-08-15 Úñ  2005-10-17 ˇñ  2005-10-30 (ö  2008-01-17 ó  2005-11-04 ó  2005-11-14 ó  2005-11-18 ó  2005-11-01 ó  2005-11-03 
+ó  2005-11-10 ó  2005-11-20 ó  2005-11-25 Éô  2007-08-05 ∞ô  2007-09-19 ó  2005-11-06 "ö  2008-01-11 Öô  2007-08-07 ö  2007-12-26 óô  2007-08-25 Œô  2007-10-19 ó  2005-11-05 Çô  2007-08-04 ó  2005-11-28 ö  2007-12-21 bó  2006-02-06 ∫ö  2008-06-11 Üö  2008-04-20 ∆ô  2007-10-11 œö  2008-07-02 œô  2007-10-20 fô  2007-07-07 7ö  2008-02-01 iö  2008-03-22 dö  2008-03-17 ±ô  2007-09-20 Îô  2007-11-17 èô  2007-08-17 	ö  2007-12-17 áô  2007-08-09 ó  2005-11-13 •ô  2007-09-08 ˛ô  2007-12-06 πô  2007-09-28 ó  2005-11-15 lô  2007-07-13 ªô  2007-09-30 mô  2007-07-14 kô  2007-07-12 0ö  2008-01-25 vô  2007-07-23 ^ö  2008-03-11 ˚ô  2007-12-03 ‹ô  2007-11-02 ÿô  2007-10-29 Ùô  2007-11-26 Çö  2008-04-16 rô  2007-07-19 ıô  2007-11-27 Qö  2008-02-27 pó  2006-02-20 ﬁô  2007-11-04 †ô  2007-09-03 %ö  2008-01-14 xó  2006-02-28 Ñô  2007-08-06 ™ô  2007-09-13 Øô  2007-09-18 ‚ô  2007-11-08 Sö  2008-02-29 Aö  2008-02-11 îö  2008-05-04 vó  2006-02-26 gó  2006-02-11 ö  2007-12-25 ´ô  2007-09-14 Àô  2007-10-16 °ô  2007-09-04 ›ô  2007-11-03 1-2 Miles 0-1 Miles 2-5 Miles 5-10 Miles 10+ Miles                F êÄ    ¿@– a  P @A àAP¿!0  "@P								 JBê
+
+
+
+
+
+
+
+ JA–@!  	  åÇ0†B
+  ÃÇ@§  É@†“H@£L’HÜ£L	ê¿√4LU H¢2Ïê‰4LïêJ‰4@ïHÄ‰@’H»‰LHÂ@H@%2L ‹Ä7‡ H¿•2‡ó H–°2Ï H ¶2‡G  H¢2‡ ‹H7‡Gêà¡4@E      êÄ∆4@E!! !!!!ê¿∆4L""!""""ê «4LE##"#### ‹@7‡G$$#$$$$ Hä'2@E%%%%%%ÿÃÁ6Ï◊&&$&&&&! ‹7ÏG''%''''!H°2Ï((&(((( "H@®2@))'))))!#Hå(2@E**(****"$H‘H2DE++)++++#%Hå(2L,,*,,,,$& ‹F¬6‡--+----'êà°4@ï..,...%ê ®4LE//-///(ê©4@≈00..000)ê¿£4L11/111&*ÿJÈ6ÏW220/222'+êÄ†4L331333(,êÄ©4@ï4420444)- HÄ·2Ï◊5531555*.H÷)2@≈6642666+( H È2LE7753777,/ H@·2L886!8880HÍ2LE9974999-1  UJ8†::%5:::.2 HÄj2@;;84;;;/3 H‘j2LU<< 6<<<04 H∆a2L==97===15 Hk2L>>:.>>>26êNÎ4L??;(???37ê „4MU@@<8@@@48êÄÎ4LAA=9AAA59H¿+2@≈BB>:BBB6:HÿB2@CC?)CCC7;H,2DD@;DDD< ê¿a¥MUEEA<EEE8= ê k4@’FFB=FFF> êÿc4LGGC>GGG9? êÄe4LUHHD?HHH:@ ê f4@’IIE@III; ê@L4LUJJFAJJJ< êZF4LKKGKKK=> êb4PLLHBLLL%A ê a4MMI@MMM>B êÄl4 –NNJ'NNN?Cê÷Á4 –OOK"OOOD )9§PPLCPPP@E ¡L9§QQMDQQQA JeA®BRR;:RRRB $çI†“SSNESSSCF$SçI†BTTOFTTTDG ÿ¿b6@ïUUPUUUEH êÄ-4–VVQGVVVFI L¿M WWR;WWWGJMFI¿XXSHXXXHK ¿i ®YYT1YYYI n®RZZUIZZZJL H¿[[VJ[[[KM H@ \\W5\\\+N Z  @]]XK]]]LO Å§B^^YL^^^MPH\GDï__ZM___QHÄNL``[N```R  ' aa\-aaa/SH–!Lbb]ObbbNTHﬁ.D’cc*PcccOO Ä. dd^<dddPUHF&LUee_eee0V FG–ff`QfffQWo  PggaRgggRB @OPhhbShhh:X KÄiicTiii Y ÄA–jjUjjj$Z ¿AêkkdVkkkS[  @llelll\ äN0–mmWmmmT] éO0ênn nnn<[H@/LoofXoooU^H)DEppgpppV_HJ"DEqqhYqqq`⁄L0 rrirrrMaK N2LUssjZsss19KF2Dttk	tttDKO2Luul[uuubKÄABPEvvj\vvv0cHhíFïwwm]wwwWd HÑÆ2‰óxxn^xxxY   Ô¨Ryyo
+yyyXeK JBPzzp_zzzfK GBL{{q{{{1gK⁄CBP||r`|||hH“aL}}s<}}}YiHT@LU~~ta~~~(j î¿ 5DÖuZ'ê¿ÔLEÄÄvbÄÄÄ[kê LEÅÅ`cÅÅÅ\lêLLUÇÇw$ÇÇÇ]mê∆¢4LEÉÉ'dÉÉÉ^nê@Æ4D≈ÑÑxeÑÑÑ_oêñ∞4L’ÖÖ;fÖÖÖ`pÿ¿∞6‰◊ÜÜygÜÜÜ9\êŒ5Láázháááaqÿ±6Ïóàà{iàààbrêN‰4D’ââ|jâââcsêZÒ4LEääHääädtêÄË4D≈ãã}ããã;u H@¶2Ï◊åå~åååevÿF£6ÏóççkçççfwêÄÒ4D≈ééÄlééégxêÄ4DïèèÅ9èèèhyêÃÒ4LêêÇ&êêêi8ê Ú4Dïëë|mëëëj8êÜ‰4D’ííÉníííz  Ü·0¨RììÑoìììk{  «!§îîr_îîî$|  @·0¨ïïÖpïïïl}  @‚0§ññqñññ1~  Ã„0¨óóÜpóóó  	/§“òòáròòòmÄêTÚ4Lôô;]ôôônÅê4LEöö(öööoÇHàÚLUõõSsõõõpFHT„@ïúúàtúúúqÉH¿Ò@’ùùâbùùùrÑêVË4LEûûäcûûûsÖê‚Ô4Lüü{uüüütÜê⁄Ú4@’††ãv†††ufHLÂOï°°Pw°°°váH@Â@’¢¢<E¢¢¢w3H¿ÎL££å£££xàH ÛL§§çx§§§yâH@Û@ï••éy•••zäHÄ3@≈¶¶èz¶¶¶{ãH¿S2D’ßß|{ßßß|6 t§“®®ê|®®®}å Äs§í©©ëe©©©~ç@§™™/}™™™éò§B´´Å´´´Äè ÷í0†¨¨í~¨¨¨Åê ‘î0†B≠≠ì≠≠≠Çë µ)§“ÆÆîsÆÆÆÉí$¡®	®ØØïØØØÑìH@U2L∞∞ñt∞∞∞ÖîN†±±ó,±±±ÜÅ #Õ©9¨≤≤)≤≤≤áf !’ëH†≥≥ò|≥≥≥àï #WuI¨B¥¥lN¥¥¥âñ@)!§Bµµç'µµµäó !ÂHπß∂∂ô∂∂∂ãò @P0∞R∑∑|Ä∑∑∑å< úU0∞R∏∏ö&∏∏∏çô @E0∞Rππè9πππéf @D0∞R∫∫ì1∫∫∫èn  U0∞Rªª#Åªªªê" ü48∞BººõÇºººëö ¡/8†¬ΩΩúY∑Ω∑íõ ›$8∞ææùIΩæΩìò @U0∞øøûJæøæîú V@∞R¿¿áGø¿øïù J60®¡¡É¿¡¿ñJ ö20®¬¬ü1¡¬¡óû –50®B√√(9¬√¬òü  0@∞Bƒƒ†Ñ√ƒ√ô† Ä$@∞≈≈°Çƒ≈ƒö°@V†¬∆∆¢Ö≈∆≈õzÄU∞R««ü∆«∆úa Q∞B

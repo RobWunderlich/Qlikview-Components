@@ -1,0 +1,33 @@
+﻿///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$#,##0.00;($#,##0.00)';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+
+///$tab Includes
+$(Include=..\qvc_runtime\qvc.qvs)
+///$tab Data
+[Products]:
+LOAD * INLINE [
+ProductId, Name
+1, Ball
+2, Car
+3, Shoe
+4, House
+5, Ship
+]
+;
+	
+Call Qvc.InspectTable('Products'); 
+
+DROP TABLE [Products];
+
+
+///$tab Cleanup
+CALL Qvc.Cleanup;

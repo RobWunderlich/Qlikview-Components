@@ -1,0 +1,54 @@
+///$tab Vars
+LET Qvc.Test.v.Failed=dual('FAILED', 0);
+LET Qvc.Test.v.Success=dual('SUCCESS', -1);
+SET Qvc.Test.v.Count.Failed=0;
+SET Qvc.Test.v.Count.Success=0;
+
+SET Qvc.Test.MsgPrefix=#Qvc.Test#;
+
+SET Qvc.Log.v.WriteLogFile = -1;	// Turn on external logging
+
+// Set ErrorMode=0 for batch runs
+LET ErrorMode = if('$(vBatch)',0,1);
+SET vBatch=0;		// Reset batch switch for interactive
+
+LET vQve.Dir = if(len('$(vQve.Dir)')>0, '$(vQve.Dir)', 'C:\Program Files\QlikView10');
+///$tab AssertEqual
+SUB Qvc.Test.AssertEqual (_msg, _expected, _actual)
+	LET _test = if('$(_expected)' = '$(_actual)', '$(Qvc.Test.v.Success)', '$(Qvc.Test.v.Failed)');
+	SET _msg ='$(Qvc.Test.MsgPrefix) $(_test) $(_msg): Expected: "$(_expected)" Actual "$(_actual)"';
+	IF  '$(_test)' = '$(Qvc.Test.v.Success)' THEN 
+		LET Qvc.Test.v.Count.Success = $(Qvc.Test.v.Count.Success) + 1;
+		CALL Qvc.Log('$(_msg)');
+	ELSE
+		LET Qvc.Test.v.Count.Failed = $(Qvc.Test.v.Count.Failed) + 1;
+		CALL Qvc.LogError('$(_msg)');
+	ENDIF
+	SET _test=;
+END SUB
+
+///$tab AssertTrue/False
+SUB Qvc.Test.AssertTrue (_msg, _actual)
+	CALL Qvc.Test.AssertEqual ('$(_msg)', -1, '$(_actual)');
+END SUB
+
+SUB Qvc.Test.AssertFalse (_msg, _actual)
+	CALL Qvc.Test.AssertEqual ('$(_msg)', 0, '$(_actual)');
+END SUB
+
+///$tab RegisterTest
+SUB Qvc.Test.RegisterTest (_member)
+	CALL Qvc.Log('$(Qvc.Test.MsgPrefix) REGISTER $(_member)');
+END SUB
+///$tab Test Helpers
+SUB Qvc.Test.GetSum(retvar, field, table)
+	_temptab:
+	NOCONCATENATE LOAD sum([$(field)]) AS sum RESIDENT [$(table)];
+	LET $(retvar) = peek('sum');
+	DROP TABLE _temptab;
+END SUB
+///$tab Test.Cleanup
+REM Test for script errors - REM will fix missing prior semicolon;
+SUB Qvc.Test.Cleanup
+	CALL Qvc.Test.AssertFalse('ScriptErrorCount', $(ScriptErrorCount));		// Test for script errors
+END SUB

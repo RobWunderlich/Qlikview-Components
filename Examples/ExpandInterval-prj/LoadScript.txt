@@ -1,0 +1,108 @@
+﻿///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$#,##0.00;($#,##0.00)';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+
+///$tab Includes
+$(Must_Include=..\qvc_runtime\qvc.qvs)
+///$tab Basic
+// Simple example. Start date, no grouping dimensions
+Rates1:
+LOAD * INLINE [
+Rates1Date, Rates1Rate
+01/15/2012, 1.41
+01/20/2012, 1.42
+02/22/2012, 1.39
+03/24/2012, 1.48
+05/15/2012, 1.52
+]
+;
+// Snapshot for illustration purposes
+QUALIFY *;
+Rates1Input:
+LOAD * Resident Rates1;
+UNQUALIFY *;
+
+// Call ExpandInterval with Table, StartDate
+CALL Qvc.ExpandInterval ('Rates1', 'Rates1Date')
+///$tab Ending Date
+// Start and Ending dates provided, no grouping dimensions.
+// Note that there can be gaps between ranges.
+Rates3:
+LOAD * INLINE [
+Rates3Date, Rates3EndDate, Rates3Rate
+01/15/2012, 01/26/2012, 1.41
+01/27/2012, 02/21/2012, 1.42
+02/22/2012, 03/05/2012, 1.39
+03/24/2012, 04/01/2012, 1.48
+05/15/2012, 	, 1.52
+]
+;
+// Snapshot for illustration purposes
+QUALIFY *;
+Rates3Input:
+LOAD * Resident Rates3;
+UNQUALIFY *;
+
+// Call ExpandInterval with Table, StartDate, EndDate
+CALL Qvc.ExpandInterval ('Rates3', 'Rates3Date', 'Rates3EndDate')
+
+///$tab Two Grouping Fields
+// Grouped by two dimensions - Currency & Bank. No Ending date. 
+// An additional metric -- Discount.
+Rates2:
+LOAD * INLINE [
+Rates2Date, Rates2Rate, Rates2Currency, Rates2Discount, Rates2Bank
+01/15/2012, 1.40, EUR, 0, CITI
+01/15/2012, 1.41, EUR, 1, HSBC
+01/27/2012, 1.42, EUR, .2, CITI
+01/27/2012, 1.49, EUR, .2, HSBC
+01/20/2012, 0.13, INR, .3, HSBC
+01/28/2012, 0.14, INR, .3, HSBC
+02/05/2012, 0.15, INR, .5, HSBC
+03/24/2012, 1.48, EUR, .8, CITI
+05/17/2012, 1.52, EUR, .2, HSBC
+]
+;
+
+QUALIFY *;
+Rates2Input:
+LOAD * Resident Rates2;
+UNQUALIFY *;
+
+// Nullify the RangeCeiling variable. This will cause the range to stop at the high Rates2Date value.
+SET Qvc.ExpandInterval.v.RangeCeiling=;	
+// Call ExpandInterval with Table, StartDate, '', Grouping Fields
+CALL Qvc.ExpandInterval ('Rates2', 'Rates2Date', '', 'Rates2Currency, Rates2Bank')
+///$tab EndDate + Grouping
+// Grouped by two dimensions - Currency & Bank. No Ending date. 
+// An additional metric -- Discount.
+Rates4:
+LOAD * INLINE [
+Rates4Date, Rates4EndDate, Rates4Rate, Rates4Currency, Rates4Discount, Rates4Bank
+01/15/2012, 01/22/2012, 1.40, EUR, 0, CITI
+01/15/2012, 01/22/2012, 1.41, EUR, 1, HSBC
+01/27/2012, 02/05/2012, 1.42, EUR, .2, CITI
+02/01/2012, 02/15/2012, 1.49, EUR, .2, HSBC
+
+]
+;
+
+QUALIFY *;
+Rates4Input:
+LOAD * Resident Rates4;
+UNQUALIFY *;
+
+// Nullify the RangeCeiling variable. This will cause the range to stop at the high Rates4Date value.
+SET Qvc.ExpandInterval.v.RangeCeiling=;	
+// Call ExpandInterval with Table, StartDate, '', Grouping Fields
+CALL Qvc.ExpandInterval ('Rates4', 'Rates4Date', 'Rates4EndDate', 'Rates4Currency, Rates4Bank')
+///$tab Cleanup
+CALL Qvc.Cleanup;

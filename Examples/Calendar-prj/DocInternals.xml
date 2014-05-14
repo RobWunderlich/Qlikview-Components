@@ -1,0 +1,483 @@
+﻿<DocInternals>
+  <AlwaysLoose>
+    <bool>false</bool>
+    <bool>false</bool>
+    <bool>false</bool>
+    <bool>false</bool>
+    <bool>false</bool>
+    <bool>false</bool>
+    <bool>false</bool>
+    <bool>false</bool>
+  </AlwaysLoose>
+  <FieldSrcTables>
+    <String>6</String>
+    <String>2</String>
+    <String>Sales</String>
+    <String>MasterCalendar</String>
+    <String>7</String>
+    <String>2</String>
+    <String>Sales</String>
+    <String>Produced Calendar</String>
+    <String>8</String>
+    <String>1</String>
+    <String>Sales</String>
+    <String>9</String>
+    <String>1</String>
+    <String>Sales</String>
+    <String>10</String>
+    <String>1</String>
+    <String>Sales</String>
+    <String>11</String>
+    <String>1</String>
+    <String>MasterCalendar</String>
+    <String>12</String>
+    <String>1</String>
+    <String>MasterCalendar</String>
+    <String>13</String>
+    <String>1</String>
+    <String>MasterCalendar</String>
+    <String>14</String>
+    <String>1</String>
+    <String>MasterCalendar</String>
+    <String>15</String>
+    <String>1</String>
+    <String>MasterCalendar</String>
+    <String>16</String>
+    <String>1</String>
+    <String>MasterCalendar</String>
+    <String>17</String>
+    <String>1</String>
+    <String>MasterCalendar</String>
+    <String>18</String>
+    <String>1</String>
+    <String>MasterCalendar</String>
+    <String>19</String>
+    <String>1</String>
+    <String>MasterCalendar</String>
+    <String>20</String>
+    <String>1</String>
+    <String>MasterCalendar</String>
+    <String>21</String>
+    <String>1</String>
+    <String>Produced Calendar</String>
+    <String>22</String>
+    <String>1</String>
+    <String>Produced Calendar</String>
+    <String>23</String>
+    <String>1</String>
+    <String>Produced Calendar</String>
+    <String>24</String>
+    <String>1</String>
+    <String>Produced Calendar</String>
+    <String>25</String>
+    <String>1</String>
+    <String>Produced Calendar</String>
+    <String>26</String>
+    <String>1</String>
+    <String>Produced Calendar</String>
+    <String>27</String>
+    <String>1</String>
+    <String>Produced Calendar</String>
+    <String>28</String>
+    <String>1</String>
+    <String>Produced Calendar</String>
+    <String>29</String>
+    <String>1</String>
+    <String>Produced Calendar</String>
+    <String>30</String>
+    <String>1</String>
+    <String>Produced Calendar</String>
+    <String>31</String>
+    <String>1</String>
+    <String>Produced Calendar</String>
+    <String>32</String>
+    <String>1</String>
+    <String>Produced Calendar</String>
+    <String>33</String>
+    <String>1</String>
+    <String>Island Calendar</String>
+    <String>34</String>
+    <String>1</String>
+    <String>Island Calendar</String>
+    <String>35</String>
+    <String>1</String>
+    <String>Island Calendar</String>
+    <String>36</String>
+    <String>1</String>
+    <String>Island Calendar</String>
+    <String>37</String>
+    <String>1</String>
+    <String>Island Calendar</String>
+    <String>38</String>
+    <String>1</String>
+    <String>Island Calendar</String>
+    <String>39</String>
+    <String>1</String>
+    <String>Island Calendar</String>
+    <String>40</String>
+    <String>1</String>
+    <String>Island Calendar</String>
+    <String>41</String>
+    <String>1</String>
+    <String>Island Calendar</String>
+    <String>42</String>
+    <String>1</String>
+    <String>Island Calendar</String>
+    <String>43</String>
+    <String>1</String>
+    <String>Island Calendar</String>
+    <String>44</String>
+    <String>1</String>
+    <String>Island Calendar</String>
+    <String>45</String>
+    <String>1</String>
+    <String>Island Calendar</String>
+    <String>46</String>
+    <String>1</String>
+    <String>Fiscal Calendar</String>
+    <String>47</String>
+    <String>1</String>
+    <String>Fiscal Calendar</String>
+    <String>48</String>
+    <String>1</String>
+    <String>Fiscal Calendar</String>
+    <String>49</String>
+    <String>1</String>
+    <String>Fiscal Calendar</String>
+    <String>50</String>
+    <String>1</String>
+    <String>Fiscal Calendar</String>
+    <String>51</String>
+    <String>1</String>
+    <String>Fiscal Calendar</String>
+    <String>52</String>
+    <String>1</String>
+    <String>Fiscal Calendar</String>
+    <String>53</String>
+    <String>1</String>
+    <String>Fiscal Calendar</String>
+    <String>54</String>
+    <String>1</String>
+    <String>Fiscal Calendar</String>
+    <String>55</String>
+    <String>1</String>
+    <String>Fiscal Calendar</String>
+    <String>56</String>
+    <String>1</String>
+    <String>Fiscal Calendar</String>
+    <String>57</String>
+    <String>1</String>
+    <String>Fiscal Calendar</String>
+    <String>58</String>
+    <String>1</String>
+    <String>Fiscal Calendar</String>
+  </FieldSrcTables>
+  <TableViewData>
+    <Pos></Pos>
+    <CtlInfo>
+      <InternalView>
+        <Tables>
+          <TableViewTableWinSaveInfo>
+            <Pos>
+              <Left>1181</Left>
+              <Top>482</Top>
+              <Width>100</Width>
+              <Height>61</Height>
+            </Pos>
+            <Caption>tabA</Caption>
+          </TableViewTableWinSaveInfo>
+          <TableViewTableWinSaveInfo>
+            <Pos>
+              <Left>639</Left>
+              <Top>473</Top>
+              <Width>100</Width>
+              <Height>78</Height>
+            </Pos>
+            <Caption>tabB</Caption>
+          </TableViewTableWinSaveInfo>
+          <TableViewTableWinSaveInfo>
+            <Pos>
+              <Left>869</Left>
+              <Top>362</Top>
+              <Width>100</Width>
+              <Height>44</Height>
+            </Pos>
+            <Caption>Log</Caption>
+          </TableViewTableWinSaveInfo>
+          <TableViewTableWinSaveInfo>
+            <Pos>
+              <Left>659</Left>
+              <Top>400</Top>
+              <Width>198</Width>
+              <Height>208</Height>
+            </Pos>
+            <Caption>MasterCalendar</Caption>
+          </TableViewTableWinSaveInfo>
+          <TableViewTableWinSaveInfo>
+            <Pos>
+              <Left>1023</Left>
+              <Top>309</Top>
+              <Width>100</Width>
+              <Height>95</Height>
+            </Pos>
+            <Caption>Sales</Caption>
+          </TableViewTableWinSaveInfo>
+          <TableViewTableWinSaveInfo>
+            <Pos>
+              <Left>511</Left>
+              <Top>441</Top>
+              <Width>100</Width>
+              <Height>197</Height>
+            </Pos>
+            <Caption>Calendar</Caption>
+          </TableViewTableWinSaveInfo>
+          <TableViewTableWinSaveInfo>
+            <Pos>
+              <Left>348</Left>
+              <Top>264</Top>
+              <Width>179</Width>
+              <Height>226</Height>
+            </Pos>
+            <Caption>Produced Calendar</Caption>
+          </TableViewTableWinSaveInfo>
+          <TableViewTableWinSaveInfo>
+            <Pos>
+              <Left>1220</Left>
+              <Top>127</Top>
+              <Width>187</Width>
+              <Height>180</Height>
+            </Pos>
+            <Caption>Island Calendar</Caption>
+          </TableViewTableWinSaveInfo>
+          <TableViewTableWinSaveInfo>
+            <Pos>
+              <Left>36</Left>
+              <Top>41</Top>
+              <Width>276</Width>
+              <Height>208</Height>
+            </Pos>
+            <Caption>Fiscal Calendar</Caption>
+          </TableViewTableWinSaveInfo>
+        </Tables>
+        <BroomPoints></BroomPoints>
+        <ConnectionPoints></ConnectionPoints>
+        <ZoomFactor>3FF0000000000000</ZoomFactor>
+      </InternalView>
+      <SourceView></SourceView>
+    </CtlInfo>
+    <Mode>0</Mode>
+  </TableViewData>
+  <Bookmarks></Bookmarks>
+  <SavedByVersion>11.20.11922.0409</SavedByVersion>
+  <ForceBackEndMacroExecution>false</ForceBackEndMacroExecution>
+  <FieldTags>
+    <ScriptBased>
+      <FieldTagData>
+        <Tag>$key</Tag>
+        <FieldNames>
+          <String>$Field</String>
+          <String>$Table</String>
+          <String>Date</String>
+          <String>Produced Date</String>
+        </FieldNames>
+      </FieldTagData>
+      <FieldTagData>
+        <Tag>$hidden</Tag>
+        <FieldNames>
+          <String>$Field</String>
+          <String>$Table</String>
+          <String>$Rows</String>
+          <String>$Fields</String>
+          <String>$FieldNo</String>
+          <String>$Info</String>
+        </FieldNames>
+      </FieldTagData>
+      <FieldTagData>
+        <Tag>$system</Tag>
+        <FieldNames>
+          <String>$Field</String>
+          <String>$Table</String>
+          <String>$Rows</String>
+          <String>$Fields</String>
+          <String>$FieldNo</String>
+          <String>$Info</String>
+        </FieldNames>
+      </FieldTagData>
+      <FieldTagData>
+        <Tag>$ascii</Tag>
+        <FieldNames>
+          <String>$Field</String>
+          <String>$Table</String>
+          <String>$Info</String>
+          <String>Quarter</String>
+          <String>Produced Quarter</String>
+          <String>Produced Year-Week</String>
+          <String>Island Quarter</String>
+          <String>Island Year-Week</String>
+          <String>Fiscal Quarter</String>
+          <String>Fiscal Year-Week</String>
+        </FieldNames>
+      </FieldTagData>
+      <FieldTagData>
+        <Tag>$text</Tag>
+        <FieldNames>
+          <String>$Field</String>
+          <String>$Table</String>
+          <String>$Info</String>
+          <String>Quarter</String>
+          <String>Produced Quarter</String>
+          <String>Produced Year-Week</String>
+          <String>Island Quarter</String>
+          <String>Island Year-Week</String>
+          <String>Fiscal Quarter</String>
+          <String>Fiscal Year-Week</String>
+        </FieldNames>
+      </FieldTagData>
+      <FieldTagData>
+        <Tag>$numeric</Tag>
+        <FieldNames>
+          <String>$Rows</String>
+          <String>$Fields</String>
+          <String>$FieldNo</String>
+          <String>Date</String>
+          <String>Produced Date</String>
+          <String>OrderID</String>
+          <String>OrderQty</String>
+          <String>Day</String>
+          <String>Weekday</String>
+          <String>Year</String>
+          <String>Month</String>
+          <String>_DateSerial</String>
+          <String>_MonthSerial</String>
+          <String>_QuarterSerial</String>
+          <String>_WeekSerial</String>
+          <String>Year-Month</String>
+          <String>Produced Day of Month</String>
+          <String>Produced Weekday</String>
+          <String>Produced Year</String>
+          <String>Produced Month</String>
+          <String>Produced _DateSerial</String>
+          <String>Produced _MonthSerial</String>
+          <String>Produced _QuarterSerial</String>
+          <String>Produced _WeekSerial</String>
+          <String>Produced Week</String>
+          <String>Produced Year-Month</String>
+          <String>Island Date</String>
+          <String>Island Day</String>
+          <String>Island Weekday</String>
+          <String>Island Year</String>
+          <String>Island Month</String>
+          <String>Island _DateSerial</String>
+          <String>Island _MonthSerial</String>
+          <String>Island _QuarterSerial</String>
+          <String>Island _WeekSerial</String>
+          <String>Island Week</String>
+          <String>Island Year-Month</String>
+          <String>Fiscal Date</String>
+          <String>Fiscal Day</String>
+          <String>Fiscal Weekday</String>
+          <String>Fiscal Year</String>
+          <String>Fiscal Month</String>
+          <String>Fiscal _DateSerial</String>
+          <String>Fiscal _MonthSerial</String>
+          <String>Fiscal _QuarterSerial</String>
+          <String>Fiscal _WeekSerial</String>
+          <String>Fiscal Week</String>
+          <String>Fiscal Year-Month</String>
+        </FieldNames>
+      </FieldTagData>
+      <FieldTagData>
+        <Tag>$integer</Tag>
+        <FieldNames>
+          <String>$Rows</String>
+          <String>$Fields</String>
+          <String>$FieldNo</String>
+          <String>Date</String>
+          <String>Produced Date</String>
+          <String>OrderID</String>
+          <String>OrderQty</String>
+          <String>Day</String>
+          <String>Weekday</String>
+          <String>Year</String>
+          <String>Month</String>
+          <String>_DateSerial</String>
+          <String>_MonthSerial</String>
+          <String>_QuarterSerial</String>
+          <String>_WeekSerial</String>
+          <String>Year-Month</String>
+          <String>Produced Day of Month</String>
+          <String>Produced Weekday</String>
+          <String>Produced Year</String>
+          <String>Produced Month</String>
+          <String>Produced _DateSerial</String>
+          <String>Produced _MonthSerial</String>
+          <String>Produced _QuarterSerial</String>
+          <String>Produced _WeekSerial</String>
+          <String>Produced Week</String>
+          <String>Produced Year-Month</String>
+          <String>Island Date</String>
+          <String>Island Day</String>
+          <String>Island Weekday</String>
+          <String>Island Year</String>
+          <String>Island Month</String>
+          <String>Island _DateSerial</String>
+          <String>Island _MonthSerial</String>
+          <String>Island _QuarterSerial</String>
+          <String>Island _WeekSerial</String>
+          <String>Island Week</String>
+          <String>Island Year-Month</String>
+          <String>Fiscal Date</String>
+          <String>Fiscal Day</String>
+          <String>Fiscal Weekday</String>
+          <String>Fiscal Year</String>
+          <String>Fiscal Month</String>
+          <String>Fiscal _DateSerial</String>
+          <String>Fiscal _MonthSerial</String>
+          <String>Fiscal _QuarterSerial</String>
+          <String>Fiscal _WeekSerial</String>
+          <String>Fiscal Week</String>
+          <String>Fiscal Year-Month</String>
+        </FieldNames>
+      </FieldTagData>
+      <FieldTagData>
+        <Tag>$timestamp</Tag>
+        <FieldNames>
+          <String>Date</String>
+          <String>Produced Date</String>
+          <String>_DateSerial</String>
+          <String>Year-Month</String>
+          <String>Produced _DateSerial</String>
+          <String>Produced Year-Month</String>
+          <String>Island Date</String>
+          <String>Island _DateSerial</String>
+          <String>Island Year-Month</String>
+          <String>Fiscal Date</String>
+          <String>Fiscal _DateSerial</String>
+          <String>Fiscal Year-Month</String>
+        </FieldNames>
+      </FieldTagData>
+      <FieldTagData>
+        <Tag>$date</Tag>
+        <FieldNames>
+          <String>Date</String>
+          <String>Produced Date</String>
+          <String>_DateSerial</String>
+          <String>Year-Month</String>
+          <String>Produced _DateSerial</String>
+          <String>Produced Year-Month</String>
+          <String>Island Date</String>
+          <String>Island _DateSerial</String>
+          <String>Island Year-Month</String>
+          <String>Fiscal Date</String>
+          <String>Fiscal _DateSerial</String>
+          <String>Fiscal Year-Month</String>
+        </FieldNames>
+      </FieldTagData>
+    </ScriptBased>
+    <Interactive></Interactive>
+  </FieldTags>
+  <FieldComments></FieldComments>
+  <TableComments></TableComments>
+  <CreatePrjFolder>false</CreatePrjFolder>
+  <LinkedTables></LinkedTables>
+</DocInternals>

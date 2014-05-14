@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+ <QvdTableHeader>
+   <QvBuildNo>12018</QvBuildNo>
+   <CreatorDoc>C:\QVC_Root\trunk\Examples\DbExtract.qvw</CreatorDoc>
+   <CreateUtcTime>2013-11-28 04:16:44</CreateUtcTime>
+   <SourceCreateUtcTime></SourceCreateUtcTime>
+   <SourceFileUtcTime></SourceFileUtcTime>
+   <SourceFileSize>-1</SourceFileSize>
+   <StaleUtcTime></StaleUtcTime>
+   <TableName>Orders</TableName>
+   <Fields>
+     <QvdFieldHeader>
+       <FieldName>SalesOrderID</FieldName>
+       <BitOffset>0</BitOffset>
+       <BitWidth>7</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>,</Dec>
+         <Thou>.</Thou>
+       </NumberFormat>
+       <NoOfSymbols>91</NoOfSymbols>
+       <Offset>0</Offset>
+       <Length>455</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$date</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>RevisionNumber</FieldName>
+       <BitOffset>0</BitOffset>
+       <BitWidth>0</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>,</Dec>
+         <Thou>.</Thou>
+       </NumberFormat>
+       <NoOfSymbols>1</NoOfSymbols>
+       <Offset>455</Offset>
+       <Length>5</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>OrderDate</FieldName>
+       <BitOffset>72</BitOffset>
+       <BitWidth>4</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>DATE</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>14</NoOfSymbols>
+       <Offset>460</Offset>
+       <Length>70</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$date</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>DueDate</FieldName>
+       <BitOffset>104</BitOffset>
+       <BitWidth>4</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>DATE</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>14</NoOfSymbols>
+       <Offset>530</Offset>
+       <Length>70</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$date</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>ShipDate</FieldName>
+       <BitOffset>108</BitOffset>
+       <BitWidth>4</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>DATE</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>14</NoOfSymbols>
+       <Offset>600</Offset>
+       <Length>70</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$date</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Status</FieldName>
+       <BitOffset>0</BitOffset>
+       <BitWidth>0</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>,</Dec>
+         <Thou>.</Thou>
+       </NumberFormat>
+       <NoOfSymbols>1</NoOfSymbols>
+       <Offset>670</Offset>
+       <Length>5</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>OnlineOrderFlag</FieldName>
+       <BitOffset>124</BitOffset>
+       <BitWidth>1</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>,</Dec>
+         <Thou>.</Thou>
+       </NumberFormat>
+       <NoOfSymbols>2</NoOfSymbols>
+       <Offset>675</Offset>
+       <Length>10</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>SalesOrderNumber</FieldName>
+       <BitOffset>25</BitOffset>
+       <BitWidth>7</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>91</NoOfSymbols>
+       <Offset>685</Offset>
+       <Length>819</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>PurchaseOrderNumber</FieldName>
+       <BitOffset>7</BitOffset>
+       <BitWidth>6</BitWidth>
+       <Bias>-2</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>38</NoOfSymbols>
+       <Offset>1504</Offset>
+       <Length>553</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>AccountNumber</FieldName>
+       <BitOffset>32</BitOffset>
+       <BitWidth>7</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>91</NoOfSymbols>
+       <Offset>2057</Offset>
+       <Length>1456</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>CustomerID</FieldName>
+       <BitOffset>50</BitOffset>
+       <BitWidth>7</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>,</Dec>
+         <Thou>.</Thou>
+       </NumberFormat>
+       <NoOfSymbols>91</NoOfSymbols>
+       <Offset>3513</Offset>
+       <Length>455</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>ContactID</FieldName>
+       <BitOffset>57</BitOffset>
+       <BitWidth>7</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>,</Dec>
+         <Thou>.</Thou>
+       </NumberFormat>
+       <NoOfSymbols>91</NoOfSymbols>
+       <Offset>3968</Offset>
+       <Length>455</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>SalesPersonID</FieldName>
+       <BitOffset>112</BitOffset>
+       <BitWidth>4</BitWidth>
+       <Bias>-2</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>,</Dec>
+         <Thou>.</Thou>
+       </NumberFormat>
+       <NoOfSymbols>9</NoOfSymbols>
+       <Offset>4423</Offset>
+       <Length>45</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>TerritoryID</FieldName>
+       <BitOffset>116</BitOffset>
+       <BitWidth>4</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>,</Dec>
+         <Thou>.</Thou>
+       </NumberFormat>
+       <NoOfSymbols>10</NoOfSymbols>
+       <Offset>4468</Offset>
+       <Length>50</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>BillToAddressID</FieldName>
+       <BitOffset>64</BitOffset>
+       <BitWidth>8</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>,</Dec>
+         <Thou>.</Thou>
+       </NumberFormat>
+       <NoOfSymbols>91</NoOfSymbols>
+       <Offset>4518</Offset>
+       <Length>455</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>ShipToAddressID</FieldName>
+       <BitOffset>76</BitOffset>
+       <BitWidth>7</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>,</Dec>
+         <Thou>.</Thou>
+       </NumberFormat>
+       <NoOfSymbols>91</NoOfSymbols>
+       <Offset>4973</Offset>
+       <Length>455</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>ShipMethodID</FieldName>
+       <BitOffset>125</BitOffset>
+       <BitWidth>1</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>,</Dec>
+         <Thou>.</Thou>
+       </NumberFormat>
+       <NoOfSymbols>2</NoOfSymbols>
+       <Offset>5428</Offset>
+       <Length>10</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>CreditCardID</FieldName>
+       <BitOffset>83</BitOffset>
+       <BitWidth>7</BitWidth>
+       <Bias>-2</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>,</Dec>
+         <Thou>.</Thou>
+       </NumberFormat>
+       <NoOfSymbols>89</NoOfSymbols>
+       <Offset>5438</Offset>
+       <Length>445</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>CreditCardApprovalCode</FieldName>
+       <BitOffset>90</BitOffset>
+       <BitWidth>7</BitWidth>
+       <Bias>-2</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>89</NoOfSymbols>
+       <Offset>5883</Offset>
+       <Length>1316</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>CurrencyRateID</FieldName>
+       <BitOffset>39</BitOffset>
+       <BitWidth>5</BitWidth>
+       <Bias>-2</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>,</Dec>
+         <Thou>.</Thou>
+       </NumberFormat>
+       <NoOfSymbols>25</NoOfSymbols>
+       <Offset>7199</Offset>
+       <Length>125</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>SubTotal</FieldName>
+       <BitOffset>13</BitOffset>
+       <BitWidth>6</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>MONEY</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>.</Dec>
+         <Thou>,</Thou>
+       </NumberFormat>
+       <NoOfSymbols>41</NoOfSymbols>
+       <Offset>7324</Offset>
+       <Length>369</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>TaxAmt</FieldName>
+       <BitOffset>19</BitOffset>
+       <BitWidth>6</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>MONEY</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>.</Dec>
+         <Thou>,</Thou>
+       </NumberFormat>
+       <NoOfSymbols>41</NoOfSymbols>
+       <Offset>7693</Offset>
+       <Length>369</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Freight</FieldName>
+       <BitOffset>44</BitOffset>
+       <BitWidth>6</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>MONEY</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>.</Dec>
+         <Thou>,</Thou>
+       </NumberFormat>
+       <NoOfSymbols>41</NoOfSymbols>
+       <Offset>8062</Offset>
+       <Length>369</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>TotalDue</FieldName>
+       <BitOffset>97</BitOffset>
+       <BitWidth>7</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>MONEY</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>.</Dec>
+         <Thou>,</Thou>
+       </NumberFormat>
+       <NoOfSymbols>41</NoOfSymbols>
+       <Offset>8431</Offset>
+       <Length>369</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>ModifiedDate</FieldName>
+       <BitOffset>120</BitOffset>
+       <BitWidth>4</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>DATE</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>14</NoOfSymbols>
+       <Offset>8800</Offset>
+       <Length>70</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$date</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Orders.ExtractTimestamp</FieldName>
+       <BitOffset>126</BitOffset>
+       <BitWidth>2</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>TIMESTAMP</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt>M/D/YYYY h:mm:ss[.fff] TT</Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>2</NoOfSymbols>
+       <Offset>8870</Offset>
+       <Length>18</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+   </Fields>
+   <Compression></Compression>
+   <RecordByteSize>16</RecordByteSize>
+   <NoOfRecords>91</NoOfRecords>
+   <Offset>8888</Offset>
+   <Length>1456</Length>
+   <Lineage>
+     <LineageInfo>
+       <Discriminator>AUTOGENERATE</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>INLINE</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=DbExtract\AdventureWorksSample.mdb;</Discriminator>
+       <Statement>LOAD *, now(1) as ExtractTimestamp;SQL SELECT * FROM SalesOrderHeader
+	WHERE ModifiedDate &gt;= #2001-07-21 00:00:00#	
+	</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>Provider=Microsoft.Jet.OLEDB.4.0;Data Source=DbExtract\AdventureWorksSample.mdb;</Discriminator>
+       <Statement>SQL SELECT * FROM SalesOrderHeader
+	WHERE ModifiedDate &gt;= #2001-07-21 00:00:00#	
+	</Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>STORE - DbExtract\QVD\Orders.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>c:\qvc_root\trunk\examples\dbextract\adventureworks_connect.txt</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>c:\qvc_root\trunk\examples\dbextract\qvd\orders.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>c:\qvc_root\trunk\examples\dbextract\sampleextractlist.xls</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+   </Lineage>
+   <Comment>One row for each Order</Comment>
+ </QvdTableHeader>
+ „™  ‰™  Â™  ã™  å™  ç™  é™  è™  ê™  ë™  í™  ì™  î™  ï™  ñ™  ó™  ò™  ô™  ö™  õ™  ú™  ù™  û™  ü™  †™  °™  ¢™  £™  §™  •™  ¶™  ß™  ®™  ©™  ™™  ´™  ¨™  ≠™  Æ™  Ø™  ∞™  ±™  ≤™  ≥™  ¥™  µ™  ∂™  ∑™  ∏™  π™  ∫™  ª™  º™  Ω™  æ™  ø™  ¿™  ¡™  ¬™  √™  ƒ™  ≈™  ∆™  «™  »™  …™   ™  À™  Ã™  Õ™  Œ™  œ™  –™  —™  “™  ”™  ‘™  ’™  ÷™  ◊™  ÿ™  Ÿ™  ⁄™  €™  ‹™  ›™  ﬁ™  ﬂ™  ‡™  ·™  ‚™     ﬁê  —ê  “ê  ”ê  ‘ê  ’ê  ÷ê  ◊ê  ÿê  Ÿê  ⁄ê  €ê  ‹ê  ›ê  Íê  ›ê  ﬁê  ﬂê  ‡ê  ·ê  ‚ê  „ê  ‰ê  Âê  Êê  Áê  Ëê  Èê  Âê  ÿê  Ÿê  ⁄ê  €ê  ‹ê  ›ê  ﬁê  ﬂê  ‡ê  ·ê  ‚ê  „ê  ‰ê     ˇˇˇˇ    SO43747 SO43748 SO43749 SO43659 SO43660 SO43661 SO43662 SO43663 SO43664 SO43665 SO43666 SO43667 SO43668 SO43669 SO43670 SO43671 SO43672 SO43673 SO43674 SO43675 SO43676 SO43677 SO43678 SO43679 SO43680 SO43681 SO43682 SO43683 SO43684 SO43685 SO43686 SO43687 SO43688 SO43689 SO43690 SO43691 SO43692 SO43693 SO43694 SO43695 SO43696 SO43697 SO43698 SO43699 SO43700 SO43701 SO43702 SO43703 SO43704 SO43705 SO43706 SO43707 SO43708 SO43709 SO43710 SO43711 SO43712 SO43713 SO43714 SO43715 SO43716 SO43717 SO43718 SO43719 SO43720 SO43721 SO43722 SO43723 SO43724 SO43725 SO43726 SO43727 SO43728 SO43729 SO43730 SO43731 SO43732 SO43733 SO43734 SO43735 SO43736 SO43737 SO43738 SO43739 SO43740 SO43741 SO43742 SO43743 SO43744 SO43745 SO43746 PO522145787 PO18850127500 PO18473189620 PO18444174044 PO18009186470 PO16617121983 PO16588191572 PO16008173883 PO15428132599 PO14732180295 PO14123169936 PO14384116310 PO13978119376 PO13862153537 PO13775141242 PO12760141756 PO12412186464 PO11861165059 PO11049174786 PO10817150168 PO10527142759 PO10730130087 PO1189177803 PO1566124200 PO2552113807 PO3393188842 PO4176124783 PO5075125561 PO4959110829 PO5365136389 PO5626159507 PO6235146326 PO6409111675 PO7859187017 PO8120182325 PO9657130250 PO10179176559 PO9947131800 10-4030-027623 10-4030-027625 10-4030-027636 10-4020-000676 10-4020-000117 10-4020-000442 10-4020-000227 10-4020-000510 10-4020-000397 10-4020-000146 10-4020-000511 10-4020-000646 10-4020-000514 10-4020-000578 10-4020-000504 10-4020-000200 10-4020-000119 10-4020-000618 10-4020-000083 10-4020-000670 10-4020-000017 10-4020-000679 10-4020-000203 10-4020-000480 10-4020-000491 10-4020-000423 10-4020-000486 10-4020-000506 10-4020-000549 10-4020-000458 10-4020-000344 10-4020-000269 10-4020-000161 10-4020-000166 10-4020-000431 10-4020-000292 10-4020-000221 10-4020-000485 10-4020-000315 10-4020-000027 10-4020-000603 10-4030-021768 10-4030-028389 10-4030-025863 10-4030-014501 10-4030-011003 10-4030-027645 10-4030-016624 10-4030-011005 10-4030-011011 10-4030-027621 10-4030-027616 10-4030-020042 10-4030-016351 10-4030-016517 10-4030-027606 10-4030-013513 10-4030-027601 10-4030-013591 10-4030-016483 10-4030-016529 10-4030-025249 10-4030-027668 10-4030-027612 10-4030-013264 10-4030-013590 10-4030-013581 10-4030-014520 10-4030-016520 10-4030-013258 10-4030-014560 10-4030-016607 10-4030-027666 10-4030-011238 10-4030-025861 10-4030-016629 10-4030-011025 10-4030-027577 10-4030-027604 10-4030-016522 10-4030-011002 10-4030-013261 10-4030-011606 10-4030-013563 10-4030-016527 10-4030-027671 10-4030-013576 10-4030-011007 10-4030-016631 10-4030-016514 10-4030-016616 Ák  Èk  Ùk  §  u   ∫  „   ˛  ç  í   ˇ  Ü    B  ¯  »   w   j  S   û     ß  À   ‡  Î  ß  Ê  ˙  %     X    °   ¶   Ø  $  ›   Â  ;     [  U  Ân  e  •8  ˚*  ˝k  @  ˝*  +  Âk  ‡k  JN  ﬂ?  Ö@  ÷k  …4  —k  5  c@  ë@  °b  l  ‹k  –3  5  5  ∏8  à@   3  ‡8  ﬂ@  l  Ê+  e  ı@  +  πk  ‘k  ä@  ˙*  Õ3  V-  ˚4  è@  l  5  ˇ*  ˜@  Ç@  Ë@   C  §  Y  z  ÿ     4  a      r   <    ó   '  c   ¿  L  é  É   |  l  y  ø  5     Ã   3     €  ^  é   ì   	  ∫   3   g   2     K     ì  ﬁ3  9  &  ´(  >)  ™1  7  .  2D  e  -+  ~!     <  g!  ›.  Û  ÷  íG  w5  ≈  f<  ≥  "  Ù/  (7  ?  H=  5  Á>  #  ˝)   
+  '6  X  ı-  j9  *4  å<  Â(  öM  ô?  ûK  `H  É  X+    #
+  $;  ìG                                         	   
+      ij  A  ÷E  Ÿ  ô    ‚  1  l  Q  2  u      *  W  –  5     w  Û  ,  ˝    -  ª  (  y  À  æ  g      B  !  P     '  Ø  è  —  lZ  `  ùL  6O  …O  8X  ü]  ô>  —j  –3  ªQ  ˚G  6  fc  ‰G  kU  O.  A;  5n  \  !.  c  6  òH  ÇV  ∂]  §1  ‰c  î[  Öe  é<  àP  Ñ0  µ\  √6  ÉT  ¸_  ∏Z  (c  pO  Lt  7f  Nr  o  Ï2  ÊQ  m2  á0  ∫a  6n  ij  A  ÷E  Ÿ  ô    ‚  1  l  Q  2  u      *  W  –  5     w  Û  ,  ˝    -  ª  (  y  À  æ  g      B  !  P     '  Ø  è  —  lZ  `  ùL  6O  …O  8X  ü]  ô>  —j  –3  ªQ  ˚G  6  fc  ‰G  kU  O.  A;  5n  \  !.  c  6  òH  ÇV  ∂]  §1  ‰c  î[  Öe  é<  àP  Ñ0  µ\  √6  ÉT  ¸_  ∏Z  (c  pO  Lt  7f  Nr  o  Ï2  ÊQ  m2  á0  ∫a  6n        ¨>  d:  ÿ0  ô?  Ú  B  ÿ(  ‚  &  Ä;  %4  Ç(    ≤<  aF  }5  å  â  K  n.  ÈF  Œ6  Â  ?  ˝  µ  L   ı2    ◊	  9  £  o0  ˛2  !	  Ú     È"  ´  ≥'  z  ﬂ  Ò@  §  <2  é+  ó  %  ƒ  %  †*  }J    §<  Ñ  „  E  ∫@  [>  1  Ò  D  È  n  Õ
+  Æ.  ü/  5B  ¿    U!  è,  =  L
+  4  ﬁ7  Ç*  h)  <  ~  à  Â.  ŸF  G  fC  
+  ¥2  ö%    1230190Vi82952 430191Vi77442 130192Vi64692 105041Vi84182 115213Vi29411 85274Vi6854 125295Vi53935 45303Vi22691 95555Vi4081 35568Vi78804 105623Vi69217 55680Vi53503 85817Vi8045 25877Vi80261 105888Vi93490 25904Vi70960 95915Vi20982 35931Vi7271 26081Vi99806 126121Vi61402 36168Vi94127 16302Vi72763 66363Vi26658 126365Vi28482 126370Vi34642 16608Vi27707 96712Vi373 76866Vi67506 37982Vi1394 108058Vi13146 48152Vi75759 128163Vi17021 88200Vi64099 98228Vi67566 28321Vi12181 28360Vi1235 108529Vi37251 128548Vi46064 118748Vi36747 128786Vi52413 98787Vi7192 530200Vi22686 1231736Vi86048 333376Vi30244 733791Vi66509 335093Vi57504 1230194Vi41919 1234632Vi48985 835095Vi10342 1035101Vi37381 230189Vi56258 230298Vi99064 130402Vi22912 1034602Vi80214 1134614Vi30135 430293Vi16007 1231128Vi32292 830288Vi85808 1031124Vi82522 1134605Vi41375 534626Vi30635 1235425Vi29858 530203Vi16052 1130295Vi31203 831105Vi14399 331111Vi61776 331099Vi63048 833793Vi87871 834617Vi32891 832136Vi34578 533796Vi44130 834627Vi58835 130201Vi80748 831735Vi13701 333375Vi69103 834633Vi74142 1235104Vi56140 135716Vi54667 330290Vi79368 1034619Vi33896 1135092Vi7270 631125Vi62053 834624Vi94036 530206Vi24524 932138Vi89574 1235097Vi7903 635648Vi67147 634611Vi49589 434629Vi26884             #      -   =   6   G   J   W   P   a   ]   q   j   w   à   ä   ã   Ñ   ò   ë   û   ◊£p=äÙ´@°g≥Í˚ÿ@ãlÁ˚iDò@Bœf’√?„@∑bŸ1‡@Qköwúu@mÁ˚©†‹@’Áj+“À–@Ï/ª'Øø∑@Œà“ﬁÄûº@/›$!Â@…Âøãã@Œà“ﬁÄ∞º@V-≤√@5Ô8E±º@ô*ïÑz±@ì:MÑö®@&SÛ≥∫@?∆4§–@µ¶y«a=¬@¨≠ÿ_ˆˇ∆@≈ ∞r(íò@È∑Ø?≥ @≠˙\mï&–@n4Ä∑Ä'≤@Å≈èkÈ@@a√√;∫@RIùÄ¥©@≥Ísµı;∞@}–≥Y5òó@ΩRñ!€Õ@·zÆµ˜„@ÈH.ˇ!Bò@∑— ﬁgê@xz•,üèÊ@¿[ ›
+ÿ@ıJYÜD&ÿ@¡9#JÈÁ@ÆG·˙è™@Ω„…ÿÖ@ÆG·˙]™@#J{É/‰q@◊ÚAŒû@2ÊÆ%‰_@ﬁ	ä£®@ÿÅsFTÆ•@_ŒQ"D@π¸áÙ˚Q¢@¬&S≈ï@˚\m≈˛e~@¨≠ÿ_ˆPÇ@∏@Ç‚á´@ÖÎQ∏°Q@óˇê~{\Ç@4Ä∑@Çfà@ì©Ç—\Ç@˛e˜‰a_v@Î‚6~o@àÙ€◊Å@Ú“MbMï@MÑœXá@;ﬂOçópç@l	˘†gs_@@§ﬂæéë@~8gD¨î@&‰ÉûÕ<w@`vO&∞@πç Ä@ß∆K7sp@∫k	˘†«t@]‹Fx3^@“ ﬁâì@^K»˝é©@åπk	˘_@Ç‚«òª˛T@(~åπÀ‡¨@˙ÌÎ¿9∆û@;MÑMÈû@Áå(Ìñ≠@ú¢#π¸ˇp@≠˙\m≈ˆK@ú¢#π¸ﬂp@46<]V@ioÖ…@É@µ˚ÀÓiC@ÅïCãlÃé@8gDÈã@Bœf’Á*)@ÆG·zÊÜ@mV}Æ∂ﬂz@íÀHøˇb@åJÍ4Âf@–Dÿ4Áê@a√”+e	6@Ú∞PköÛf@ï‘	h"Än@n£ºÙf@˙ÌÎ¿9˜[@âA`Â–ÆS@IùÄ&¬\e@√d™`T†z@∑— ﬁ/m@öû^fr@„•õƒ ®C@⁄|a2\u@»=õU◊y@≤.n£]@-≤ùÔî@Qköwú¸d@åJÍêT@®∆K7â˘Y@æ0ô*‡B@|Ú∞Pk‚w@46ºÚè@Î‚6hC@ √B≠i>:@}Æ∂bí@2ÊÆ%‰;É@›µÑ|–QÉ@ÿÅsFT~í@ú¢#π¸?U@
+◊£p=z1@ú¢#π¸U@ºñê˙„Æ@J+„ó⁄@ú3¢¥∑–ö@x$(.EÂ@µ7¯¬~∑‚@[±øÏûaÅ@t$óˇå°ﬂ@´>W[Mè“@V>∫@ÿÙJ…üø@MåJÙXÁ@°¯1Ê.pé@I.ˇ!≠≥ø@¨≠ÿ_~≈@≤.n£A¥ø@±PköWP≥@Qköw‹/´@ì©ÇQπÅΩ@‘öÊác“@ÃÓ…√™'ƒ@‰ÉûÕ2j…@äé‰Úü&õ@PçónÚÄÕ@§p=
+∑ÿ—@k+ˆó}¥@∂Ñ|–?≥Î@R∏ÖÎ¸º@∞rhëÌf¨@ä∞·ÈU±@3ƒ±.nö@6Õ;N≈~–@gDiopÊ@⁄|a2Œö@ÓZB>Ëí@œ˜S„ÓË@+ˆó›ë⁄@∏@Ç‚gØ⁄@@§ﬂæJãÈ@}?5^˙Y≠@ “o_$à@}?5^∫"≠@Âê  ÿê  Ÿê  ⁄ê  €ê  ‹ê  ›ê  ﬁê  ﬂê  ‡ê  ·ê  ‚ê  „ê  ‰ê  ÅY‹	ªP‰@‘:mTC‰@                            !1("qÑA A0"qb
+1
+Q83qÜÇ Aa@ 3q£(PqH$
+qà√0` ÅP(q	‰8	p$	ëX,qäA
+Ä(
+°`0q%Iê,±h4GqåEQ°0¡p83qfY∞4—x<qéÜa¿8·Ä@Hqßi–<ÒàDqê«q ·@ ëH3qËy"D"ôLXqíÇ$I$!°P 3q)ä&M&1©T"GqîIí( Q(A±X$(qjö*1U*Qπ\&9qñä¢,@Y,a¡`(
+q´™.Q].q…d*9qòÀ≤0`a0Å—h,
+qÏ∫2pe2ëŸl."qö√4Äi4°·p0Xq-À6êm6±Èt2qúM”8†q8¡Òx4"qn€:∞u:—˘|6"qûé„<¿y<·Å8qØÎ>–}>Ò	Ö:Xq†œÛ@ ‡Å@ â<Xq!˚B!ÖB!ç>q¢E" äD"!"ë@Hq#1G#éF#1*ïBq§QI$ íH$A2ôD
+q%rK%0ñJ%Q:ùF(q¶í$M&@öL&aB°H"q'≥,O'PûN'qJ•J"q®≥(P(P†P(ÅR©
+"q)  R)§R)ëZ≠ 0A*¿4U™a™T*°b±L`A+¿4W+`ÆV+±jµLA,‡<Y,p≤X,¡rπN A-¿4[-b∂Z-—zΩLpA.  \. ∏\.‚Ç¡ " B/  ^Øº^/Úä≈ "pB0 Ea∞Ç¬`0ì…P"pB1¿4c±b∆b1õÕL"pB2  d2 »d2#£— 3 C3  f3 Ãf33´’ 3 C4‡<i4s“h4C≥ŸN3ÄC5  jµ‘j5Sª› 3pC6  l∂ÿl6c√· 3pC7  n7 ‹n7tÀÂ DD8  p8‡p8Ñ”È DêD9  r9 ‰r9ï€Ì U E:  t∫Ët:•„Ò UÄE;  v;Ïv;µÎı UpE<  x<x<≈Û˘ UpE=‡<{=uˆz=’˚˝NUpE>  |> ¯|>ÊfF?  ~? ¸~?ˆf F@  Ä¿ Å@
+fêFA  ÇAÉAfÄFB  Ñ¬ÖB'$wÄGC‡<áCpáC7,OwGD  àDâDG4wpGE  ä≈ãEX<àêHF‡<çFpçFhD"Oà HG  éGèGxL&àpHH  êH  ëHâT*ô II¿4ì…h&ìIô\.MôÄIJ¿4ïJ`*ïJ©d2Mô IK  ñK	,óKπl6ôpIL EôLâ2ôL…t:QôpIM  öM 4õMŸ|>ôIN  úN 8ùNÍÑB™JO  ûœ	<üO˙åF™pJP¿4°–iB°P
+ïJM™pJQ  ¢Q
+D£Q  ªêKR  §“
+H•R+ùNª`KS  ¶SLßS;  ªÄKT  ®‘P©TK•RªpKU  ™U T´U\≠VÃLV  ¨VX≠VlµZÃÄLW¿4Ø◊l^ØW|Ω^MÃpLX  ∞ÿ`±Xå≈bÃpLY  ≤Yd≥YùÕf›pMZ  ¥ZhµZ≠’j›pM
