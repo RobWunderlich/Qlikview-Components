@@ -3,3 +3,6 @@
 
 # temp files for tests
 Tests/temp/*
+
+# Runtime directory
+Qvc_Runtime
