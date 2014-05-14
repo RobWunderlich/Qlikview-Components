@@ -1,0 +1,9 @@
+﻿// Localization for Bulgarian
+SET Qvc.Calendar.v.Field.Date=Дата;
+SET Qvc.Calendar.v.Field.Day=Ден;
+SET Qvc.Calendar.v.Field.Weekday=Ден от седмицата;
+SET Qvc.Calendar.v.Field.Year=Година;
+SET Qvc.Calendar.v.Field.Month=Месец;
+SET Qvc.Calendar.v.Field.YearMonth=Година-Месец;
+SET Qvc.Calendar.v.Field.Quarter=Тримесечие;
+SET Qvc.Calendar.v.Field.WorkDay=Работен ден;

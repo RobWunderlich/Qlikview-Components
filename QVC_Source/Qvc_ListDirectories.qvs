@@ -1,0 +1,56 @@
+///$tab ListFiles
+SUB Qvc.ListDirectories (dir, mask, subdirectories, callback)
+/**
+@version $Id: Qvc_ListDirectories.qvs 275 2013-04-26 02:49:52Z rob@robwunderlich.com $
+List filesystem directories. 
+
+If the callback parameter is specified, the callback SUB is called for each directory with dirpath as a calling parameter.
+
+If no callback parameter (4) is specified, a table of directory names "Qvc.ListDirectoriesTable" will be created.
+
+@param 1 String. Starting directory. May be relative or absolute.
+@param 2 String, Optional. Mask pattern to limit scan. For example, '*-prj'. Default is '*'.
+@param 3 True/False, Optional. If true (-1), process subdirectories. If false (0), don't process subdirectories. Default is True.
+@param 4 String, Optional. Name of subroutine to call for each directory path. 
+
+@syntax CALL Qvc.ListDirectories('starting directory', ['mask'], ['subdirectories'], ['callbackSub']); 
+*/
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+// Add a trailing backslash to dir parm if not already provided.
+IF len('$(dir)')>0 AND right('$(dir)',1) <> '\' THEN
+	LET dir='$(dir)' & '\';
+ENDIF
+
+LET mask = $(_Qvc.DefaultIfEmpty($(mask), '*'));
+LET subdirectories = $(_Qvc.DefaultIfEmpty($(subdirectories), -1));
+LET _doCallback = if(len('$(callback)')>0,-1,0);	// Set flag if callback parm is present
+
+CALL  _Qvc.ListDirectories._Listone ('$(dir)');		// call the directory lister for starting directory
+
+	
+SET _doCallback=;
+SET _qvctemp.dir=;
+	
+END SUB
+
+SUB _Qvc.ListDirectories._Listone (dir)
+// Load info about each directory
+FOR EACH _qvctemp.dir in DirList('$(dir)$(mask)');
+	IF $(_doCallback) THEN
+		CALL $(callback) ('$(_qvctemp.dir)');
+	ELSE
+		Qvc.ListDirectoriesTable:
+		LOAD 
+			'$(_qvctemp.dir)' as [Directory Path]
+		AutoGenerate 1
+		;
+	ENDIF
+	
+	// Recursively process subdirectories
+	IF '$(subdirectories)' THEN
+		CALL  _Qvc.ListDirectories._Listone ('$(_qvctemp.dir)\');
+	ENDIF
+NEXT _qvctemp.dir;
+END SUB
+

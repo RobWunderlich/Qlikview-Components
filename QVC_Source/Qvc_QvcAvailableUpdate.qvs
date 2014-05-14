@@ -1,0 +1,26 @@
+///$tab Main
+SUB Qvc.QvcAvailableUpdate (_retvar)
+/**
+@version $Id: Qvc_QvcAvailableUpdate.qvs 321 2013-08-13 17:59:34Z rob@robwunderlich.com $
+Test if a newer version of Qvc is available for download. If a newer version is available, the new version number will be returned. If a newer version is not available, null will be returned.
+    
+@syntax CALL Qvc.QvcAvailableUpdate(vRetvar);
+
+@param 1 Variable in which to return result.
+*/
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+_qvctemp.QvcAvailableUpdate:
+NOCONCATENATE
+LOAD 
+	text(DownloadableQvcVersion) as _qvctemp.DownloadableQvcVersion
+FROM
+[http://qlikview-components.googlecode.com/svn/trunk/QVC_Source/LatestQvcDownloadVersion.txt]
+(txt, codepage is 1252, embedded labels, delimiter is ',', msq)
+;
+
+LET _retvar = if(peek('_qvctemp.DownloadableQvcVersion') > '$(Qvc.Global.v.Version)', peek('_qvctemp.DownloadableQvcVersion'), null());
+
+DROP TABLE _qvctemp.QvcAvailableUpdate;
+
+END SUB

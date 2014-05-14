@@ -1,0 +1,8 @@
+// Localization for Ukraine
+SET Qvc.Calendar.v.Field.Date=Дата;
+SET Qvc.Calendar.v.Field.Day=День;
+SET Qvc.Calendar.v.Field.Weekday=День тижня;
+SET Qvc.Calendar.v.Field.Year=Рік;
+SET Qvc.Calendar.v.Field.Month=Місяць;
+SET Qvc.Calendar.v.Field.YearMonth=Рік-Місяць;
+SET Qvc.Calendar.v.Field.Quarter=Квартал;

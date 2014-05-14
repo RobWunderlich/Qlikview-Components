@@ -1,0 +1,393 @@
+///$tab Calendar Configuration
+REM Configuration variables for Qvc.Calendar;
+// Will we create Set Analysis Calendar variables?
+SET Qvc.Calendar.v.CreateSetVariables = -1;
+
+SET Qvc.Calendar.v.Field.Date=Date;
+SET Qvc.Calendar.v.Field.Day=Day;
+SET Qvc.Calendar.v.Field.Weekday=Weekday;
+SET Qvc.Calendar.v.Field.Year=Year;
+SET Qvc.Calendar.v.Field.Month=Month;
+SET Qvc.Calendar.v.Field.YearMonth=Year-Month;
+SET Qvc.Calendar.v.Field.Quarter=Quarter;
+
+// Name of the optional script file that defines additonal Calendar fields.
+SET Qvc.Calendar.v.ExtFields=CalendarExtFields.qvs;
+
+// Name of the optional script file that defines additonal Calendar Set Variables.
+SET Qvc.Calendar.v.ExtSetVariables=CalendarExtSetVariables.qvs;
+///$tab Calendar
+SUB Qvc.Calendar(_startDate, _endDate, _tableName, _fieldPrefix, _firstMonth)
+/**
+@version $Id: Qvc_Calendar.qvs 354 2013-11-28 05:01:02Z rob@robwunderlich.com $
+Create a Master Calendar Table.
+
+By default, this routine creates "vSetxxx" and "vSetxxxModifier" variables containing time period set analysis expressions. Creation of the variables can be suppressed via a configuration variable. Note also that the variable names may be prefixed with the string given in parameter 4.
+
+--Code Extension-- ExtFields
+Default file: CalendarExtFields.qvs
+Specified by variable: Qvc.Calendar.v.ExtFields 
+
+The contents of the extension file are Included in the Calendar LOAD statement to create additional fields in the generated Calendar. 
+
+The script may be any field definition allowable in a LOAD statement. The current date being processed must be referenced as field "Date". The AS clause naming the new field must be written  "as [$(_fieldPrefix)newfield]".
+
+For example, to add two new fields for Week and Year-Week:
+
+,week(Date) as [$(_fieldPrefix)Week]
+,Year(Date) & '-' & week(Date) as [$(_fieldPrefix)Year-Week]
+
+
+--Code Extension-- ExtSetVariables
+Default file: CalendarExtSetVariables.qvs
+Specified by variable: Qvc.Calendar.v.ExtSetVariables
+
+The contents of the extension file are Included in the section that creates SetXXX period analysis variables. You may add any complete script statements. Usually this would be SET statements to create additional variables.  
+
+@syntax CALL Qvc.Calendar (vMindate, vMaxdate, ['CalendarTableName'], ['FieldPrefix'], [FirstMonth]);  
+
+@param 1 Date string or number. The starting date.
+@param 2 date string or number. The ending date.
+@param 3 String. Optional - the name of the Calendar table. If not supplied the default is "MasterCalendar"
+@param 4 String. Optional - A prefix that will be prepended to all field names and Set variables created for this calendar. For the set vars, blanks in this string will be replaced with underscores.
+@param 5 Number. Optional - First month of the year. If you want to work with a fiscal year starting in April, specify 4. If you want your fiscal year to use the higher year values, use a negative value like -8.
+
+@var Qvc.Calendar.v.CreateSetVariables in -1/0 (true/false) Should Calendar Set Analysis variables be created? Default is true.
+@var Qvc.Calendar.v.Field.Date in Field name for the calendar "Date" field.
+@var Qvc.Calendar.v.Field.Day in Field name for the calendar "Day of Month" field.
+@var Qvc.Calendar.v.Field.Weekday in Field name for the calendar "Weekday" field.
+@var Qvc.Calendar.v.Field.Year in Field name for the calendar "Year" field.
+@var Qvc.Calendar.v.Field.Month in Field name for the calendar "Month" field.
+@var Qvc.Calendar.v.Field.YearMonth in Field name for the calendar "YearMonth" field.
+@var Qvc.Calendar.v.Field.Quarter in Field name for the calendar "Quarter" field.
+
+@var vSetYTD out Set Analysis expression for Year-To-Date.  Example: Sum( $(vSetYTD) Sales)
+@var vSetQTD out Set Analysis expression for Quarter-To-Date.
+@var vSetMTD out Set Analysis expression for Month-To-Date.
+@var vSetPreviousMonthMTD out Set Analysis expression for Previous-Month-To-Date.
+@var vSetPreviousQuarter out Set Analysis expression for Previous-Quarter-To-Date.
+@var vSetPreviousYearMTD out Set Analysis expression for Previous-Year-Month-To-Date.
+@var vSetPreviousYearQTD out Set Analysis expression for Previous-Year-Quarter-To-Date.
+@var vSetPreviousYearYTD out Set Analysis expression for Previous-Year-Year-To-Date.
+@var vSetRolling12 out Set Analysis expression for Rolling-12-Months. 
+@var vSetYTDModifier out Set modifier arguments for Year-To-Date.  Example: Sum( {<$(vSetYTDModifier), Region={EU}>} Sales)
+@var vSetQTDModifier out Set modifier arguments for Quarter-To-Date.
+@var vSetMTDModifier out Set modifier arguments for Month-To-Date.
+@var vSetPreviousMonthMTDModifier out Set modifier arguments for Previous-Month-To-Date.
+@var vSetPreviousQuarterModifier out Set modifier arguments for Previous-Quarter-To-Date.
+@var vSetPreviousYearMTDModifier out Set modifier arguments for Previous-Year-Month-To-Date.
+@var vSetPreviousYearQTDModifier out Set modifier arguments for Previous-Year-Quarter-To-Date.
+@var vSetPreviousYearYTDModifier out Set modifier arguments for Previous-Year-Year-To-Date.
+@var vSetRolling12Modifier out Set modifier arguments for Rolling-12-Months. 
+*/
+
+
+
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+// Set default _tablename if not supplied
+LET _tableName = if(len('$(_tableName)')=0, 'MasterCalendar','$(_tableName)');
+// Set Default first month if not specified
+LET _firstMonth = if(len('$(_firstMonth)')=0, 1,'$(_firstMonth)');
+LET _monthOffset = -($(_firstMonth)-1);  //Compute month offset for Addmonths function.
+
+REM Make some shorter names for the field variables;
+IF len('$(_Qvc.Calendar.v.Field.Date.Override)') > 0 THEN	// Use the fixed name (from CalendarFromField) if we have one.
+	SET _fDate='[$(_Qvc.Calendar.v.Field.Date.Override)]';
+ELSE 
+	SET _fDate='[$(_fieldPrefix)$(Qvc.Calendar.v.Field.Date)]';
+ENDIF
+SET _fDay='[$(_fieldPrefix)$(Qvc.Calendar.v.Field.Day)]';
+SET _fWeekday='[$(_fieldPrefix)$(Qvc.Calendar.v.Field.Weekday)]';
+SET _fYear='[$(_fieldPrefix)$(Qvc.Calendar.v.Field.Year)]';
+SET _fMonth='[$(_fieldPrefix)$(Qvc.Calendar.v.Field.Month)]';
+SET _fYearMonth='[$(_fieldPrefix)$(Qvc.Calendar.v.Field.YearMonth)]';
+SET _fQuarter='[$(_fieldPrefix)$(Qvc.Calendar.v.Field.Quarter)]';
+SET _f_MonthSerial='[$(_fieldPrefix)_MonthSerial]';
+SET _f_QuarterSerial='[$(_fieldPrefix)_QuarterSerial]';
+SET _f_WeekSerial='[$(_fieldPrefix)_WeekSerial]';
+SET _f_DateSerial='[$(_fieldPrefix)_DateSerial]';
+
+LET _concatenate = if($(_Qvc.TableExists($(_tableName))), 'CONCATENATE ([$(_tableName)])', ''); 
+   
+[$(_tableName)]:
+$(_concatenate) 
+LOAD
+	*,
+	dual($(_fYear) & '-' & $(_fMonth),Date(MonthStart($(_fDate),$(_monthOffset))))  as $(_fYearMonth)
+;
+
+LOAD
+    Date							as $(_fDate),
+    Day(Date)						as $(_fDay),
+    Weekday(Date)					as $(_fWeekday),
+    Year(AddMonths(Date,$(_monthOffset))) 	as $(_fYear),
+    Month(Date)						as $(_fMonth),
+    'Q' & Ceil(Month(AddMonths(Date,$(_monthOffset))) / 3)		as $(_fQuarter),
+    num(Date)					 	as $(_f_DateSerial),
+    AutoNumber(MonthStart(Date),'$(_f_MonthSerial)') 	as $(_f_MonthSerial),
+    AutoNumber(QuarterStart(Date),'$(_f_QuarterSerial)')	as $(_f_QuarterSerial),
+    AutoNumber(weekyear(Date) &'|' & week(Date),'$(_f_WeekSerial)')	as $(_f_WeekSerial)
+    $(Include=$(Qvc.Global.Extension.Directory)\$(Qvc.Calendar.v.ExtFields));
+
+;    
+LOAD date('$(_startDate)' + recno() - 1) as Date 
+AUTOGENERATE date('$(_endDate)') - date('$(_startDate)') + 1
+;
+
+SET _concatenate=;
+///$tab Calendar Set Variables
+IF $(Qvc.Calendar.v.CreateSetVariables) THEN	// If SA variables requested,
+
+// Mapping table that will be used to translate escaped special chars
+[_qvctemp.Calendar.EscapeCharsMap]:
+MAPPING LOAD * INLINE [
+from, to
+@,$
+|,'
+]
+;
+
+// We don't want spaces in the SetAnalysis varable names. 
+// Replace spaces with _.
+LET _fieldPrefix = replace('$(_fieldPrefix)',' ','_');
+// Create an indirect name for the runtime variable that will compute the selected calendar fields.
+SET _Qvc.Calendar.v.SelectedFieldList_$(_fieldPrefix) = _Qvc.Calendar.v.SelectedFieldList_$(_fieldPrefix);
+//_Qvc.Calendar.v.SelectedFieldList_$(_fieldPrefix)
+
+
+// Create a modifer list of Calendar fields to be used to clear all calendar selections
+SET _vClearFieldList=;
+FOR _qvctemp.i = 1 to NoOfFields('$(_tableName)')
+	LET _vClearFieldList = '$(_vClearFieldList)' & '[' & FieldName($(_qvctemp.i), '$(_tableName)') & ']=,';
+NEXT _qvctemp.i
+SET _qvctemp.i=;
+
+//===
+// Create a variable expression that will build a modifier list that reflects all current calendar selections
+//
+SET _Qvc.Calendar.v.SelectedFieldList_$(_fieldPrefix)='=';		// Init variable
+SET _qvctemp.vConcat =;			// Set concat char to empty for first time through loop
+FOR _qvctemp.i = 1 to NoOfFields('$(_tableName)')		// Loop through all fields in Calendar table
+	// Get next fieldname in var
+	LET _qvctemp.vFname = FieldName($(_qvctemp.i), '$(_tableName)');
+	// Add field to list
+	LET _Qvc.Calendar.v.SelectedFieldList_$(_fieldPrefix) = '$(_Qvc.Calendar.v.SelectedFieldList_$(_fieldPrefix))'
+	& '$(_qvctemp.vConcat) if(GetSelectedCount([$(_qvctemp.vFname)])>0, |,[$(_qvctemp.vFname)]={"|	& GetFieldSelections([$(_qvctemp.vFname)],|","|,1000) &|"}|, ||)' & chr(10);
+	SET _qvctemp.vConcat ='&';		// Set concat char for next time through loop
+NEXT _qvctemp.i
+SET _qvctemp.i=;
+SET _qvctemp.vFname=;
+SET _qvctemp.vConcat=;
+
+// Unescape special characters
+LET _Qvc.Calendar.v.SelectedFieldList_$(_fieldPrefix) = 
+MapSubString('_qvctemp.Calendar.EscapeCharsMap',
+	'$(_Qvc.Calendar.v.SelectedFieldList_$(_fieldPrefix))'
+)
+;
+
+// Create a convienence variable we will use to form the variables
+SET _qvctemp.vMaxModifier = 'Max({1<_Qvc.DummyField=@(_Qvc.Calendar.v.SelectedFieldList_$(_fieldPrefix))>}';		
+
+REM Create the Set Analysis variables;
+
+
+// Year To Date
+Let $(_fieldPrefix)vSetYTDModifier = 
+MapSubString('_qvctemp.Calendar.EscapeCharsMap',
+'$(_vClearFieldList)
+$(_f_DateSerial) = {"<=@(=$(_qvctemp.vMaxModifier)$(_f_DateSerial)))"},
+$(_fYear) = {"@(=$(_qvctemp.vMaxModifier)$(_fYear)))"}'
+);	
+
+Let $(_fieldPrefix)vSetYTD = 
+MapSubString('_qvctemp.Calendar.EscapeCharsMap',
+'{$<
+@($(_fieldPrefix)vSetYTDModifier)
+>}'
+);	
+
+// Previous Year Year To Date
+Let $(_fieldPrefix)vSetPreviousYearYTDModifier = 
+MapSubString('_qvctemp.Calendar.EscapeCharsMap',
+'$(_vClearFieldList)
+$(_f_DateSerial) = {"<=@(=num(AddMonths($(_qvctemp.vMaxModifier) $(_f_DateSerial)), -12)))"},
+$(_fYear) = {"@(=$(_qvctemp.vMaxModifier)$(_fYear))-1)"}'
+);
+
+Let $(_fieldPrefix)vSetPreviousYearYTD =
+MapSubString('_qvctemp.Calendar.EscapeCharsMap',
+'{$<
+@($(_fieldPrefix)vSetPreviousYearYTDModifier)
+>}'
+);	
+	
+	
+// Quarter To Date																		
+Let $(_fieldPrefix)vSetQTDModifier = 
+MapSubString('_qvctemp.Calendar.EscapeCharsMap',
+'$(_vClearFieldList)
+$(_f_DateSerial) = {"<=@(=$(_qvctemp.vMaxModifier) $(_f_DateSerial)))"},
+$(_f_QuarterSerial) =  {@(=$(_qvctemp.vMaxModifier) $(_f_QuarterSerial)))}' 
+);
+
+Let $(_fieldPrefix)vSetQTD = 
+MapSubString('_qvctemp.Calendar.EscapeCharsMap',
+'{$<
+@($(_fieldPrefix)vSetQTDModifier)
+>}'
+);
+
+// Previous Year Quarter To Date
+Let $(_fieldPrefix)vSetPreviousYearQTDModifier =
+MapSubString('_qvctemp.Calendar.EscapeCharsMap',
+'$(_vClearFieldList)
+$(_f_QuarterSerial) =  {@(=Max($(_f_QuarterSerial)) - 4)}, 
+$(_f_DateSerial) =  {"<=@(=num(AddMonths(Max($(_f_DateSerial)), -12)))"}'
+);
+
+Let $(_fieldPrefix)vSetPreviousYearQTD =
+MapSubString('_qvctemp.Calendar.EscapeCharsMap',
+'{$<
+@($(_fieldPrefix)vSetPreviousYearQTDModifier)
+>}'
+);
+
+	
+// Previous Quarter To Date
+Let $(_fieldPrefix)vSetPreviousQuarterModifier =
+MapSubString('_qvctemp.Calendar.EscapeCharsMap',
+'$(_vClearFieldList)
+$(_f_QuarterSerial) =  {@(=$(_qvctemp.vMaxModifier) $(_f_QuarterSerial)) - 1)}'
+);
+
+Let $(_fieldPrefix)vSetPreviousQuarter =
+MapSubString('_qvctemp.Calendar.EscapeCharsMap',
+'{$<
+@($(_fieldPrefix)vSetPreviousQuarterModifier)
+>}'
+);				
+
+
+// Month To Date
+Let $(_fieldPrefix)vSetMTDModifier = 
+MapSubString('_qvctemp.Calendar.EscapeCharsMap',
+'$(_vClearFieldList)
+$(_f_MonthSerial) = {@(=$(_qvctemp.vMaxModifier) $(_f_MonthSerial)))},
+$(_fDay) = {"<=@(=Day($(_qvctemp.vMaxModifier) $(_f_DateSerial))))"}'
+);
+
+Let $(_fieldPrefix)vSetMTD = 
+MapSubString('_qvctemp.Calendar.EscapeCharsMap',
+'{$<
+@($(_fieldPrefix)vSetMTDModifier)
+>}'
+);
+
+// Previous Year Month To Date
+Let $(_fieldPrefix)vSetPreviousYearMTDModifier =
+MapSubString('_qvctemp.Calendar.EscapeCharsMap',
+'$(_vClearFieldList)
+$(_f_MonthSerial) = {@(=$(_qvctemp.vMaxModifier) $(_f_MonthSerial))-12)},
+$(_fDay) = {"<=@(=Day($(_qvctemp.vMaxModifier) $(_f_DateSerial))))"}'
+);
+
+Let $(_fieldPrefix)vSetPreviousYearMTD =
+MapSubString('_qvctemp.Calendar.EscapeCharsMap',
+'{$<
+@($(_fieldPrefix)vSetPreviousYearMTDModifier)
+>}'
+);
+
+
+// Previous Month To Date
+Let $(_fieldPrefix)vSetPreviousMonthMTDModifier = 
+MapSubString('_qvctemp.Calendar.EscapeCharsMap',
+'$(_vClearFieldList)
+$(_f_MonthSerial) = {@(=$(_qvctemp.vMaxModifier) $(_f_MonthSerial)) - 1)}, 
+$(_fDay) = {"<=@(=Day($(_qvctemp.vMaxModifier) $(_f_DateSerial))))"}'
+);
+
+Let $(_fieldPrefix)vSetPreviousMonthMTD =
+MapSubString('_qvctemp.Calendar.EscapeCharsMap',
+'{$<
+@($(_fieldPrefix)vSetPreviousMonthMTDModifier)
+>}'
+);
+
+
+
+Let $(_fieldPrefix)vSetRolling12Modifier =
+MapSubString('_qvctemp.Calendar.EscapeCharsMap',
+'$(_vClearFieldList)
+$(_f_MonthSerial) = {">=@(=$(_qvctemp.vMaxModifier) $(_f_MonthSerial)) - 11)<=@(=$(_qvctemp.vMaxModifier) $(_f_MonthSerial)))"}'
+);
+
+Let $(_fieldPrefix)vSetRolling12 =
+MapSubString('_qvctemp.Calendar.EscapeCharsMap',
+'{$<
+@($(_fieldPrefix)vSetRolling12Modifier)
+>}'
+);
+
+// Include possible extension to create additional Set variables.
+$(Include=$(Qvc.Global.Extension.Directory)\$(Qvc.Calendar.v.ExtSetVariables));
+
+SET _vClearFieldList=;
+SET _qvctemp.vMaxModifier=;
+
+ENDIF
+
+
+///$tab Cleanup
+// Cleanup temp variables
+SET _fDate=;
+SET _fDay=;
+SET _fWeekday=;
+SET _fYear=;
+SET _fMonth=;
+SET _fYearMonth=;
+SET _fQuarter=;
+SET _f_MonthSerial=;
+SET _f_QuarterSerial=;
+SET _f_WeekSerial=;
+SET _f_DateSerial=;
+SET _monthOffset =;
+			
+END SUB	
+// End of Qvc.Calendar Sub
+
+///$tab CalendarFromField
+SUB Qvc.CalendarFromField(_fieldname, _tableName, _fieldPrefix, _firstMonth)
+/**
+@version $Id: Qvc_Calendar.qvs 354 2013-11-28 05:01:02Z rob@robwunderlich.com $
+Create a Master Calendar based on the Min and Max values of an existing field. The fieldname is used as the "Date" field in the calendar, providinging automatic lkinkage.
+
+This Sub calls Qvc.Calendar to generate the calendar. See the doc for Qvc.Calendar to understand the output and available configuration variables. 
+
+@syntax CALL Qvc.CalendarFromField ('Fieldname', ['CalendarTableName'], ['FieldPrefix'], [FirstMonth]); 
+ 
+@param 1 String. Fieldname that will be used to establish Min and Max values for the Calendar Date.
+@param 2 String. Optional - the name of the Calendar table. If not supplied the default is "MasterCalendar"
+@param 3 String. Optional - A prefix that will be prepended to all field names and Set variables created for this calendar. For the set vars, blanks in this string will be replaced with underscores.
+@param 4 Number. Optional - First month of the year. If you want to work with a fiscal year starting in April, specify 4. 
+
+*/
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+CALL Qvc.GetFieldValues('_vStats', '$(_fieldname)');
+
+//SET _SaveCalendarDateField='$(Qvc.Calendar.v.Field.Date)';	// Save off the current Date fieldname.
+//SET Qvc.Calendar.v.Field.Date='$(_fieldname)';		// Use the parameter fieldname for the Date field.
+SET _Qvc.Calendar.v.Field.Date.Override='$(_fieldname)';		// Use the parameter fieldname for the Date field.
+// Call Qvc.Calendar to do the work.
+CALL Qvc.Calendar(_vStats.Min, _vStats.Max, '$(_tableName)', '$(_fieldPrefix)', '$(_firstMonth)');
+//SET Qvc.Calendar.v.Field.Date='$(_SaveCalendarDateField)';		// Restore the saved value
+
+SET _Qvc.Calendar.v.Field.Date.Override=;	// Reset to default behavior
+//SET _SaveCalendarDateField=;
+SET _vStats.Min=;
+SET _vStats.Max=;
+END SUB	
+// End of Qvc.CalendarFromField Sub

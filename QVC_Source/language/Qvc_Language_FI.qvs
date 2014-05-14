@@ -1,0 +1,8 @@
+// Localization for Finnish
+SET Qvc.Calendar.v.Field.Date=P‰iv‰m‰‰r‰;
+SET Qvc.Calendar.v.Field.Day=P‰iv‰;
+SET Qvc.Calendar.v.Field.Weekday=Viikkop‰iv‰;
+SET Qvc.Calendar.v.Field.Year=Vuosi;
+SET Qvc.Calendar.v.Field.Month=Kuukausi;
+SET Qvc.Calendar.v.Field.YearMonth=Vuosi-Kuukausi;
+SET Qvc.Calendar.v.Field.Quarter=Kvartaali;

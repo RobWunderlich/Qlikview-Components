@@ -1,0 +1,8 @@
+// Localization for Indonesia
+SET Qvc.Calendar.v.Field.Date=Tanggal;
+SET Qvc.Calendar.v.Field.Day=Hari;
+SET Qvc.Calendar.v.Field.Weekday=Hari Kerja;
+SET Qvc.Calendar.v.Field.Year=Tahun;
+SET Qvc.Calendar.v.Field.Month=Bulan;
+SET Qvc.Calendar.v.Field.YearMonth=Tahun Bulan;
+SET Qvc.Calendar.v.Field.Quarter=Triwulan;

@@ -1,0 +1,113 @@
+///$tab Main
+/* Logging subroutine */
+REM Default configuration for Qvc.Log;
+
+SET Qvc.Log.v.LogTable = 'Qvc.LogTable';
+SET Qvc.Log.v.LogField = 'Qvc.LogMessage';
+SET Qvc.Log.v.LogLevelField=;
+//SET Qvc.Log.v.LogDir='.';	// Directory to put logs. Default is current. 
+LET Qvc.Log.v.LogFileName = left(DocumentPath(), index(DocumentPath(),'.',-1)-1) & '_log.txt';
+SET Qvc.Log.v.WriteLogFile = 0;	// Write external log file, true/false
+SET Qvc.Log.v.KeepDays=0;		// How many days of log to keep, 0 means overwrite every time
+
+SET _Qvc.Log.v.FirstCall=-1;		// Private flag to indicate first call to this SUB
+
+
+REM Constants for Qvc.Log;
+SET Qvc.Log.v.Level.INFO=INFO;
+SET Qvc.Log.v.Level.WARNING=WARNING;
+SET Qvc.Log.v.Level.ERROR=ERROR;
+
+// Code
+SUB Qvc.Log (_msg, _level)
+/**
+@version $Id: Qvc_Log.qvs 356 2014-02-23 20:36:26Z rob@robwunderlich.com $
+Write a message line to a log table and external file.
+
+The default name for the external log file is documentName_log.txt and it is stored in the same directory as the qvw. Writing of the external file may be suppressed by setting config variable Qvc.Log.v.LogFile to empty.
+
+@syntax CALL Qvc.Log ('Message to be logged', ['level']);
+@param 1 Message string to be written to the log.
+@param 2 Optional. The severity level to be assigned to this message. One of the Qvc.Log.v.Level.* constants, where * is INFO, WARNING or ERROR. If omitted, default is Qvc.Log.v.Level.INFO.
+
+@var Qvc.Log.v.LogTable in String. Tablename for the log table. Default is 'Qvc.LogTable'.
+@var Qvc.Log.v.LogField in String. Fieldname for the log message. Default is 'Qvc.LogMessage'.
+@var Qvc.Log.v.LogLevelField in String. Fieldname for the log level. Default is '$(Qvc.Log.v.LogField)_Level'.
+@var Qvc.Log.v.LogFileName in String. External filename where log messages will be written. Default is qvwname_log.txt.
+@var Qvc.Log.v.WriteLogFile in -1/0 (true/false). If true, write log to external file. Default is false.
+@var Qvc.Log.v.KeepDays in Number. Number of days of log to keep in logfile. Log records older than this will be rolled off. If 0 (default), log will be overwritten with every reload.
+*/
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+LET _level=$(_Qvc.DefaultIfEmpty($(_level), $(Qvc.Log.v.Level.INFO)));
+SET _defaultLevelField='$(Qvc.Log.v.LogField)_Level';
+LET _levelField=$(_Qvc.DefaultIfEmpty($(Qvc.Log.v.LogLevelField), $(_defaultLevelField)));
+	
+UNQUALIFY [$(Qvc.Log.v.LogField)], [$(_levelField)];	// Ensure unqualified
+
+// If partial reload we should drop existing log table
+IF IsPartialReload() AND $(_Qvc.Log.v.FirstCall) THEN	
+	DROP TABLE [$(Qvc.Log.v.LogTable)];	// Drop existng table
+ENDIF
+
+IF $(_Qvc.Log.v.FirstCall) THEN	// First call to Log
+	SET _Qvc.Log.v.LineCounter=0;	// Default
+ENDIF
+
+IF $(Qvc.Log.v.KeepDays) > 0 THEN		// If requested to keep previous logs...
+	IF NOT $(_Qvc.TableExists($(Qvc.Log.v.LogTable))) AND $(Qvc.FileExists('$(Qvc.Log.v.LogFileName)')) THEN	// and we haven't loaded it
+		[$(Qvc.Log.v.LogTable)]:
+		ADD LOAD 
+			@1 as [$(_levelField)], 
+    	 	@2 as [$(Qvc.Log.v.LogField)]
+		FROM "$(Qvc.Log.v.LogFileName)"
+		(txt, no labels, delimiter is ',', msq, header is 1 lines)
+		WHERE today(1) - Date#(subfield(@2,' ',2)) < $(Qvc.Log.v.KeepDays)
+		; 
+		// Get max value of current counter
+		LET _Qvc.Log.v.LineCounter = subfield(peek('$(Qvc.Log.v.LogField)'),' ',1);
+		WHEN len('$(_Qvc.Log.v.LineCounter)')=0 SET _Qvc.Log.v.LineCounter=0;
+	ENDIF
+ENDIF
+
+LET _Qvc.Log.v.LineCounter = rangesum(_Qvc.Log.v.LineCounter, 1);
+[$(Qvc.Log.v.LogTable)]:
+ADD LOAD
+	'$(_level)' as [$(_levelField)],
+	num($(_Qvc.Log.v.LineCounter), '00000') & ' ' & now(1) & '; ' & '$(_msg)' as [$(Qvc.Log.v.LogField)]
+AUTOGENERATE 1
+;
+IF '$(Qvc.Log.v.WriteLogFile)' THEN		// If writing to external logfile
+	STORE [$(Qvc.Log.v.LogTable)] into "$(Qvc.Log.v.LogFileName)" (txt);
+ENDIF
+
+// Turn off FirstCall flag
+SET _Qvc.Log.v.FirstCall=0;		
+
+// Cleanup local variables
+SET _level=;
+SET _defaultLevelField=;
+SET _levelField=;
+
+END SUB
+/* * End of Qvc.Log subroutine * */
+
+SUB Qvc.LogError (_msg)
+/**
+@version $Id: Qvc_Log.qvs 356 2014-02-23 20:36:26Z rob@robwunderlich.com $
+Writes an error level message to the Qvc.Log. Convienence sub that calls Qvc.Log('message',Qvc.Log.v.Level.ERROR). 
+@syntax CALL Qvc.LogError ('Message to be logged');
+@param 1 Message string to be written to the log.
+*/
+	CALL Qvc.Log(_msg, '$(Qvc.Log.v.Level.ERROR)');
+END SUB
+
+SUB Qvc.LogWarning (_msg)
+/**
+@version $Id: Qvc_Log.qvs 356 2014-02-23 20:36:26Z rob@robwunderlich.com $
+Writes an warning level message to the Qvc.Log. Convienence sub that calls Qvc.Log('message',Qvc.Log.v.Level.WARNING). 
+@syntax CALL Qvc.LogWarning ('Message to be logged');
+@param 1 Message string to be written to the log.
+*/
+	CALL Qvc.Log(_msg, '$(Qvc.Log.v.Level.WARNING)');
+END SUB

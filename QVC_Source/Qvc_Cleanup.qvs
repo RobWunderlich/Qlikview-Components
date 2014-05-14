@@ -1,0 +1,57 @@
+///$tab Cleanup
+SUB Qvc.Cleanup
+/** 
+@version $Id: Qvc_Cleanup.qvs 356 2014-02-23 20:36:26Z rob@robwunderlich.com $
+Cleanup Qvc data such as global variables. Cleanup should always be called at the end of your script.
+@syntax CALL Qvc.Cleanup
+*/
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+// Remove variables
+// Global
+SET Qvc.Global.Extension.Directory=;
+
+// Calendar
+SET Qvc.Calendar.v.CreateSetVariables=;
+SET Qvc.Calendar.v.Field.Date=;
+SET Qvc.Calendar.v.Field.Day=;
+SET Qvc.Calendar.v.Field.Weekday=;
+SET Qvc.Calendar.v.Field.Year=;
+SET Qvc.Calendar.v.Field.Month=;
+SET Qvc.Calendar.v.Field.YearMonth=;
+SET Qvc.Calendar.v.Field.Quarter=;
+SET Qvc.Calendar.v.ExtFields=;
+
+// ExpandInterval
+SET Qvc.ExpandInterval.v.RangeCeiling=;
+
+// Log
+SET Qvc.Log.v.LogTable=;
+SET Qvc.Log.v.LogField=;
+SET Qvc.Log.v.WriteLogFile=;
+SET Qvc.Log.v.KeepDays=;
+SET _Qvc.Log.v.LineCounter=;
+SET _Qvc.Log.v.FirstCall=;
+
+// Incremental Load
+SET Qvc.Loader.v.DatabaseDatetimeMask=;
+SET Qvc.Loader.v.ModField.Type=;
+SET Qvc.Loader.v.BaseValue=;
+SET Qvc.Loader.v.QvdDirectory=;
+SET Qvc.Loader.v.Tablename=;
+SET Qvc.Loader.v.IncrementalExpression=;
+SET Qvc.Loader.v.KeyFieldIsUnique=;
+SET Qvc.Loader.v.Database=;
+SET Qvc.Loader.v.IncrementalFloor=;
+
+// Utility
+SET _Qvc.DefaultIfEmpty=;
+SET Qvc.FileExists=;
+SET _Qvc.UniqueId.v.Counter=;
+SET _Qvc.TableExists=;
+
+// Calculate script elapsed duration
+LET Qvc.Global.v.ScriptDuration = now(1) - Qvc.Global.v.ScriptStart;
+
+END SUB
+

@@ -1,0 +1,33 @@
+///$tab JoinGeneric
+SUB Qvc.JoinGenericTables (_targetTable, _genericTables)
+/**
+@version $Id: Qvc_JoinGenericTables.qvs 272 2013-04-19 16:42:49Z rob@robwunderlich.com $
+Join Generic loaded output tables to a target table. 
+
+@param 1 String. Table to be joined to. This is usually the table that was the source of the Generic load.
+@param 2 String. The table name prefix for the generic output tables. This is the tablename label assigned in the Generic load.
+
+@syntax CALL Qvc.JoinGenericTables('TargetTable', 'GenericTablesPrefix'); 
+*/
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+//  Do a JOIN & DROP loop to consolidate generated generic tables
+FOR _qvctemp.i = 0 to NoOfTables()
+	_qvctemp.temptable:
+	LOAD TableName($(_qvctemp.i)) as _qvctemp.Tablename AUTOGENERATE 1
+	WHERE WildMatch(TableName($(_qvctemp.i)), '$(_genericTables).*');
+NEXT _qvctemp.i
+
+FOR _qvctemp.i = 1 to FieldValueCount('_qvctemp.Tablename')
+	LET _qvctemp.vTable = FieldValue('_qvctemp.Tablename', $(_qvctemp.i));
+	LEFT JOIN ([$(_targetTable)]) LOAD * RESIDENT [$(_qvctemp.vTable)];
+	DROP TABLE [$(_qvctemp.vTable)];
+NEXT _qvctemp.i
+
+DROP TABLE _qvctemp.temptable;
+
+SET _qvctemp.i=;
+SET _qvctemp.vTable=;
+
+END SUB
+

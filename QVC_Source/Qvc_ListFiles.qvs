@@ -1,0 +1,49 @@
+///$tab ListFiles
+SUB Qvc.ListFiles (dir, mask, subdirectories, callback)
+/**
+@version $Id: Qvc_ListFiles.qvs 275 2013-04-26 02:49:52Z rob@robwunderlich.com $
+List files from a directory and it's subdirectories.
+
+If the callback parameter is specified, the callback SUB is called for each file with filepath as a calling parameter.
+
+If no callback parameter (4) is specified, a table of file names "Qvc.ListFilesTable" will be created.
+
+@param 1 String. Starting directory. May be relative or absolute.
+@param 2 String, Optional. File mask pattern to limit scan. For example, '*.qvd'. Default is '*'.
+@param 3 True/False, Optional. If true (-1), process subdirectories. If false (0), don't process subdirectories. Default is True.
+@param 4 String, Optional. Name of subroutine to call with each filepath. 
+
+@syntax CALL Qvc.ListFiles('starting directory', ['filemask'], ['subdirectories'], ['callbackSub']); 
+*/
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+LET mask = if(len('$(mask)')=0, '*', '$(mask)');
+LET subdirectories = $(_Qvc.DefaultIfEmpty($(subdirectories), -1));
+LET _doCallback = if(len('$(callback)')>0,-1,0);	// Set flag if callback parm is present
+
+// Load info about each file in the directory
+FOR EACH _file in filelist('$(dir)' &  '\' & '$(mask)');
+	IF $(_doCallback) THEN
+		CALL $(callback) ('$(_file)');
+	ELSE
+		Qvc.ListFilesTable:
+		LOAD 
+			'$(_file)' as [File Path]
+		AutoGenerate 1
+		;
+	ENDIF
+NEXT _file;
+// We have processed all the files in the directory.
+// Now recursively process subdirectories of $(dir)
+IF '$(subdirectories)' THEN
+	FOR EACH _subdir in dirlist( '$(dir)' & '\*' )
+		CALL Qvc.ListFiles('$(_subdir)', '$(mask)', '$(subdirectories)', '$(callback)')
+	NEXT _subdir;
+ENDIF	
+	
+SET _doCallback=;
+SET _file=;
+SET _subdir=;
+	
+END SUB
+

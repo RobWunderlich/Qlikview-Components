@@ -1,0 +1,323 @@
+///$tab Config Vars
+// Variables - may be overidden by individual Loader qvw.
+
+// The Directory where Connection String Files are kept
+SET Qvc.Loader.v.ConnectionDir=.;
+
+// Should we create ExtractTimestamp field, true or false.
+SET Qvc.Loader.v.CreateExtractTimestampField=0;
+///$tab DbExtract
+SUB Qvc.DbExtract (_extractList)
+REM Start of SUB _Qvc.DbExtract; 
+/**
+@version $Id: Qvc_DbExtract.qvs 353 2013-11-28 04:20:47Z rob@robwunderlich.com $
+Table driven batch database table extract routine. 
+
+The input parameter names a Qlikview table. Each row of the table defines one database (SQL) table to be extracted and stored in a QVD. The table fields define the parameters to be used when extract each table.
+
+The parameter fields are defined below. (R) indicates a required field, (O) indicates an optional field. 
+
+-RecId (R) A unique key for this row in the parameter table. This may be generated with recno() or any other unique numbering scheme.
+
+-ConnectionFilename (R|O) Filename of a text file that contains the DB Connection string. This name is concatenated with the Qvc.Loader.v.ConnectionDir config variable to find the actual file. Either ConectionFile of ConnectionString must be specified.
+
+-ConnectionString (R|O) The DB Connection string. If specified, will override ConnectionFilename. Either ConectionFile of ConnectionString must be specified.
+
+-TableName (R) Table name in database. If connection string does not specifiy a default catalog, use the fully qualified name; eg Sales.SalesOrderHeader. 
+
+-QvdName (O) Name of the output QVD. If omitted, the TableName will be used, with "." replaced by "_".
+
+-Columns (O) A comma seperated list of columns to be selected by the SQL Select. If omitted, the default is "*".
+
+-LoadStatement (O) A complete LOAD/SQL statement that will be used to do the extract. This is necessary if the extract should do a SQL JOIN. If Incremental load is being used, the LoadStatement should must include the clause "WHERE $(Qvc.Loader.v.IncrementalExpression)". If LoadStatement is present, it will override the Columns parameter. 
+
+-ExtractMode (O) Valid values are "D" for Delta Load, "F" for Full table reload. If omitted, the default is "F".
+
+-Deletes (O) Should database delete processing be performed? (Y/N, default is N).
+
+-KeyField (R|O) Table Primary Key column. Required if ExtractMode=D.
+
+-UniqueKey (O) Identifies if KeyField is unique to every table row. Valid values are true or false. If omitted, default is true.
+
+-UpdateField (R|O) Names the column that identifies updated rows. Required if ExtractMode=D.
+
+-UpdateFieldType (O) Identifies the datatype of the UpdateField column. Valid values are DATETIME and REVISION. If omitted, default is DATETIME.
+
+-StaleAfter (O) Indicates a threshold age for the QVD. If the QVD is not this old, thi extract row will be skipped. Value is in interval format "d hh:mm:ss". If omitted, the age test will be suppressed.\
+
+-TableComment (O) A comment to be assigned to the QVD using the QV Script "COMMENT TABLES ..." statement.
+
+@syntax CALL Qvc.DbExtract ('ExtractParams');
+
+@param 1 String. Name of the Qlikview extract parameter table.  
+
+@var Qvc.Loader.v.ConnectionDir in String. The Directory where connection string files are kept. Default is '.'
+@var Qvc.Loader.v.CreateExtractTimestampField in -1/0 (True/False). If true, the Qualified field "tablename.ExtractTimestamp" will be created for each extract row containing the extract runtime. Default is 0.
+@var Qvc.Loader.v.QvdDirectory in Directory for QVD files. Default is 'QVD'.
+
+*/
+
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+// A True/False map used to interpret Boolean parms.
+_qvctemp.TFMap:
+Mapping LOAD * INLINE [
+from, to
+Y, -1
+N, 0
+YES, -1
+NO, 0
+TRUE, -1
+FALSE, 0
+]
+;
+
+
+// Call the Extract routine sub for each row of the parameter table
+FOR _qvctemp.dbe.listIndex = 0 TO NoOfRows('$(_extractList)')-1
+	CALL _Qvc.DbExtract_NextTable ('$(_extractList)', $(_qvctemp.dbe.listIndex));
+NEXT _qvctemp.dbe.listIndex
+
+SET _qvctemp.dbe.listIndex=;
+
+REM End of SUB _Qvc.DbExtract; 
+END SUB
+
+///$tab DbExtract_NextTable
+SUB _Qvc.DbExtract_NextTable (_qvctemp.den.extractList, _qvctemp.den._listIndex)
+REM Start of SUB _Qvc.DbExtract_NextTable;
+//=================================================
+// Private SUB of Qvc.DbExtract.
+//=================================================
+
+// This SUB calls other SUBs so it's important that it have it's own namespace
+// for variables to avoid collision. The convention is to prefix all local 
+// variables with "_qvctemp.den.".
+
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+SET _qvctemp.den.doExtract = -1;		// Flag to control flow, init to True.
+
+//=================================================
+// Load parameter values from table to variables. 
+//=================================================
+LET _qvctemp.den.recid = trim(peek('RecId', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)'));
+LET _qvctemp.den.connectionFilename = trim(peek('ConnectionFilename', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)'));
+LET _qvctemp.den.connectionString = trim(peek('ConnectionString', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)'));
+LET _qvctemp.den.table = trim(peek('TableName', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)'));
+
+LET _qvctemp.den.qvdName = trim(peek('QvdName', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)'));
+IF len('$(_qvctemp.den.qvdName)')=0 THEN
+	// If QvdName is omitted, default is TableName with "." replaced by "_".
+	LET _qvctemp.den.qvdName = replace('$(_qvctemp.den.table)','.','_');
+ENDIF
+
+
+LET _qvctemp.den.columns = trim(peek('Columns', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)'));
+IF len('$(_qvctemp.den.columns)')=0 THEN
+	// If Columns omitted, set default of "*".
+	SET _qvctemp.den.columns = '*';
+ENDIF
+
+LET _qvctemp.den.loadStatement = trim(peek('LoadStatement', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)'));
+
+LET _qvctemp.den.extractMode = upper(peek('ExtractMode', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)'));
+IF len('$(_qvctemp.den.extractMode)')=0 THEN
+	// If ExtractMode omitted, set default of "F".
+	SET _qvctemp.den.extractMode = 'F';
+ENDIF
+
+LET _qvctemp.den.deletes = upper(peek('Deletes', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)'));
+IF len('$(_qvctemp.den.deletes)')=0 THEN
+	SET _qvctemp.den.deletes = 'N';
+ENDIF
+
+LET _qvctemp.den.keyField = peek('KeyField', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)');
+LET _qvctemp.den.updateField = peek('UpdateField', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)');
+
+LET _qvctemp.den.uniqueKey = ApplyMap('_qvctemp.TFMap', peek('UniqueKey', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)'), -1);
+IF len('$(_qvctemp.den.uniqueKey)')=0 THEN
+	// If UniqueKey omitted, set default of True.
+	SET _qvctemp.den.uniqueKey = -1;
+ENDIF
+
+LET _qvctemp.den.tableComment = peek('TableComment', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)');
+LET _qvctemp.den.staleAfter = peek('StaleAfter', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)');
+LET _qvctemp.den.staleAfter = 
+num(
+	alt(
+	interval#('$(_qvctemp.den.staleAfter)', 'd hh:mm')
+	,interval#('$(_qvctemp.den.staleAfter)', 'hh:mm') 
+	,interval#('$(_qvctemp.den.staleAfter)', 'mm')
+	,0
+	)
+,'00000.0000000','.',','
+);
+
+
+LET _qvctemp.den.qvdPath = '$(Qvc.Loader.v.QvdDirectory)\' & '$(_qvctemp.den.qvdName).qvd';
+
+// Log start of processing
+CALL Qvc.Log('Processing table $(_qvctemp.den.table), Extract Mode=$(_qvctemp.den.extractMode)');
+
+//==========================================================
+// Determine if existing QVD passes the Stale After test. 
+//==========================================================
+LET _qvctemp.den.qvdCreateTime = num(
+	alt(
+	QvdCreateTime('$(_qvctemp.den.qvdPath)')
+	,0)
+	,'00000.0000000','.',',');	// Get QVD create time. Will be 0 if QVD does not exist.
+
+LET _qvctemp.den.qvdAge = num(now(1) - $(_qvctemp.den.qvdCreateTime),'00000.0000000','.',',');	// Compute age of QVD as now - create time.
+
+IF $(_qvctemp.den.qvdAge) < $(_qvctemp.den.staleAfter) THEN					// If age LT stale after threshold
+	SET _qvctemp.den.doExtract = 0;											//   then skip this table
+	CALL Qvc.Log('QVD age ' & interval($(_qvctemp.den.qvdAge), 'd hh:mm:ss') & ' is less than Stale After value  ' & interval($(_qvctemp.den.staleAfter), 'd hh:mm:ss')	& '. Table skipped.');
+ENDIF 
+SET _qvctemp.den.qvdCreateTime=;	// Delete variable
+SET _qvctemp.den.qvdAge=;			// Delete variable
+
+IF $(_qvctemp.den.doExtract) THEN		// If not turned off by previous test, then extract this table
+
+//==============================================
+// Find the connection. First look for a connectionString,
+// then a connectionFile. 
+//==============================================
+IF len('$(_qvctemp.den.connectionString)') > 0 THEN			// We have a connectionString, use it.
+	SET _qvctemp.den.connect = $(_qvctemp.den.connectionString);
+
+// No connectionString, look for a connectionFile.
+ELSEIF len('$(_qvctemp.den.connectionFilename)') > 0 THEN	// We have a connectionFile.
+	// Load the connection string.
+	_qvctemp.Conn_temp:
+	LOAD @1:n as _qvctemp.ConnectString
+	FROM [$(Qvc.Loader.v.ConnectionDir)\$(_qvctemp.den.connectionFilename)]
+	(fix, codepage is 1252);
+	
+	LET _qvctemp.den.connect = peek('_qvctemp.ConnectString');	// Assign to connection string to variable
+	DROP TABLE _qvctemp.Conn_temp;		// Drop temp table
+ELSE	
+// Neither connectionString or connectionFile, it's an error.
+	CALL Qvc.LogError('No connection specified for $(_qvctemp.den.table). Extract skipped.');
+	SET _qvctemp.den.doExtract = 0;		// Skip this table
+END IF
+
+
+IF $(_qvctemp.den.doExtract) THEN		// If not turned off by previous test, then extract this table
+$(_qvctemp.den.connect);		// Execute the Connect statement
+
+LET _qvctemp.den.extractStart = num(now(1),'00000.0000000','.',',');	// Record a start time for the Extract
+
+QUALIFY ExtractTimestamp;	// File ExtractTimestamp will record date of extract in final table.
+
+// Calc fullreload flag
+LET _qvctemp.den.fullReload = if('$(_qvctemp.den.extractMode)'='F', -1, 0);		// Set full reload boolean flag
+// Call IncrementalSetup(). 
+// Calling parameters are Tablename, UpdateColumn, QVD_PrimaryKey.
+CALL Qvc.IncrementalSetup ('$(_qvctemp.den.qvdName)', '$(_qvctemp.den.updateField)', '$(_qvctemp.den.keyField)', $(_qvctemp.den.fullReload));  
+
+LET _qvctemp.den.vSqlStart = num(now(1),'00000.0000000','.',',');	// Record SQL start time
+
+//==========================================================
+// Execute the SQL Select.
+//==========================================================
+[$(Qvc.Loader.v.Tablename)]: 		// vTablename is set by the IncrementalSetup routine.
+REM; // Fix syntax error from table label with variable
+	// If LOAD Statement provided, use it
+IF len('$(_qvctemp.den.loadStatement)')>0 THEN
+	$(_qvctemp.den.loadStatement);
+ELSE	// No LOAD Statement, build a SQL SELECT 
+	IF $(Qvc.Loader.v.CreateExtractTimestampField) THEN
+		LOAD *, now(1) as ExtractTimestamp;
+	ENDIF
+	SQL SELECT $(_qvctemp.den.columns) FROM $(_qvctemp.den.table)
+	WHERE $(Qvc.Loader.v.IncrementalExpression)	// IncrementalExpression is set up the Qvc.IncrementalSetup routine.	
+	;
+ENDIF	
+
+UNQUALIFY ExtractTimestamp;			// Unqualify the currency field.
+DISCONNECT;			// Disconnect from database
+
+//==========================================================
+// Compute and log SQL statistics.
+//==========================================================
+// Using RangeMax because very short durations can calc as -0 because of different precision.
+LET _qvctemp.den.vSqlDuration = Interval(RangeMax(0, Now(1)-$(_qvctemp.den.vSqlStart)), 'hh:mm:ss');
+CALL Qvc.Log('SQL SELECT Duration=$(_qvctemp.den.vSqlDuration)');
+
+LET _qvctemp.den.vNoOfRows = num(NoOfRows('$(Qvc.Loader.v.Tablename)'),'#,##0');
+CALL Qvc.Log('$(_qvctemp.den.vNoOfRows) rows loaded from Table $(_qvctemp.den.table)');
+
+
+//==========================================================
+// Prepare and store the QVD.
+//==========================================================
+// Apply any Table Comment
+IF len('$(_qvctemp.den.tableComment)') > 0 THEN
+	COMMENT TABLES [$(Qvc.Loader.v.Tablename)] WITH '$(_qvctemp.den.tableComment)';
+ENDIF
+
+// Specify if we are using non-unique (generic) key. This has to be specified before IncrementalStore is called.
+SET Qvc.Loader.v.KeyFieldIsUnique = $(_qvctemp.den.uniqueKey);
+
+// If we are doing Delete processing, get the keys from the DB Table
+IF '$(_qvctemp.den.deletes)'='Y' THEN
+	[_qvctemp.den.DeleteKeys]:
+	LOAD [$(_qvctemp.den.keyField)] as [_qvctemp.den.DeleteKeysField]
+	;
+	SQL SELECT $(_qvctemp.den.keyField)  FROM $(_qvctemp.den.table);
+	// Call IncrementalStore to update the QVD, with deletes. 
+	CALL Qvc.IncrementalStore('_qvctemp.den.DeleteKeys');
+ELSE 
+	// Call IncrementalStore to update the QVD, no deletes. 
+	CALL Qvc.IncrementalStore 
+ENDIF
+
+
+//==========================================================
+// Record statistics about this load.
+//========================================================== 
+ExtractStats:
+LOAD
+	'$(_qvctemp.den.recid)' as RecId,
+	timestamp($(_qvctemp.den.extractStart)) as [Extract Start],
+	'$(_qvctemp.den.vSqlDuration)' as [SQL Duration],
+	'$(_qvctemp.den.vNoOfRows)' as [SQL Rows],
+	num(QvdNoOfRecords('$(_qvctemp.den.qvdPath)'),'#,##0') as [QVD Rows],
+	QvdNoOfFields('$(_qvctemp.den.qvdPath)') as [QVD Fields]
+AUTOGENERATE 1
+;
+
+ENDIF 		// END for IF $(_qvctemp.den.doExtract) THEN
+ENDIF 		// END for IF $(_qvctemp.den.doExtract) THEN
+
+//==========================================================
+// Clean up vars.
+//========================================================== 
+SET _qvctemp.den.recid =;
+SET _qvctemp.den.connection =;
+SET _qvctemp.den.table =;
+SET _qvctemp.den.columns =;
+SET _qvctemp.den.keyField =;
+SET _qvctemp.den.updateField =;
+SET _qvctemp.den.uniqueKey =;
+SET _qvctemp.den.qvdPath=;
+SET _qvctemp.den.tableComment=;
+SET _qvctemp.den.connectString=;
+SET _qvctemp.den.extractMode=;
+SET _qvctemp.den.extractStart=;
+SET _qvctemp.den.fullReload=;
+SET _qvctemp.den.QvTableNam=;
+SET _qvctemp.den.vSqlDuration=;
+SET _qvctemp.den.vSqlStart=;
+SET _qvctemp.den.QvTableName=;
+SET _qvctemp.den.staleAfter=;
+
+SET _qvctemp.den.doExtract=;
+
+SET _qvctemp.den.vNoOfRows=;
+SET _qvctemp.den.vNoOfRows=;
+
+REM End of SUB _Qvc.DbExtract_NextTable; 
+END SUB

@@ -1,0 +1,8 @@
+// Localization for French
+SET Qvc.Calendar.v.Field.Date=Date;
+SET Qvc.Calendar.v.Field.Day=Jour;
+SET Qvc.Calendar.v.Field.Weekday=Jour de la semaine;
+SET Qvc.Calendar.v.Field.Year=Année;
+SET Qvc.Calendar.v.Field.Month=Mois;
+SET Qvc.Calendar.v.Field.YearMonth=Année-Mois;
+SET Qvc.Calendar.v.Field.Quarter=Trimestre;

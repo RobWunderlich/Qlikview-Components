@@ -1,0 +1,36 @@
+///$tab Main
+SUB Qvc.CreateWildMapExpression (_expressionVar, _table)
+/**
+@version $Id: Qvc_WildMap.qvs 231 2012-08-16 16:16:42Z rob@robwunderlich.com $
+Create an Expression for Wildcard mapping.
+
+The generated expression is a pick(match()) expression that may be used to map values using wildcard characters in the "from" string.
+
+@syntax CALL Qvc.CreateWildMapExpression (vMapExpr, WildMapTable);
+
+@param 1 Variable to return the expression in. 
+@param 2 Table that holds map values. The first column has "from" (key) values, the second column "to" values.
+
+*/
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+LET _MapKeyField = FieldName(1, '$(_table)');
+LET _MapValueField = FieldName(2, '$(_table)');
+
+_MapExprTable:
+LOAD 
+'pick(wildMatch($1,' & chr(39) 
+& concat($(_MapKeyField), chr(39) & ',' & chr(39), RecNo()) 
+& chr(39)
+& '), ' & chr(39)
+& concat($(_MapValueField), chr(39) & ',' & chr(39), RecNo())
+& chr(39) & ')' as _qvctemp._MapExpr
+RESIDENT $(_table)
+;
+LET _expressionVar = peek('_qvctemp._MapExpr', -1);
+DROP TABLE _MapExprTable;
+SET _MapKeyField=;
+SET _MapValueField=;
+
+END SUB
+/* * End of Qvc.CreateWildMapExpression subroutine * */

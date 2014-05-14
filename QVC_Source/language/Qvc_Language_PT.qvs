@@ -1,0 +1,8 @@
+﻿// Localization for Portuguese 
+SET Qvc.Calendar.v.Field.Date=Data; 
+SET Qvc.Calendar.v.Field.Day=Dia; 
+SET Qvc.Calendar.v.Field.Weekday=Dia da Semana; 
+SET Qvc.Calendar.v.Field.Year=Ano; 
+SET Qvc.Calendar.v.Field.Month=Mês; 
+SET Qvc.Calendar.v.Field.YearMonth=Ano-Mês; 
+SET Qvc.Calendar.v.Field.Quarter=Trimestre;

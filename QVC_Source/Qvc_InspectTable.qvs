@@ -1,0 +1,52 @@
+///$tab InspectTable
+
+SUB Qvc.InspectTable (_tableName)
+/**
+@version $Id: Qvc_InspectTable.qvs 273 2013-04-19 16:44:04Z rob@robwunderlich.com $
+Inspect the current contents of a table using a QVD viewer utility such as Qviewer. 
+
+This routine uses the script EXECUTE statement and therefore requires the script Setting "Can Execute External Programs". You will be prompted at reload to allow or confirm this permission. 
+
+The table is written to a temporary QVD and opened using the installed viewer or the program associated with the .QVD file extension. 
+
+A QVD viewer program such as QViewer must be installed.
+
+QViewer is available from http://easyqlik.com/.
+
+@param 1 String. Table to be inspected.
+@var Qvc.v.QvdViewer.Path in Optional. Path to the QVD program. If empty, the default location for Qviewer will be used. If QViewer is not found, the QVD will be opened using the Windows file association for QVD.
+
+@syntax CALL Qvc.InspectTable('MyTable'); 
+*/
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+// Create path for the temp qvd. Use the existing work path and name the qvd ~tablename.qvd.
+SET _qvctemp.tempQvdPath = $(QvWorkPath)\~$(_tableName).qvd;	
+STORE [$(_tableName)] INTO [$(_qvctemp.tempQvdPath)] (qvd);	 	// Store the temp QVD
+
+// If path to QvdViewer is not set, try to guess it
+IF len('$(Qvc.v.QvdViewer.Path)')=0 THEN
+	// Path not set, try the default location for QViewer
+	LET _qvctemp.Qvc.v.QvdViewer.Path = 
+	GetRegistryString('HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders', 'Local AppData')
+	& '\EasyQlik\QViewer\QViewer.exe';
+	// Test if the QViewer file exists
+	IF NOT len(FileSize('$(_qvctemp.Qvc.v.QvdViewer.Path)')) > 0 THEN
+		SET _qvctemp.Qvc.v.QvdViewer.Path=;		// Does not exist, clear the variable.
+	ENDIF
+ENDIF	
+
+// Launch QVD viewer, with either the guessed path, the preset path, or the file association if no path.
+IF len('$(_qvctemp.Qvc.v.QvdViewer.Path)')>0 THEN	
+	EXECUTE "$(_qvctemp.Qvc.v.QvdViewer.Path)" "$(_qvctemp.tempQvdPath)";
+ELSEIF len('$(Qvc.v.QvdViewer.Path)')>0 THEN	
+	EXECUTE "$(Qvc.v.QvdViewer.Path)" "$(_qvctemp.tempQvdPath)";
+ELSE 	
+	EXECUTE cmd /C "$(_qvctemp.tempQvdPath)";					// Open the QVD. We will pause until the utility is closed.
+ENDIF
+
+EXECUTE cmd /c del "$(_qvctemp.tempQvdPath)";					// Delete the temp QVD
+SET _qvctemp.tempQvdPath=;			// Clean temp variable
+SET _qvctemp.Qvc.v.QvdViewer.Path=;
+
+END SUB

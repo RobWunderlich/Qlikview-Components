@@ -1,0 +1,8 @@
+// Localization for Belarus
+SET Qvc.Calendar.v.Field.Date=Дата;
+SET Qvc.Calendar.v.Field.Day=Дзень;
+SET Qvc.Calendar.v.Field.Weekday=Дзень тыдня;
+SET Qvc.Calendar.v.Field.Year=Год;
+SET Qvc.Calendar.v.Field.Month=Месяц;
+SET Qvc.Calendar.v.Field.YearMonth=Год-Месяц;
+SET Qvc.Calendar.v.Field.Quarter=Квартал;

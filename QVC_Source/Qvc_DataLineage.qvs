@@ -1,0 +1,127 @@
+///$tab DataLineage
+SUB Qvc.DataLineage (_qvwpath)
+/**
+@version $Id: Qvc_DataLineage.qvs 214 2012-07-30 18:45:36Z rob@robwunderlich.com $
+Load a table describing the data sources for a qvw. 
+
+The table will be named Qvc.LineageInfo and contains the following fields:
+Qvc.LineageInfo.ConnString
+Qvc.LineageInfo.Creator
+Qvc.LineageInfo.LoadStatement
+Qvc.LineageInfo.Source
+Qvc.LineageInfo.Target
+
+**Important Note: LineageInfo is extracted from the qvw file on disk, not the in-memory copy. This has two implications:
+1. Script changes will not be reflected until the qvw is saved and the script reloaded again.
+2. LineageInfo source file paths contain resolved absolute paths. If the script was last loaded by a desktop user, the path may have resolved to a different drive letter than your machine. This is corrected by reloading and saving the file.
+
+@param 1 String. Optional. Path of QVW file to be processed. If omitted, the current QVW (Caller of this sub) is processed. 
+
+@syntax CALL Qvc.DataLineage(['qvwpath.qvw']); 
+*/
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+IF len('$(_qvwpath)')=0 THEN			// If no param1
+	LET _qvwpath = DocumentPath();		// Default qvw is this qvw.
+	SET _qvctemp.ScanningThisQvw=1;		// Indicate we are scanning ourself by default
+ELSE 
+	SET _qvctemp.ScanningThisQvw=0;		// Indicate we are scanning QVW named in param1
+ENDIF
+
+LET _qvctemp.SaveErrorMode=$(ErrorMode);	// Save the current ErrorMode
+SET ErrorMode=0;		// Set ErrorMode to 0 -- we may have some file paths we can't read
+
+//==== Begin of nested SUB for scanning referenced QVDs. ===
+// The parameter is a QVD path.
+SUB _Qvc.LoadQvdInfo(_qvdpath)
+
+// Get the Creator name (QVW name) for this QVD.
+_qvctemp.TableHeader_temp:
+LOAD
+    CreatorDoc
+    // CreatorDoc is in the XML Header of the QVD file
+FROM $(_qvdpath) (XmlSimple, Table is [QvdTableHeader]);
+LET _qvctemp.vCreatorDoc = peek('CreatorDoc',-1);
+DROP TABLE _qvctemp.TableHeader_temp;
+
+
+// Load the lineageInfo rows from the QVD.
+_qvctemp.LineageInfo_qvd:
+LOAD DISTINCT 
+	'$(_qvctemp.vCreatorDoc)'			as Qvc.LineageInfo.Creator,  // Use Creator name we pulled earlier
+	'$(_qvdpath)' 						as Qvc.LineageInfo.Target,	// The QVD file is the target (output)
+	if(len(Statement)=0		// If no Statement,
+		,Discriminator		// Then Discriminator holds a filename. Use it for Source
+		// Otherwise, get what is after FROM (dbtablename) as the Source					  
+		,ltrim(mid(Statement,index(UPPER(Statement),'FROM')+len('FROM')))) as Qvc.LineageInfo.Source,
+	if( len(Statement)>0,Discriminator) as Qvc.LineageInfo.ConnString,		// If we have a Statement, then save Connection String
+	if( Len(Statement)>0,Statement) 	as Qvc.LineageInfo.LoadStatement	// If we have a Statement, then save it
+; 
+LOAD 
+	Discriminator,
+	Statement
+FROM [$(_qvdpath)] (XmlSimple, Table is [QvdTableHeader/Lineage/LineageInfo]);
+
+//=== End of nested SUB for scanning referenced QVDs. ===
+END SUB	//_Qvc.LoadQvdInfo
+
+
+/****************************************************************************
+* Load the source lineage rows from the QVW file 
+*****************************************************************************/ 
+Qvc.LineageInfo:
+LOAD 
+	*
+WHERE NOT mixmatch(Qvc.LineageInfo.Source, DocumentPath())		// Ignore the Self-references
+	AND NOT Qvc.LineageInfo.Source LIKE 'RESIDENT _qvctemp.*'
+;	
+LOAD 
+	// If we are scanning ourself by default, use the special name ' This QVW' as Target.
+	// Note the leading space makes it sort to top in charts.
+	if($(_qvctemp.ScanningThisQvw),' This QVW', '$(_qvwpath)') as Qvc.LineageInfo.Target,
+	if(len(Statement)=0,Discriminator,				  
+		ltrim(mid(Statement,index(UPPER(Statement),'FROM')+len('FROM')))) as Qvc.LineageInfo.Source,
+	if( len(Statement)>0,Discriminator) as Qvc.LineageInfo.ConnString,
+	if( Len(Statement)>0,Statement) 	as Qvc.LineageInfo.LoadStatement	// If we have a Statement, then save Connection String
+FROM [$(_qvwpath)] (XmlSimple, Table is [DocumentSummary/LineageInfo])		// If we have a Statement, then save it
+;
+
+/****************************************************************************
+* Load source lineage rows for any QVDs use in thie QVW
+*****************************************************************************/ 
+FOR _qvctemp.lineageRow = 0 to NoOfRows('Qvc.LineageInfo')
+	LET _qvctemp.qvdpath = peek('Qvc.LineageInfo.Source', $(_qvctemp.lineageRow), 'Qvc.LineageInfo');
+	IF lower(SubField('$(_qvctemp.qvdpath)','.',-1)) = 'qvd' Then 
+		CALL _Qvc.LoadQvdInfo('$(_qvctemp.qvdpath)');
+	ENDIF
+NEXT;
+
+// Join the Creator (who created the QVD) QVW names with QVD Sources used in this QVW
+IF NoOfRows('_qvctemp.LineageInfo_qvd')>0 THEN		// If any qvd sources,
+	LEFT JOIN (Qvc.LineageInfo)
+	LOAD
+		Qvc.LineageInfo.Target as Qvc.LineageInfo.Source,
+		Qvc.LineageInfo.Creator
+	RESIDENT _qvctemp.LineageInfo_qvd
+	;
+
+	// Concatenate the QVD Lineage data to the final table
+	Concatenate (Qvc.LineageInfo)
+	LOAD * RESIDENT _qvctemp.LineageInfo_qvd
+	;
+	DROP TABLE _qvctemp.LineageInfo_qvd;		// Drop the temp QVD table
+ENDIF
+
+LET ErrorMode=$(_qvctemp.SaveErrorMode);	// Restore the ErrorMode
+
+
+// Clean up temp variables
+SET _qvwpath=;
+SET _qvctemp.lineageRow=;
+SET _qvctemp.vCreatorDoc=;
+SET _qvctemp.ScanningThisQvw=;
+SET _qvdpath=;
+SET _qvctemp.SaveErrorMode=;
+
+
+END SUB	// Qvc.DataLineage

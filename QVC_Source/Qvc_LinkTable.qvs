@@ -1,0 +1,46 @@
+///$tab LinkTable
+SUB Qvc.LinkTable (_linkTableName, _table, _fields)
+/**
+@version $Id: Qvc_LinkTable.qvs 186 2012-04-07 23:36:07Z rob@robwunderlich.com $
+Create or update a LinkTable. 
+
+The Fields specfied in parameter 3 will be moved from the source table specified in parameter 2, into the link table specified by parameter 1. 
+
+If the link table does not exist, it will be created. If it does exist, it will be updated. 
+
+@param 1 String. Name of new or existing Link Table.
+@param 2 String. Table to load fields from.
+@param 3 String. Comma seperated list of fields to move from source table to Link Table.
+
+@syntax CALL Qvc.LinkTable('LinkTableName', 'SourceTableName', 'Field1, Field2, ...'); 
+*/
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+// Make a name for the temp link table
+CALL _Qvc.UniqueId('_vId');
+LET _LinkTableTemp = '$(_linkTableName)' & '_temp_' & '$(_vId)';
+[$(_LinkTableTemp)]:
+NOCONCATENATE LOAD DISTINCT 		// Load fields from source table to link table
+	$(_fields),
+	AutoNumberHash128($(_fields)) as %$(_linkTableName)_Key
+RESIDENT $(_table);
+
+LEFT JOIN ($(_table))	// Join key from link table to source table
+LOAD DISTINCT %$(_linkTableName)_Key, $(_fields) RESIDENT $(_LinkTableTemp);
+
+DROP FIELDS $(_fields) FROM $(_table);		// Drop fields from source table
+
+IF $(_Qvc.TableExists($(_linkTableName))) THEN
+	CONCATENATE ([$(_linkTableName)])
+	LOAD *
+	RESIDENT [$(_LinkTableTemp)];
+	DROP TABLE [$(_LinkTableTemp)];
+
+ELSE
+	RENAME TABLE [$(_LinkTableTemp)] TO [$(_linkTableName)];
+ENDIF
+
+SET _LinkTableTemp=;
+SET _vId=;
+
+END SUB

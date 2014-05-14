@@ -1,0 +1,330 @@
+///$tab Config Vars
+// Variables - may be overidden by individual Loader qvw.
+
+// Datetime literal format for DB (MS SQL Server)
+SET Qvc.Loader.v.DatabaseDatetimeMask = 'MM-DD-YYYY hh:mm:ss';
+// The directory for the QVD file
+SET Qvc.Loader.v.QvdDirectory='QVD';
+// How far back to load if First Load 
+//LET Qvc.Loader.v.BaseDate = num(MakeDate(2000,01,01));
+SET Qvc.Loader.v.BaseValue =;
+
+// Specify the Database product name. Possible values are SQLSERVER | ORACLE | SFDC.
+SET Qvc.Loader.v.Database=SQLSERVER;
+
+// Specify the name that will be appended to Qvc.Loader.v.Predicate. to name the function used to create the predicate.
+// Predicates are defined in the IncrementalSetup Sub. They must be defined there to get late binding of nested vars.
+SET Qvc.Loader.v.ModField.Type=Datetime;
+
+// Specify if the table uses unique (Primary) values for the Key Field. That is, every row contains a unique value (true). 
+// If false, duplicate values are allowed between rows. All rows of a given key value will replace rows of the same value
+// from the master QVD.
+// ** Specify true if possible as this will result in better performance in the QVD update due to an optimized load. **
+SET Qvc.Loader.v.KeyFieldIsUnique = -1;
+
+// Specify if the IncrementalStore routine should save the max value of the ModField in the QVD.
+// If true, a new field "Qvc.MaxModFieldValue" will be created in the QVD. 
+// This will greatly increase the speed of subsequent delta loads. 
+// True (-1) is the recommended value. 
+SET Qvc.Loader.v.StoreMaxModFieldValue = 0;
+///$tab Incremental Setup
+SUB Qvc.IncrementalSetup (_vTablename, _vSqlModField, _vPk, _vForceFullReload)
+/**
+@version $Id: Qvc_Incremental_Reload.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+Set up for incremental load. This is Step 1 of an incremental load process that supports insert, updates and optionally deletes.
+
+Incremental load select rows from the database that have been updated after the last time ("delta time") that reload was run. 
+
+The delta time is established as the max value of the modification field in the QVD. 
+
+This routine builds the WHERE clause used by a subsequent SQL SELECT or LOAD to retrieve updated rows. After loading updated rows, call Qvc.IncrementalStore to update and save the QVD.
+
+See the example qvw for complete instructions.
+
+@syntax CALL Qvc.IncrementalSetup ('Orders', 'LastUpdate', 'OrderId', [ForceFullReload]);  
+
+@param 1 String. The Qlikview tablename. This value will be assigned to the variable Qvc.Loader.v.Tablename.
+@param 2 String. The name of the SQL column that indicates row modification. The Qlikview Fieldname is assumed to be the same.
+@param 3 String. The Primary Key column of the Qlikview table.
+@param 4 True/False (-1/0). If True, a full reload is forced, regardless of an existing QVD. Default is False.
+
+@var Qvc.Loader.v.Database in Database product where tables will be loaded from. Possible values are SQLSERVER | ORACLE | SFDC. Default is SQLSERVER. For non-database files, use SQLSERVER.
+@var Qvc.Loader.v.QvdDirectory in Directory for QVD files. Default is 'QVD'.
+@var Qvc.Loader.v.BaseValue in How far back to load if first load. If the ModField is a datetime, this should be a QV date number. If revision, a number. If empty, the predicate "1=1" will be generated.
+@var Qvc.Loader.v.ModField.Type in Type of the modification (param 2) column -- "Datetime" or "Revision".
+@var Qvc.Loader.v.DatabaseDatetimeMask in Datetime format used by database mod field. Default is 'MM-DD-YYYY hh:mm:ss'.
+@var Qvc.Loader.v.StoreMaxModFieldValue in True/False (-1/0). If True, the QVD field "Qvc.MaxModFieldValue" will be used to determine the high value of the ModField. Default is 0.
+
+@var Qvc.Loader.v.Tablename out Name of Qlikview table.
+@var Qvc.Loader.v.IncrementalExpression out The SQL Predicate (where) clause to be included in your SQL Select.
+
+*/
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+// Set default for forceFullReload to False.
+LET _vForceFullReload=$(_Qvc.DefaultIfEmpty($(_vForceFullReload), 0));
+
+// vSqlModField must be present unless doing full reload
+IF len('$(_vSqlModField)')=0 AND NOT $(_vForceFullReload) THEN
+	CALL Qvc.LogError('ERROR: Parameter 2 (ModField) must be specified unless ForceFullReload is true');
+	exit script;	REM Exit the script, this is an intolerable error;
+ENDIF
+
+
+SET _Qvc.Loader.v.ForceFullReload = '$(_vForceFullReload)';		// Make it a private global var for Qvc.IncrementalStore
+
+SET Qvc.Loader.v.Tablename = '$(_vTablename)';		// Make it a global var
+SET _Qvc.Loader.v.Tablename = '$(_vTablename)';		// Also a private copy for Qvc.IncrementalStore
+SET _Qvc.Loader.v.QvdFile = '$(Qvc.Loader.v.QvdDirectory)\$(_Qvc.Loader.v.Tablename).qvd';
+SET _Qvc.Loader.v.PrimaryKey = '$(_vPk)';		// Make it a global var				
+
+/* Functions that create WHERE predicates. They are defined in the sub to allow for definition of vars referenced in the function. */
+// Predicate for a datetime field (WHERE xx >= 'YYYY-MM-DD hh:mm:ss'). Also for Date field - just use different mask.
+SET _Qvc.Loader.v.Predicate.SQLSERVER.Datetime = '>=' & chr(39) & timestamp($1, '$(Qvc.Loader.v.DatabaseDatetimeMask)') & chr(39);
+SET _Qvc.Loader.v.Predicate.ORACLE.Datetime = '>= TIMESTAMP ' & chr(39) & timestamp($1, 'YYYY-MM-DD hh:mm:ss') & chr(39);
+SET _Qvc.Loader.v.Predicate.SFDC.Datetime = '>= ' & timestamp($1, 'YYYY-MM-DD hh:mm:ss');
+
+
+// Predicate for s revision field (WHERE xx >nnnn).
+// The leading '' is a way to get the set to keep the quotes around the predicate.
+SET _Qvc.Loader.v.Predicate.SQLSERVER.Revision = '' & '>$1';
+SET _Qvc.Loader.v.Predicate.ORACLE.Revision = '' & '>$1';
+SET _Qvc.Loader.v.Predicate.SFDC.Revision = '' & '>$1';
+
+
+// The SQL modfield may be a qualified name like "T.LastUpdate". Remove the qualifier to get the QVD fieldname.
+LET _vQvdModField = subfield('$(_vSqlModField)', '.', -1);	
+SET _Qvc.Loader.v.TableModificationField = '$(_vQvdModField)';	// Save as private global var
+
+// Set a variable indicating if the QVD exists or not
+IF '$(_vForceFullReload)' THEN
+	SET _vQvdExists = 0;	//ForceFullReload flag is on, treat as though QVD doesn't exist
+ELSE  						// Test if qvd file exists
+	LET _vQvdExists = $(Qvc.FileExists(_Qvc.Loader.v.QvdFile));
+ENDIF
+
+// Find the right function for predicate formatting
+SET _tempLoaderPredicate = $(_Qvc.Loader.v.Predicate.$(Qvc.Loader.v.Database).$(Qvc.Loader.v.ModField.Type));
+
+IF $(_vQvdExists) THEN		// QVD exists, we will do an incremental reload
+	Call Qvc.Log('$(_Qvc.Loader.v.QvdFile) exists, rows=' & num(QvdNoOfRecords('$(_Qvc.Loader.v.QvdFile)'), '#$(ThousandSep)##0') );
+	// Test if the Qvc.MaxModFieldValue field was saved in the QVD on a previous run
+	CALL Qvc.QvdFieldNumber('Qvc.MaxModFieldValue', '$(_Qvc.Loader.v.QvdFile)', '_qvctemp.return');
+	IF $(Qvc.Loader.v.StoreMaxModFieldValue) AND $(_qvctemp.return) THEN
+		// Get the Qvc.MaxModFieldValue value from first row of QVD
+		_qvctemp.MaxValueTable:
+		FIRST 1 LOAD Qvc.MaxModFieldValue FROM [$(_Qvc.Loader.v.QvdFile)] (qvd);
+		LET _vDate.Max = peek('Qvc.MaxModFieldValue');
+		DROP TABLE _qvctemp.MaxValueTable;
+	ELSE 
+		// Not saved on previous run, read the whole QVD to get max value.
+		CALL Qvc.GetFieldValues ('_vDate', '$(_vQvdModField)',  '$(_Qvc.Loader.v.QvdFile)');
+	ENDIF
+	
+	SET Qvc.Loader.v.IncrementalFloor = $(_vDate.Max);	// Save copy for user defined custom where expression
+
+	// Create a where predicate
+	LET Qvc.Loader.v.IncrementalExpression = '$(_vSqlModField) ' & $(_tempLoaderPredicate($(_vDate.Max)));	
+	Call Qvc.log ('Loading rows where $(Qvc.Loader.v.IncrementalExpression)') 
+	
+ELSE						// QVD does not exist
+	IF len('$(Qvc.Loader.v.BaseValue)') > 0 THEN 
+		LET Qvc.Loader.v.IncrementalExpression = '$(_vSqlModField) ' & $(_tempLoaderPredicate($(Qvc.Loader.v.BaseValue)));
+		SET Qvc.Loader.v.IncrementalFloor = $(Qvc.Loader.v.BaseValue);	// Save copy for user defined custom where expression
+	ELSE 
+		SET Qvc.Loader.v.IncrementalExpression = '1=1';		// The always true predicate
+		SET Qvc.Loader.v.IncrementalFloor =;
+	ENDIF
+	IF '$(_vForceFullReload)' THEN
+		Call Qvc.log ('ForceFullReload requested. Doing full reload where $(Qvc.Loader.v.IncrementalExpression).');
+	ELSE 
+		Call Qvc.log ('QVD $(_Qvc.Loader.v.QvdFile) does not exist. Doing full reload where $(Qvc.Loader.v.IncrementalExpression).');
+	ENDIF		
+END IF
+
+// Cleanup variables
+SET _vQvdExists=;
+SET _vBaseDate=; 
+SET _vDate.Max=;
+SET _vDate.Min=;
+SET _tempLoaderPredicate=;
+SET _qvctemp.return=;
+SET _Qvc.Loader.v.Predicate.SQLSERVER.Datetime=;
+SET _Qvc.Loader.v.Predicate.SQLSERVER.Revision=;
+SET _Qvc.Loader.v.Predicate.ORACLE.Datetime=;
+SET _Qvc.Loader.v.Predicate.ORACLE.Revision=;
+SET _Qvc.Loader.v.Predicate.SFDC.Datetime=;
+SET _Qvc.Loader.v.Predicate.SFDC.Revision=;
+
+
+
+END SUB;		// End of IncrementalSetup sub
+///$tab Incremental Store
+SUB Qvc.IncrementalStore (_vDbKeyTable)
+/**
+@version $Id: Qvc_Incremental_Reload.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+Update the QVD with changes from Incremental load. This is Step 2 of an incremental load process that supports insert, updates and optionally deletes.
+
+If the optional parameter 1 is specified, delete processing will be done by inner joining the supplied key values with the QVD Primary Key. If parameter 1 is omitted, no delete processing will take place. 
+
+This routine calls Qvc.UpdateQvd using the parameter values used in the last call to Qvc.IncrementalSetup.
+@syntax CALL Qvc.IncrementalStore (['DbKeepKeys']);
+
+@param 1 String, Optional. Name of table containing primary key values that should be kept in the QVD. The keys must be in the first field of the table. For performance reasons, the Fieldname should *not* be the same as the Primary Key Fieldname.
+
+@var Qvc.Loader.v.KeyFieldIsUnique in True/False (-1/0). Default is 0. Specify if the table uses unique (Primary) values for the Key Field. That is, every row contains a unique value (true). If false, duplicate values are allowed between rows and all rows of a given key value will replace rows of the same value from the master QVD.
+@var Qvc.Loader.v.StoreMaxModFieldValue in True/False (-1/0). Default is 0. If True, the field "Qvc.MaxModFieldValue", containing the max value of the ModField, will be added to the QVD. 
+*/
+
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+// Copy Global Variables to local vars for the convienence of shorter names.
+SET _vTablename = '$(_Qvc.Loader.v.Tablename)';
+SET _vQvdFile = '$(_Qvc.Loader.v.QvdFile)';
+SET _vQvdModField = '$(_Qvc.Loader.v.TableModificationField)';
+SET _vTimestampMask = '$(Qvc.Loader.v.DatabaseDatetimeMask)';
+SET _vPrimaryKey = '$(_Qvc.Loader.v.PrimaryKey)';
+
+CALL Qvc.UpdateQvd ('$(_vTablename)', '$(_vQvdFile)', '$(_vPrimaryKey)', '$(_vDbKeyTable)', '$(_Qvc.Loader.v.ForceFullReload)'); 
+
+
+// Update is done. Log some results */
+CALL Qvc.log( '$(_vQvdFile) updated, rows=' & num(QvdNoOfRecords('$(_vQvdFile)'), '#$(ThousandSep)##0') )
+
+//CALL Qvc.GetFieldValues ('_vDate', '$(_vQvdModField)', '$(_vTablename)');
+//IF Qvc.Loader.v.ModField.Type = 'Datetime' THEN
+//	LET _vDate.Min = timestamp($(_vDate.Min), '$(_vTimestampMask)');
+//	LET _vDate.Max = timestamp($(_vDate.Max), '$(_vTimestampMask)');
+//ENDIF
+//CALL Qvc.log('$(_vQvdFile) min=$(_vDate.Min), max=$(_vDate.Max)')
+
+DROP TABLE $(_vTablename);
+
+// Cleanup variables
+
+SET _Qvc.Loader.v.Tablename=;
+SET _Qvc.Loader.v.QvdFile=;
+SET _Qvc.Loader.v.PrimaryKey=;
+SET _Qvc.Loader.v.TableModificationField=;
+SET _Qvc.Loader.v.ForceFullReload=;
+
+SET _vDate.Max=;
+SET _vDate.Min=;
+SET _vTablename=;
+SET _vQvdFile=;
+SET _vQvdModField=;
+SET _vTimestampMask=;
+SET _vPrimaryKey=;
+
+END SUB		// End of IncrementalStore sub
+///$tab UpdateQvd
+SUB Qvc.UpdateQvd (_vTablename, _vQvdFile, _vPrimaryKey, _vDbKeyTable, _vReplaceQvd) 
+/**
+@version $Id: Qvc_Incremental_Reload.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+Update a QVD with changed rows.
+
+IF parameter ReplaceQvd is 0 or not specified, the QVD is CONCATENATE loaded to the Table using a WHERE NOT EXISTS(PrimaryKey) clause. If optional parameter 4 is specified, that table is INNER JOINed to remove rows that do not exist in the database. The QVD is then STOREd to the filesystem.
+
+**NOTE** If you are using Qvc.IncrementalSetup(), use Qvc.IncrementalStore() to do the update instead of this routine.
+
+@syntax CALL Qvc.UpdateQvd ('Table', 'QVDname', 'PrimaryKey', ['DbKeepKeys'], [ReplaceQvd]);
+
+@param 1 String. Qlikview tablename. 
+@param 2 String. QVD File Path. A relative name honors the current Directory setting.
+@param 3 String. The Primary Key column of table.
+@param 4 String, Optional. Name of table containing primary key values that should be kept in the QVD. The keys must be in the first field of the table. For performance reasons, the Fieldname should *not* be the same as the Primary Key Fieldname.
+@param 4 True/False (-1/0). If True, existing QVD will be replaced without updates, as a full reload.
+
+@var Qvc.Loader.v.KeyFieldIsUnique in True/False (-1/0). Default is 0. Specify if the table uses unique (Primary) values for the Key Field. That is, every row contains a unique value (true). If false, duplicate values are allowed between rows and all rows of a given key value will replace rows of the same value from the master QVD.
+@var Qvc.Loader.v.StoreMaxModFieldValue in True/False (-1/0). Default is 0. If True, the field "Qvc.MaxModFieldValue", containing the max value of the ModField, will be added to the QVD. 
+*/
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+// Set defaults
+LET _vReplaceQvd=$(_Qvc.DefaultIfEmpty($(_vReplaceQvd), 0));
+
+// Set a variable indicating if the QVD exists or not
+IF '$(_vReplaceQvd)' THEN
+	SET _vQvdExists = 0;	//vReplaceQvd flag is on, treat as though QVD doesn't exist
+ELSE  						// Test if qvd file exists
+	LET _vQvdExists = $(Qvc.FileExists(_vQvdFile));
+ENDIF
+
+REM Create Qvc.MaxModFieldValue if requested;
+IF $(Qvc.Loader.v.StoreMaxModFieldValue) AND len('$(_Qvc.Loader.v.TableModificationField)')>0 THEN
+	JOIN ([$(_vTablename)]) 
+	LOAD max([$(_Qvc.Loader.v.TableModificationField)]) as Qvc.MaxModFieldValue 
+	RESIDENT [$(_vTablename)];
+ENDIF
+
+REM If deletes requested;
+IF len('$(_vDbKeyTable)') > 0 AND $(_vQvdExists) THEN
+	LET _vDbKeyTable_Fieldname = FieldName(1,'$(_vDbKeyTable)');	// Get name of table field
+	IF '$(_vDbKeyTable_Fieldname)' = '$(_vPrimaryKey)' THEN			// It can't be same as Primary Key or it will spoil the exists() test when we load QVD.
+		CALL Qvc.LogWarning('DbKeyTable fieldname is same as PrimaryKey and will be renamed.');
+		CALL _Qvc.UniqueId('_vDbKeyTable_Fieldname_Newname');		// Get a new fieldname
+		// Copy the existing field to new name
+		LEFT JOIN ([$(_vDbKeyTable)]) LOAD 
+			DISTINCT [$(_vDbKeyTable_Fieldname)], 
+			[$(_vDbKeyTable_Fieldname)] as [$(_vDbKeyTable_Fieldname_Newname)] 
+			RESIDENT [$(_vDbKeyTable)];
+		// Drop the original field from table.
+		DROP FIELD [$(_vDbKeyTable_Fieldname)] FROM [$(_vDbKeyTable)];
+	ENDIF
+	
+	SET _vDbKeyTable_Fieldname=;
+	SET _vDbKeyTable_Fieldname_Newname=;
+ENDIF
+
+IF NOT '$(Qvc.Loader.v.KeyFieldIsUnique)' THEN
+	// If not using unique keys, get all key values into a temp field.
+	_qvctemp.PK_temp:
+	LOAD FieldValue('$(_vPrimaryKey)', recno()) as [_qvctemp.PK_values] AUTOGENERATE FieldValueCount('$(_vPrimaryKey)');
+	// Use the two parm exists test.
+	SET _qvctemp.ExistsExpr = '[_qvctemp.PK_values],[$(_vPrimaryKey)]';
+ELSE 
+	// Use the single parm exists test.
+	SET _qvctemp.ExistsExpr = '[$(_vPrimaryKey)]';
+ENDIF
+
+REM If incremental reload, load previous data and concatenate to data just read.;
+IF $(_vQvdExists) THEN
+// Concatenate is required if adding fields
+	CONCATENATE ($(_vTablename))
+	LOAD * FROM $(_vQvdFile) (qvd)
+	WHERE NOT exists($(_qvctemp.ExistsExpr))
+	;
+END IF
+
+// Clean up temp vars
+SET _qvctemp.ExistsExpr=;
+IF $(_Qvc.TableExists(_qvctemp.PK_temp)) THEN 
+	DROP TABLE _qvctemp.PK_temp;
+ENDIF
+
+REM If deletes requested;
+IF len('$(_vDbKeyTable)') > 0 AND $(_vQvdExists) THEN
+	Call Qvc.Log ('Before deletes: $(_vTablename) rows=' & num(NoOfRows('$(_vTablename)'), '#$(ThousandSep)##0'));
+	LET _vDbKeyTable_Fieldname = FieldName(1,'$(_vDbKeyTable)');
+	INNER JOIN ([$(_vTablename)]) LOAD [$(_vDbKeyTable_Fieldname)]  AS [$(_vPrimaryKey)] RESIDENT [$(_vDbKeyTable)];
+	Call Qvc.Log ('After deletes: $(_vTablename) rows=' & num(NoOfRows('$(_vTablename)'), '#$(ThousandSep)##0'));
+	DROP TABLE [$(_vDbKeyTable)];		// Drop the Key Table
+	
+	SET _vDbKeyTable_Fieldname=;
+ENDIF
+
+STORE $(_vTablename) INTO $(_vQvdFile);
+
+// Cleanup variables
+SET _vQvdExists=;
+
+// Cleanup variables that may have been set by Qvc.IncrementalSetup. 
+// We want to make sure they ae not reused. 
+SET _Qvc.Loader.v.Tablename=;
+SET _Qvc.Loader.v.QvdFile=;
+SET _Qvc.Loader.v.PrimaryKey=;
+SET _Qvc.Loader.v.TableModificationField=;
+SET _Qvc.Loader.v.ForceFullReload=;
+
+END SUB		// End of Qvc.UpdateQvd Sub
+

@@ -1,0 +1,8 @@
+// Localization for Norwegian
+SET Qvc.Calendar.v.Field.Date=Dato;
+SET Qvc.Calendar.v.Field.Day=Dag;
+SET Qvc.Calendar.v.Field.Weekday=Ukedag;
+SET Qvc.Calendar.v.Field.Year=År;
+SET Qvc.Calendar.v.Field.Month=Måned;
+SET Qvc.Calendar.v.Field.YearMonth=ÅrMåned;
+SET Qvc.Calendar.v.Field.Quarter=Kvartal;

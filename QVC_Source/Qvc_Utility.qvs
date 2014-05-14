@@ -1,0 +1,149 @@
+///$tab GetFieldValue
+SUB Qvc.GetFieldValues (_retvar, _field, _vTable)
+/**
+@version $Id: Qvc_Utility.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+Get min & max values for a Field. The values are set in compound variables names using parameter 1 as the prefix. For example, if parameter 1 is 'vStat', the set variables will be:
+
+	vStat.Min  =  the Min value of the field.
+	vStat.Max  =  the Max value of the field.
+    
+@syntax CALL Qvc.GetFieldValues('vStats', 'LastUpdate', ['Transactions.qvd']);
+
+@param 1 String. Variable stem name in which to return values. Variables created will stem.Max, stem.Min.
+@param 2 String. The field name.
+@param 3 String, Optional. Source that contains the field. If Source ends with '.qvd', source is assumed to be a QVD. If not, Source is a RESIDENT table. If omitted, all values of field are the source.
+*/
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+IF len('$(_vTable)')=0 THEN
+	SET _vSource = ";LOAD FieldValue('$(_field)', recno()) as [$(_field)] AUTOGENERATE FieldValueCount('$(_field)')";
+ELSEIF index('$(_vTable)', '.') = 0 THEN
+	SET _vSource = 'RESIDENT $(_vTable)';
+ELSEIF '.qvd' = lower(right('$(_vTable)', 4)) THEN
+	SET _vSource = 'FROM $(_vTable) (qvd)';
+ELSE 
+	SET _vSource = 'FROM $(_vTable)';	// Assume text file
+ENDIF
+
+_qvctemp.temptab:
+LOAD 
+	// +0 is to fix a bug in V10 where max is getting truncated to 9 digits precision.
+	max([$(_field)])+0 as _qvctemp.maxval,
+	min([$(_field)])+0 as _qvctemp.minval	
+$(_vSource);
+// Replace of European DecimalSep ',' is required to assure returned value is proper decimal number, not formatted string
+LET $(_retvar).Max = replace(peek('_qvctemp.maxval'), ',', '.');
+LET $(_retvar).Min = replace(peek('_qvctemp.minval'), ',', '.');
+DROP table _qvctemp.temptab;
+
+SET _vSource=;
+END SUB
+///$tab FileExists
+/** 
+@Function Qvc.FileExists
+@version $Id: Qvc_Utility.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+Returns true if a file exists. This function may only be used in script.
+
+@syntax LET vExists = $(Qvc.FileExists('dir\filename.ext'));
+
+@param 1 The relative or absolute file path as string.
+*/
+SET Qvc.FileExists = if(len(FileSize($1)) > 0, -1, 0);
+/*
+@EndFunction
+*/
+///$tab DefaultIfEmpty
+/** 
+@Function _Qvc.DefaultIfEmpty
+@version $Id: Qvc_Utility.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+Returns a default value if paramter not supplied
+
+@syntax LET _param = $(_Qvc.DefaultIfEmpty('_param', 'String default'));
+
+@param 1 The parameter.
+@param 2 The value to be assigned if param 1 is empty.
+*/
+SET _Qvc.DefaultIfEmpty = if(len('$1')= 0,'$2', '$1');
+/*
+@EndFunction
+*/
+///$tab UniqueId
+SET _Qvc.UniqueId.v.Counter=0;
+SUB _Qvc.UniqueId (_retvar)
+/**
+@version $Id: Qvc_Utility.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+Returns a unique identifier on each call.
+@syntax CALL _Qvc.UniqueId ('returnVariable');
+@param 1 Variable in which to return new unique identifier, quoted.
+*/
+	LET _Qvc.UniqueId.v.Counter = $(_Qvc.UniqueId.v.Counter) + 1;
+	LET $(_retvar) = 'UID' & num($(_Qvc.UniqueId.v.Counter), '00000000');
+END SUB
+
+///$tab FieldContains
+/** 
+@Function Qvc.FieldContains
+@version $Id: Qvc_Utility.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+Search a field for the specified value. Returns true if a the value is found in the possible values.
+
+@syntax LET vContains = $(Qvc.FieldContains(Field, searchValue));
+
+@param 1 Field to be searched. No quotes.
+@param 2 Value to be searched for. String values must be enclosed in single quotes. If no quotes, the searchValue will be evaluated. 1+1 is the same as searching for '2'.
+*/
+SET Qvc.FieldContains=sum(if($1=$2,1))>0;
+/*
+@EndFunction
+*/
+
+///$tab TableExists
+/** 
+@Function _Qvc.TableExists
+@version $Id: Qvc_Utility.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+Returns true if a table exists in the current script.
+
+@syntax LET vTableExists = $(_Qvc.TableExists(tablename));
+
+@param 1 Tablename, no quotes.
+*/
+SET _Qvc.TableExists = len(NoOfRows('$1'))>0;
+/*
+@EndFunction
+*/
+
+///$tab QvdFieldNumber
+SUB Qvc.QvdFieldNumber (_qvctemp.fieldname, _qvctemp.qvdname, _qvctemp.retvar)
+/**
+@version $Id: Qvc_Utility.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+Returns the number of a specified field within a QVD. If the field is not found, 0 is returned. This is the QVD form of the native "FieldNumber()" function.
+
+The optional third parameter is a variable name used to return the result. If omitted, the default of "Qvc.v.Return" will be used. 
+    
+@syntax CALL Qvc.QvdFieldNumber('Last Payment', '..\QVD\myfile.qvd', ['vReturn']);
+
+@param 1 String. The FieldName to be searched for. 
+@param 2 String. The QVD name, including path.
+@param 3 String, Optional. Variable in which to return result. If omitted, the default is "Qvc.v.Return"
+*/
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+IF len('$(_qvctemp.retvar)')=0 THEN; SET _qvctemp.retvar = 'Qvc.v.Return'; ENDIF
+// Using "0" as not found is consistent with the FieldNumber() function. 
+SET $(_qvctemp.retvar) = 0;	// Default return value is "not found"
+
+// If the QVD does not exist, exit with 0. This is consistent with table-not-found condition in FieldNumber().
+IF NOT $(Qvc.FileExists('$(_qvctemp.qvdname)')) THEN ;
+	SET $(_qvctemp.retvar) = 0;	
+	EXIT Sub
+ENDIF		
+
+// Note: QvdFieldName() function is one based, even though the doc says it's zero based. 
+FOR _qvctemp.idx = 1 to QvdNoOfFields('$(_qvctemp.qvdname)') //-1
+	IF QvdFieldName('$(_qvctemp.qvdname)', $(_qvctemp.idx)) = '$(_qvctemp.fieldname)' THEN; 
+		LET $(_qvctemp.retvar) = $(_qvctemp.idx); //+1;
+	ENDIF
+	EXIT FOR WHEN $(_qvctemp.retvar);	// Exit loop when field is found
+NEXT _qvctemp.idx
+SET _qvctemp.idx=;		// Delete temp variable
+
+END SUB

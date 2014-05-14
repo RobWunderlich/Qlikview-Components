@@ -1,0 +1,8 @@
+// Localization for Italian 
+SET Qvc.Calendar.v.Field.Date=Data; 
+SET Qvc.Calendar.v.Field.Day=Giorno; 
+SET Qvc.Calendar.v.Field.Weekday=Giorno della settimana; 
+SET Qvc.Calendar.v.Field.Year=Anno; 
+SET Qvc.Calendar.v.Field.Month=Mese; 
+SET Qvc.Calendar.v.Field.YearMonth=Anno-Mese; 
+SET Qvc.Calendar.v.Field.Quarter=Trimestre;

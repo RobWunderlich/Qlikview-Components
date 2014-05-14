@@ -1,0 +1,8 @@
+// Localization for Dutch (The Netherlands) 
+SET Qvc.Calendar.v.Field.Date=Datum; 
+SET Qvc.Calendar.v.Field.Day=Dag; 
+SET Qvc.Calendar.v.Field.Weekday=Week-Dag;
+SET Qvc.Calendar.v.Field.Year=Jaar;
+SET Qvc.Calendar.v.Field.Month=Maand;
+SET Qvc.Calendar.v.Field.YearMonth=Jaar-Maand;
+SET Qvc.Calendar.v.Field.Quarter=Kwartaal;

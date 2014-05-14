@@ -1,0 +1,8 @@
+// Localization for Swedish
+SET Qvc.Calendar.v.Field.Date=Datum;
+SET Qvc.Calendar.v.Field.Day=Dag;
+SET Qvc.Calendar.v.Field.Weekday=Veckodag;
+SET Qvc.Calendar.v.Field.Year=År;
+SET Qvc.Calendar.v.Field.Month=Månad;
+SET Qvc.Calendar.v.Field.YearMonth=År-Månad;
+SET Qvc.Calendar.v.Field.Quarter=Kvartal;

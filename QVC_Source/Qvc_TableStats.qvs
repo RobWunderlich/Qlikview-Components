@@ -1,0 +1,60 @@
+///$tab TableStats
+SUB Qvc.TableStats (_msg, _tableIncludeList)
+/**
+@version $Id: Qvc_TableStats.qvs 195 2012-05-29 22:34:59Z rob@robwunderlich.com $
+Write statistics about current Qlikview tables to the Qvc.Log. 
+
+One log line will be written for each table. Header and footer lines will be written at the begining and end of each set of lines. If Parameter 1 is specified, the parameter string will be included in the header and footer. 
+
+@syntax CALL Qvc.TableStats (['Optional message'], ['includeTable1, includeTable2, ...'])
+@param 1 String, Optional. Message that will be used at the begining and end of the log lines.
+@param 2 String, Optional. Comma seperated list of tablenames to be reported on. The names may include wildcards. If omitted, default is '*'.
+*/
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+// Default tableIncludeList is '*'
+LET _tableIncludeList = if(len('$(_tableIncludeList)')>0, '$(_tableIncludeList)', '*');
+// Format input parm for use in WildMatch
+// Parm input is like: 'table1, table2'.
+// Wildmatch needs: 'table1','table1'.
+_qvctemp.parmTable:
+LOAD
+// For each tablename, remove leading/trailing blanks and quote the name.
+chr(39) & concat(trim(_qvctemp.tablename), chr(39) & ',' & chr(39)) & chr(39) as _qvctemp.StringList
+;
+// Break up at commas
+LOAD subfield('$(_tableIncludeList)', ',') AS _qvctemp.tablename AutoGenerate 1
+;
+LET _tableIncludeList = peek('_qvctemp.StringList');	// Update the variable with formatted list
+DROP TABLE _qvctemp.parmTable;
+
+
+// Flag begin of Log block
+CALL Qvc.Log('TableStats Begin: $(_msg)');
+
+LET _qvctemp.counter = 0;
+FOR _i = 0 to NoOfTables()-1
+	LET _tablename = TableName($(_i));
+	IF WildMatch('$(_tablename)', $(_tableIncludeList)) > 0 THEN
+		LET _tableinfo = 'Table=$(_tablename)' 
+			& ', Rows=' & num(NoOfRows('$(_tablename)'), '#$(ThousandSep)##0')
+			& ', Fields=' & NoOfFields('$(_tablename)') 
+			
+			;
+		CALL Qvc.Log('$(_tableinfo)');
+		LET _qvctemp.counter = $(_qvctemp.counter)+1;
+	ENDIF
+NEXT _i
+
+CALL Qvc.Log('$(_qvctemp.counter) tables listed.')
+CALL Qvc.Log('TableStats End: $(_msg)');
+
+// Cleanup variables
+SET _i=;
+SET _tablename=;
+SET _tableinfo=;
+SET _tableIncludeList=;
+SET _msg=;
+SET _qvctemp.counter=;
+
+END SUB
