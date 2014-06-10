@@ -14,4 +14,4 @@ QVC aims to serve the needs of the "big middle" of script tasks. Not the simple 
 
 Getting Started
 ---------------
-To get started using Qvc, download the latest distribution file from the downloads section. Unzip the distribution and open the readme file.
+To get started using Qvc, download the latest distribution file from the [Releases](https://github.com/RobWunderlich/Qlikview-Components/releases) section. Unzip the distribution and open the readme file.
