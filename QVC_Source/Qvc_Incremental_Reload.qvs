@@ -172,7 +172,7 @@ This routine calls Qvc.UpdateQvd using the parameter values used in the last cal
 
 @param 1 String, Optional. Name of table containing primary key values that should be kept in the QVD. The keys must be in the first field of the table. For performance reasons, the Fieldname should *not* be the same as the Primary Key Fieldname.
 
-@var Qvc.Loader.v.KeyFieldIsUnique in True/False (-1/0). Default is 0. Specify if the table uses unique (Primary) values for the Key Field. That is, every row contains a unique value (true). If false, duplicate values are allowed between rows and all rows of a given key value will replace rows of the same value from the master QVD.
+@var Qvc.Loader.v.KeyFieldIsUnique in True/False (-1/0). Default is -1. Specify if the table uses unique (Primary) values for the Key Field. That is, every row contains a unique value (true). If false, duplicate values are allowed between rows and all rows of a given key value will replace rows of the same value from the master QVD.
 @var Qvc.Loader.v.StoreMaxModFieldValue in True/False (-1/0). Default is 0. If True, the field "Qvc.MaxModFieldValue", containing the max value of the ModField, will be added to the QVD. 
 */
 

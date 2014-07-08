@@ -21,9 +21,15 @@ SET Qvc.Calendar.v.Field.Month=;
 SET Qvc.Calendar.v.Field.YearMonth=;
 SET Qvc.Calendar.v.Field.Quarter=;
 SET Qvc.Calendar.v.ExtFields=;
+SET Qvc.Calendar.v.ExtSetVariables=;
 
 // ExpandInterval
 SET Qvc.ExpandInterval.v.RangeCeiling=;
+
+// Loader
+SET Qvc.Loader.v.ConnectionDir=;
+SET Qvc.Loader.v.CreateExtractTimestampField=;
+SET Qvc.Loader.v.StoreMaxModFieldValue=;
 
 // Log
 SET Qvc.Log.v.LogTable=;

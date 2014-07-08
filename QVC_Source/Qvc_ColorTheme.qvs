@@ -1,0 +1,58 @@
+///$tab LoadColorTheme
+SUB Qvc.ColorTheme (_themeFile, _permColorTable)
+/**
+@version $Id: Qvc_ColorTheme.qvs $
+Populate Qvc.Color.v.* from a QVC color theme file. 
+
+Column 1 of the table contains variable names. The variables will be SET to the contents of column 2 on the corressponding row. 
+
+If optional parameter is provided, the colors will be saved in a table in addtion to the variables. 
+
+@param 1 String. Path to Qvc Color Theme file.
+@param 2 String, Optional. TableName to save Qvc.Color variable names and values. 
+
+@syntax CALL Qvc.ColorTheme('ThemeFile', ['Qvc.ColorTable'); 
+*/
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+SET _colorTable = '_qvctemp.Colors';
+
+$(_colorTable):
+LOAD trim(ColorVariable) as _qvctemp.ColorVariable,
+     trim(ColorValue) as _qvctemp.ColorValue
+FROM
+[$(_themeFile)]
+(ooxml, embedded labels, table is Sheet1)
+WHERE len(trim(ColorVariable))>0 and left(trim(ColorVariable),2) <> '//'
+;
+
+CALL Qvc.PopulateVariables('$(_colorTable)', -1);
+
+TRACE >>> len of parm2 $(x);
+FOR _qvctemp.idx = 0 to NoOfRows('$(_colorTable)')-1;
+	// Get the varname for this row
+	LET _qvctemp.varname = peek('_qvctemp.ColorVariable',$(_qvctemp.idx),'$(_colorTable)');
+	IF lower(left('$(_qvctemp.varname)',9)) <> 'qvc.color' THEN
+		SET [$(_qvctemp.varname)]=;
+	ELSEIF len('$(_permColorTable)')>0 THEN		
+		LET _qvctemp.value = $(_qvctemp.varname);
+		[$(_permColorTable)]:
+		LOAD 
+			'$(_qvctemp.varname)' as Qvc.ColorProperty
+			,if(len(trim('$(_qvctemp.value)'))=0,'', $(_qvctemp.value)) as Qvc.ColorValue
+		AutoGenerate 1
+		;	
+	ENDIF
+NEXT _qvctemp.idx;
+
+DROP TABLE $(_colorTable);
+
+
+SET _qvctemp.idx=;
+SET _colorTable=;
+SET _qvctemp.value=;
+SET _qvctemp.varname=;
+
+
+END SUB
+
