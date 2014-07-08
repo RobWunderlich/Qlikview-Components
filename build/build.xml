@@ -50,7 +50,7 @@
 		<copy todir="${build.dir}/language">
 			<fileset dir="Qvc_Source/language" includes="**"/>
 		</copy>
-
+	
 	</target>
 
 
