@@ -15,3 +15,9 @@ QVC aims to serve the needs of the "big middle" of script tasks. Not the simple 
 Getting Started
 ---------------
 To get started using Qvc, download the latest distribution file from the [Releases](https://github.com/RobWunderlich/Qlikview-Components/releases) section. Unzip the distribution and open the readme file.
+
+Support
+-------
+For how-to questions, discussing a possible enhancement, suggestions or general discussion, please use the [User Forum]{https://groups.google.com/forum/#!forum/qlikview-components-users).
+
+To report a defect (bug) or request a specific enhancement, please use the [Issues tracker](https://github.com/RobWunderlich/Qlikview-Components/issues).
