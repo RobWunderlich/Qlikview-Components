@@ -1,6 +1,3 @@
 ﻿Qvc.LogMessage_Level,Qvc.LogMessage
-INFO,00001 4/3/2014 3:11:59 PM; #Qvc.Test# REGISTER _Qvc.DefaultIfEmpty
-INFO,"00002 4/3/2014 3:11:59 PM; #Qvc.Test# SUCCESS Undefined variable: Expected: ""X"" Actual ""X"""
-INFO,"00003 4/3/2014 3:11:59 PM; #Qvc.Test# SUCCESS Empty variable: Expected: ""X"" Actual ""X"""
-INFO,"00004 4/3/2014 3:11:59 PM; #Qvc.Test# SUCCESS Defined variable: Expected: ""Y"" Actual ""Y"""
-INFO,"00005 4/3/2014 3:11:59 PM; #Qvc.Test# SUCCESS ScriptErrorCount: Expected: ""0"" Actual ""0"""
+INFO,00001 7/8/2014 8:11:09 AM; #Qvc.Test# REGISTER _Qvc.DefaultIfEmpty
+INFO,"00002 7/8/2014 8:11:09 AM; #Qvc.Test# SUCCESS Undefined variable: Expected: ""X"" Actual ""X"""

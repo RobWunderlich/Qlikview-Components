@@ -1,19 +1,11 @@
 ﻿Qvc.LogMessage_Level,Qvc.LogMessage
-INFO,00001 4/3/2014 3:12:44 PM; Test Starting
-INFO,00002 4/3/2014 3:12:44 PM; TableStats Begin: ***After join of sales
-INFO,"00003 4/3/2014 3:12:44 PM; Table=TabA, Rows=1, Fields=1"
-INFO,"00004 4/3/2014 3:12:44 PM; Table=TabB, Rows=1, Fields=1"
-INFO,"00005 4/3/2014 3:12:44 PM; Table=Qvc.LogTable, Rows=4, Fields=2"
-INFO,00006 4/3/2014 3:12:44 PM; 3 tables listed.
-INFO,00007 4/3/2014 3:12:44 PM; TableStats End: ***After join of sales
-INFO,"00008 4/3/2014 3:12:44 PM; #Qvc.Test# SUCCESS New log rows: Expected: ""-1"" Actual ""-1"""
-INFO,00009 4/3/2014 3:12:44 PM; TableStats Begin: ***Limiting tables
-INFO,"00010 4/3/2014 3:12:45 PM; Table=TabA, Rows=1, Fields=1"
-INFO,00011 4/3/2014 3:12:45 PM; 1 tables listed.
-INFO,00012 4/3/2014 3:12:45 PM; TableStats End: ***Limiting tables
-INFO,"00013 4/3/2014 3:12:45 PM; #Qvc.Test# SUCCESS Count after limiting tables: Expected: ""12"" Actual ""12"""
-INFO,00014 4/3/2014 3:12:45 PM; TableStats Begin: ***Limiting tables
-INFO,00015 4/3/2014 3:12:45 PM; 0 tables listed.
-INFO,00016 4/3/2014 3:12:45 PM; TableStats End: ***Limiting tables
-INFO,"00017 4/3/2014 3:12:45 PM; #Qvc.Test# SUCCESS Count after limiting tables: Expected: ""16"" Actual ""16"""
-INFO,"00018 4/3/2014 3:12:45 PM; #Qvc.Test# SUCCESS ScriptErrorCount: Expected: ""0"" Actual ""0"""
+INFO,00001 7/8/2014 8:11:54 AM; Test Starting
+INFO,00002 7/8/2014 8:11:54 AM; TableStats Begin: ***After join of sales
+INFO,"00003 7/8/2014 8:11:54 AM; Table=TabA, Rows=1, Fields=1"
+INFO,"00004 7/8/2014 8:11:54 AM; Table=TabB, Rows=1, Fields=1"
+INFO,"00005 7/8/2014 8:11:54 AM; Table=Qvc.LogTable, Rows=4, Fields=2"
+INFO,00006 7/8/2014 8:11:54 AM; 3 tables listed.
+INFO,00007 7/8/2014 8:11:54 AM; TableStats End: ***After join of sales
+INFO,"00008 7/8/2014 8:11:54 AM; #Qvc.Test# SUCCESS New log rows: Expected: ""-1"" Actual ""-1"""
+INFO,00009 7/8/2014 8:11:54 AM; TableStats Begin: ***Limiting tables
+INFO,"00010 7/8/2014 8:11:54 AM; Table=TabA, Rows=1, Fields=1"

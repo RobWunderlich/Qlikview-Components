@@ -1,5 +1,5 @@
 ﻿Qvc.LogMessage_Level,Qvc.LogMessage
-INFO,00001 4/3/2014 3:12:48 PM; #Qvc.Test# REGISTER _Qvc.UniqueId
-INFO,"00002 4/3/2014 3:12:48 PM; #Qvc.Test# SUCCESS Id returned: Expected: ""-1"" Actual ""-1"""
-INFO,"00003 4/3/2014 3:12:48 PM; #Qvc.Test# SUCCESS Id returned: Expected: ""-1"" Actual ""-1"""
-INFO,"00004 4/3/2014 3:12:48 PM; #Qvc.Test# SUCCESS ScriptErrorCount: Expected: ""0"" Actual ""0"""
+INFO,00001 7/8/2014 8:11:57 AM; #Qvc.Test# REGISTER _Qvc.UniqueId
+INFO,"00002 7/8/2014 8:11:57 AM; #Qvc.Test# SUCCESS Id returned: Expected: ""-1"" Actual ""-1"""
+INFO,"00003 7/8/2014 8:11:57 AM; #Qvc.Test# SUCCESS Id returned: Expected: ""-1"" Actual ""-1"""
+INFO,"00004 7/8/2014 8:11:57 AM; #Qvc.Test# SUCCESS ScriptErrorCount: Expected: ""0"" Actual ""0"""

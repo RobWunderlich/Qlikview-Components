@@ -8,6 +8,7 @@ DEL /S /Q ..\Qvc_Runtime\*.*
 REM ** Merge source *.qvs files into a single Qvc.qvs file.
 REM ** The reason a wildcard copy can't be used is because TYPE ..\QVC_Source\Qvc_Global.qvs must be first. The remaining files can be copied in any order.
 TYPE ..\QVC_Source\Qvc_Global.qvs > ..\Qvc_Runtime\Qvc.qvs
+TYPE ..\QVC_Source\Qvc_AsOfTable.qvs >>..\Qvc_Runtime\Qvc.qvs
 TYPE ..\QVC_Source\Qvc_Calendar.qvs >>..\Qvc_Runtime\Qvc.qvs
 TYPE ..\QVC_Source\Qvc_Cleanup.qvs >>..\Qvc_Runtime\Qvc.qvs
 TYPE ..\QVC_Source\Qvc_ColorTheme.qvs >>..\Qvc_Runtime\Qvc.qvs
