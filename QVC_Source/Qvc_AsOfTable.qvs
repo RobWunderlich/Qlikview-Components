@@ -54,7 +54,8 @@ NOCONCATENATE LOAD
 	[$(_dateField)]
 	,[$(_asOfField)]
 	,((Year([$(_asOfField)]) - Year([$(_dateField)])) * 12) +
-		  Month([$(_asOfField)]) - Month([$(_dateField)]) as [$(_asOfField) Months Ago]
+		  Month([$(_asOfField)]) - Month([$(_dateField)]) as [AsOf Months Ago]
+	,[$(_asOfField)] - [$(_dateField)] as [AsOf Days Ago]	  
 //    $(Include=$(Qvc.Global.Extension.Directory)\$(Qvc.AsOfTable.v.ExtFields));
 RESIDENT _qvctemp.AsOfTemp
 WHERE [$(_asOfField)] >= [$(_dateField)]
