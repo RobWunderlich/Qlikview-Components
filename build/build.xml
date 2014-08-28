@@ -71,7 +71,7 @@
 		<delete dir="${build.dir}"/>
 	</target>
 
-	<target name="dist" description="Create distribution" depends="build, versionTests,  doc">
+	<target name="dist" description="Create distribution" depends="build, versionTests, doc">
 		<delete dir="${dist.dir}"/>
 		<mkdir dir="${dist.dir}"/>
 		<!-- Create executable distribution -->
