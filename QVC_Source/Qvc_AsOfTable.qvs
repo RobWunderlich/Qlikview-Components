@@ -1,0 +1,67 @@
+///$tab AsOfTable
+// Name of the optional script file that defines additonal AsOfTable fields.
+SET Qvc.Calendar.v.ExtFields=AsOfTableExtFields.qvs;
+SUB Qvc.AsOfTable (_dateField)
+/**
+@version $Id: Qvc_AsOfTable.qvs  $
+Create an AsOfTable. 
+
+@param 1 String. FieldName containing a Date or some other ordered field, such as Month, Year, etc. 
+
+@syntax CALL Qvc.AsOfTable('Date'); 
+*/
+
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+// Set up Field and Tables names. 
+SET _tableName = 'AsOfTable_$(_dateField)';
+SET _asOfField = 'AsOf $(_dateField)';
+
+//REM This bit of code is a workaround for the fact that FieldValue does not copy format.;
+//REM We will determine which table has our source field and load a row to get the format.; 
+SET _qvctemp.vFound=0;
+FOR _qvctemp.i = 0 to NoOfTables()-1
+	LET _qvctemp.vTablename=TableName($(_qvctemp.i));
+	FOR _qvctemp.j = 1 to NoOfFields('$(_qvctemp.vTablename)')
+		IF FieldName($(_qvctemp.j),'$(_qvctemp.vTablename)')='$(_dateField)' THEN
+			SET _qvctemp.vFound=-1;
+			_qvctemp.AsOfTable.Format.Dummy:
+			FIRST 1 LOAD [$(_dateField)] as [$(_asOfField)] Resident [$(_qvctemp.vTablename)];
+		ENDIF
+		EXIT FOR WHEN $(_qvctemp.vFound);
+	NEXT _qvctemp.j
+	EXIT FOR WHEN $(_qvctemp.vFound);
+NEXT _qvctemp.i
+// Cleanup temp vars
+SET _qvctemp.i=;
+SET _qvctemp.j=;
+SET _qvctemp.vTablename=;
+SET _qvctemp.vFound=;
+
+_qvctemp.AsOfTemp:
+NoConcatenate
+LOAD 
+	FieldValue('$(_dateField)', recno()) as [$(_asOfField)] 
+AUTOGENERATE FieldValueCount('$(_dateField)');
+OUTER JOIN (_qvctemp.AsOfTemp)
+LOAD 
+	Date(FieldValue('$(_dateField)', recno())) as [$(_dateField)] 
+AUTOGENERATE FieldValueCount('$(_dateField)');
+// Load the table into the target table, keeping only those dates that are -equal to or smaller- than the AsOf date
+[$(_tableName)]:
+
+NOCONCATENATE LOAD
+	[$(_dateField)]
+	,[$(_asOfField)]
+	,((Year([$(_asOfField)]) - Year([$(_dateField)])) * 12) +
+		  Month([$(_asOfField)]) - Month([$(_dateField)]) as [$(_asOfField) Months Ago]
+//    $(Include=$(Qvc.Global.Extension.Directory)\$(Qvc.AsOfTable.v.ExtFields));
+RESIDENT _qvctemp.AsOfTemp
+WHERE [$(_asOfField)] >= [$(_dateField)]
+;
+DROP TABLE _qvctemp.AsOfTemp;
+DROP TABLE _qvctemp.AsOfTable.Format.Dummy;
+
+// Cleanup temp vars
+
+ENDSUB
