@@ -2,14 +2,16 @@
 SUB Qvc.ColorTheme (_themeFile, _permColorTable)
 /**
 @version $Id: Qvc_ColorTheme.qvs $
-Populate Qvc.Color.v.* from a QVC color theme file. 
+Populate Qvc.Color.v.* color variables from a QVC color theme file. 
 
-Column 1 of the table contains variable names. The variables will be SET to the contents of column 2 on the corressponding row. 
+In the theme file, field "ColorVariable" defines the variable name. The variables will be SET to the contents of field "ColorValue" on the corressponding row. 
 
-If optional parameter is provided, the colors will be saved in a table in addtion to the variables. 
+If optional parameter 2 is provided, the colors will be saved in a table in addtion to the variables. 
 
-@param 1 String. Path to Qvc Color Theme file.
+@param 1 String. Path to Qvc Color Theme file of filetype xlsm or xlsx.
 @param 2 String, Optional. TableName to save Qvc.Color variable names and values. 
+
+@var Qvc.Color.v.* out Color variables as defined in the theme file.
 
 @syntax CALL Qvc.ColorTheme('ThemeFile', ['Qvc.ColorTable'); 
 */
