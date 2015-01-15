@@ -26,7 +26,7 @@ NOCONCATENATE LOAD DISTINCT 		// Load fields from source table to link table
 RESIDENT $(_table);
 
 LEFT JOIN ($(_table))	// Join key from link table to source table
-LOAD DISTINCT %$(_linkTableName)_Key, $(_fields) RESIDENT $(_LinkTableTemp);
+LOAD %$(_linkTableName)_Key, $(_fields) RESIDENT $(_LinkTableTemp);
 
 DROP FIELDS $(_fields) FROM $(_table);		// Drop fields from source table
 
