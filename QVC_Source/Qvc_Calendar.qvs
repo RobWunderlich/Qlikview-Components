@@ -108,6 +108,14 @@ SET _f_QuarterSerial='[$(_fieldPrefix)_QuarterSerial]';
 SET _f_WeekSerial='[$(_fieldPrefix)_WeekSerial]';
 SET _f_DateSerial='[$(_fieldPrefix)_DateSerial]';
 
+IF '$(Qvc.Global.v.QlikProduct)' = 'VIEW' OR len('$(Qvc.Global.Extension.Directory)')> 0 THEN
+	LET _qvctemp.v.IncludeExtension = replace(
+	'@(Include=@(Qvc.Global.Extension.Directory)\@(Qvc.Calendar.v.ExtFields))'
+	,'@','$');
+ELSE 
+	SET _qvctemp.v.IncludeExtension=;	
+ENDIF
+
 LET _concatenate = if($(_Qvc.TableExists($(_tableName))), 'CONCATENATE ([$(_tableName)])', ''); 
    
 [$(_tableName)]:

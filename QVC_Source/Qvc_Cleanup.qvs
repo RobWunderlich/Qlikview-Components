@@ -10,6 +10,7 @@ UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
 // Remove variables
 // Global
 SET Qvc.Global.Extension.Directory=;
+SET Qvc.Global.v.QlikProduct =;
 
 // Calendar
 SET Qvc.Calendar.v.CreateSetVariables=;
