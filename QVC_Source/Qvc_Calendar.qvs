@@ -136,7 +136,7 @@ LOAD
     AutoNumber(MonthStart(Date),'$(_f_MonthSerial)') 	as $(_f_MonthSerial),
     AutoNumber(QuarterStart(Date),'$(_f_QuarterSerial)')	as $(_f_QuarterSerial),
     AutoNumber(weekyear(Date) &'|' & week(Date),'$(_f_WeekSerial)')	as $(_f_WeekSerial)
-    $(Include=$(Qvc.Global.Extension.Directory)\$(Qvc.Calendar.v.ExtFields));
+   $(_qvctemp.v.IncludeExtension);
 
 ;    
 LOAD date('$(_startDate)' + recno() - 1) as Date 
@@ -144,6 +144,7 @@ AUTOGENERATE date('$(_endDate)') - date('$(_startDate)') + 1
 ;
 
 SET _concatenate=;
+SET _qvctemp.v.IncludeExtension=;
 ///$tab Calendar Set Variables
 IF $(Qvc.Calendar.v.CreateSetVariables) THEN	// If SA variables requested,
 
@@ -196,7 +197,15 @@ MapSubString('_qvctemp.Calendar.EscapeCharsMap',
 ;
 
 // Create a convienence variable we will use to form the variables
-SET _qvctemp.vMaxModifier = 'Max({1<_Qvc.DummyField=@(_Qvc.Calendar.v.SelectedFieldList_$(_fieldPrefix))>}';		
+SET _qvctemp.vMaxModifier = 'Max({1<_Qvc.DummyField=@(_Qvc.Calendar.v.SelectedFieldList_$(_fieldPrefix))>}';	
+
+IF '$(Qvc.Global.v.QlikProduct)' = 'VIEW' OR len('$(Qvc.Global.Extension.Directory)')> 0 THEN
+	LET _qvctemp.v.IncludeExtension = replace(
+	'@(Include=@(Qvc.Global.Extension.Directory)\@(Qvc.Calendar.v.ExtSetVariables))'
+	,'@','$');
+ELSE 
+	SET _qvctemp.v.IncludeExtension=;	
+ENDIF	
 
 REM Create the Set Analysis variables;
 
@@ -340,7 +349,7 @@ MapSubString('_qvctemp.Calendar.EscapeCharsMap',
 );
 
 // Include possible extension to create additional Set variables.
-$(Include=$(Qvc.Global.Extension.Directory)\$(Qvc.Calendar.v.ExtSetVariables));
+ $(_qvctemp.v.IncludeExtension);
 
 SET _vClearFieldList=;
 SET _qvctemp.vMaxModifier=;
