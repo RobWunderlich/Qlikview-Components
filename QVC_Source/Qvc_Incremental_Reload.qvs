@@ -279,7 +279,9 @@ ENDIF
 IF NOT '$(Qvc.Loader.v.KeyFieldIsUnique)' THEN
 	// If not using unique keys, get all key values into a temp field.
 	_qvctemp.PK_temp:
-	LOAD FieldValue('$(_vPrimaryKey)', recno()) as [_qvctemp.PK_values] AUTOGENERATE FieldValueCount('$(_vPrimaryKey)');
+	//LOAD FieldValue('$(_vPrimaryKey)', recno()) as [_qvctemp.PK_values] AUTOGENERATE FieldValueCount('$(_vPrimaryKey)');
+	LOAD DISTINCT [$(_vPrimaryKey)] as [_qvctemp.PK_values] Resident $(_vTablename);
+	
 	// Use the two parm exists test.
 	SET _qvctemp.ExistsExpr = '[_qvctemp.PK_values],[$(_vPrimaryKey)]';
 ELSE 
