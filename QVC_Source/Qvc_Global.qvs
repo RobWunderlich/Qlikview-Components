@@ -18,10 +18,9 @@ along with this program.  If not, see http://www.gnu.org/licenses/licenses.html
 ///$tab Global
 // Qvc.Global.v.Version MUST be specified in the 3 line format to be picked up as an ANT property!
 SET 
-Qvc.Global.v.Version = 9
+Qvc.Global.v.Version = 9.1
 ;
 LET Qvc.Global.v.ScriptStart = now(1);
 
-// Directory of Qvc script extension files.
-// A null value means the extension mechanism is not used.
-SET Qvc.Global.Extension.Directory=;
+// What product are we executing in
+LET Qvc.Global.v.QlikProduct = if(subfield(QlikViewVersion(),'.',1)>6, 'VIEW', 'SENSE');

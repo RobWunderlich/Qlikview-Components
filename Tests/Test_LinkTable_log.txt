@@ -1,6 +1,8 @@
 ﻿Qvc.LogMessage_Level,Qvc.LogMessage
-INFO,"00001 7/8/2014 8:11:26 AM; #Qvc.Test# SUCCESS LinkTable exists: Expected: ""-1"" Actual ""-1"""
-INFO,"00002 7/8/2014 8:11:26 AM; #Qvc.Test# SUCCESS LinkTable fields: Expected: ""4"" Actual ""4"""
-INFO,"00003 7/8/2014 8:11:26 AM; #Qvc.Test# SUCCESS Order fields: Expected: ""4"" Actual ""4"""
-INFO,"00004 7/8/2014 8:11:26 AM; #Qvc.Test# SUCCESS Supplier fields: Expected: ""2"" Actual ""2"""
-INFO,"00005 7/8/2014 8:11:26 AM; #Qvc.Test# SUCCESS ScriptErrorCount: Expected: ""0"" Actual ""0"""
+INFO,"00001 1/14/2015 4:54:29 PM; #Qvc.Test# SUCCESS LinkTable exists: Expected: ""-1"" Actual ""-1"""
+INFO,"00002 1/14/2015 4:54:29 PM; #Qvc.Test# SUCCESS LinkTable fields: Expected: ""4"" Actual ""4"""
+INFO,"00003 1/14/2015 4:54:29 PM; #Qvc.Test# SUCCESS Order fields: Expected: ""4"" Actual ""4"""
+INFO,"00004 1/14/2015 4:54:29 PM; #Qvc.Test# SUCCESS Supplier fields: Expected: ""2"" Actual ""2"""
+INFO,"00005 1/14/2015 4:54:29 PM; #Qvc.Test# SUCCESS T1 Rows: Expected: ""4"" Actual ""4"""
+INFO,"00006 1/14/2015 4:54:29 PM; #Qvc.Test# SUCCESS T2 Rows: Expected: ""3"" Actual ""3"""
+INFO,"00007 1/14/2015 4:54:29 PM; #Qvc.Test# SUCCESS ScriptErrorCount: Expected: ""0"" Actual ""0"""
