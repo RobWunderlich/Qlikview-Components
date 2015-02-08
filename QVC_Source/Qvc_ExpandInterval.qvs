@@ -46,18 +46,10 @@ ELSEIF len('$(_vGrouping)')=0 THEN			// If no grouping specified,
 	
 	SET _qvctemp.er.OrderBy = ORDER BY [$(_vStartDateField)] DESC;
 ELSE		// Grouping param is specified.
-	// Build a list of fields seperated with pipes for use in the previous() test. 
-	// field1 &'|'& field2 etc
-	LET _qvctemp.er.groupingList = 
-		replace('$(_vGrouping)'
-			,','
-			,' &' & chr(39) & '|' & chr(39) & '& ' 
-		);
-	
 	// We will use the previous(StartDate) for EndDate if the grouping fields are the same. 
 	// Otherwise we will use '' - an open ended interval.	
 	SET _qvctemp.er.EndDateStatement=		
-	,if(previous($(_qvctemp.er.groupingList)) = $(_qvctemp.er.groupingList)
+	,if(previous(Hash256($(_vGrouping))) = Hash256($(_vGrouping))
 		,previous($(_vStartDateField))-1
 		// Expand first interval to RangeCeiling if present, else use the StartField
 		,alt('$(Qvc.ExpandInterval.v.RangeCeiling)', $(_vStartDateField))
@@ -131,7 +123,6 @@ DROP FIELD _qvctemp.er.StartDate, _qvctemp.er.EndDate FROM [$(_vRangeTable)];
 
 // Cleanup temp vars
 SET _qvctemp.er.EndDateStatement=;
-SET _qvctemp.er.groupingList=;
 SET _qvctemp.er.OrderBy=;
 
 END SUB
