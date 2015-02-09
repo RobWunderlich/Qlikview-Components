@@ -111,6 +111,23 @@ SET _Qvc.TableExists = len(NoOfRows('$1'))>0;
 @EndFunction
 */
 
+///$tab DateDiff
+/**
+@Function _Qvc.DateDiff
+@version $Id: Qvc_Icons.qvs 272 2015-01-09 14:03:12Z matt.fryer@datoniq.com $
+Calculates the number of the past interval between the 2 passed dates. For example, if week is requested the function calculates the number of weeks between the 2 passed dates. Supports years, quarters, months, weeks, days, hours, minutes and seconds. Accepts both dates and timestamps for the dates passed.
+
+It is important that the earlier of the passed dates is in param 2 and the later in param 3. This may be improved in the future.
+@syntax LET vDateDiff = $(_Qvc.DateDiff('DatDiffType', StartDate, EndDate));
+@param 1 String. A string defining which mode should be applied to the date diff. Possible values are 'year', 'quarter', 'month', 'week', 'day', 'hour', 'minute' and 'second'. Defaults is 'day'.
+@param 2 Number. The earlier of the 2 dates to compare.
+@param 3 Number. The later of the 2 dates to compare.
+*/
+SET _Qvc.DateDiff = if(lower($1)='year', year($3) - year($2), if(lower($1)='quarter', year(end)*4 + ceil(month(end)/3) - year(start)*4 - ceil(month(end)/3), if(lower($1)='month', year(end)*12 + month(end) - year(start)*12 - month(start), if(lower($1)='week', (end - start)/7, if(lower($1)='day', end - start, if(lower($1)='hour', (end - start)*24, if(lower($1)='minute', (end - start)*1440, if(lower($1)='second', (end - start)*86400, end - start ))))))));
+/*
+@EndFunction
+*/
+
 ///$tab QvdFieldNumber
 SUB Qvc.QvdFieldNumber (_qvctemp.fieldname, _qvctemp.qvdname, _qvctemp.retvar)
 /**
