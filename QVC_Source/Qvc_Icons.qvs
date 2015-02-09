@@ -10,7 +10,7 @@ Bundle loads icons from a specified folder.
 @param 4 String, Optional. Table name to load icons into. For example, 'IconsTable'. Default is 'Icons'.
 @param 5 String, Optional. Field name to use in icons table. For example, 'Icon'. Default is 'Icon'.
 
-@syntax CALL Qvc.Icons('IconsFolder');
+@syntax CALL Qvc.Icons(['IconsFolder'],['mask'],['_fileTypes,...'],['tableName'],['fieldName']);
 */
 
 //Set default values for params if not passed
