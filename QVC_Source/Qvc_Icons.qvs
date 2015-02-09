@@ -1,0 +1,64 @@
+///$tab Icons
+SUB Qvc.Icons (_dir, _mask, _fileTypes, _tableName, _fieldName)
+/**
+@version $Id: Qvc_Icons.qvs 272 2015-01-09 14:03:12Z matt.fryer@datoniq.com $
+Bundle loads icons from a specified folder.
+
+@param 1 String. Optional. Directory containing icons. May be relative or absolute. Default is QVW route.
+@param 2 String, Optional. File mask pattern to limit scan. For example, 'icon_*'. Default is '*'.
+@param 3 String, Optional. Comma separated list of image file types. For example, 'jpg,png'. Default is 'png,jpg,bmp,gif'.
+@param 4 String, Optional. Table name to load icons into. For example, 'IconsTable'. Default is 'Icons'.
+@param 5 String, Optional. Field name to use in icons table. For example, 'Icon'. Default is 'Icon'.
+
+@syntax CALL Qvc.Icons('IconsFolder');
+*/
+
+//Set default values for params if not passed
+LET _dir = if(len('$(_dir)')=0, '', '$(_dir)');
+LET _mask = if(len('$(_mask)')=0, '*', '$(_mask)');
+LET _fileTypes = if(len('$(_fileTypes)')=0, 'png,jpg,bmp,gif', '$(_fileTypes)');
+LET _tableName = if(len('$(_tableName)')=0, 'Icons', '$(_tableName)');
+LET _fieldName = if(len('$(_fieldName)')=0, 'Icon', '$(_fieldName)');
+
+// Add the ending \ if the passed path is missing it
+IF len('$(_dir)')>0 AND NOT right(_dir,1)='\' THEN
+	LET _dir = _dir & '\';
+END IF
+
+// Ensure the passed file types are in the correct format to use and correct common formatting errors
+LET _fileTypes = chr(39) & replace(replace(replace(_fileTypes, ' ', ''), chr(39), ''), ',', chr(39) & ',' & chr(39)) & chr(39);
+
+// Loop through the supported image file types. These are fixed as the QlikView image types. 
+FOR EACH _qvctemp.ext IN $(_fileTypes)
+	
+	// Loop through all the image files in the passed path
+	FOR EACH _qvctemp.img IN filelist(_dir & _mask & '.' & _qvctemp.ext);
+	
+		// Get the file name without the file extension
+		LET _qvctemp.currImgName = capitalize(subfield(subfield(_qvctemp.img, '\', -1), '.', 1));
+		
+		// Build the list of icons and then bundle the image in to the application
+		[$(_tableName)]:
+		LOAD
+			'$(_qvctemp.currImgName)' AS Icon
+		AUTOGENERATE 1;
+		
+		BUNDLE INFO LOAD
+			'$(_qvctemp.currImgName)' AS Icon,
+			'$(_qvctemp.img)'
+		AUTOGENERATE 1;
+				 
+	NEXT _qvctemp.img;
+NEXT _qvctemp.ext;
+
+// Clear all variables so they don't appear in the frontend
+SET _dir=;
+SET _mask=;
+SET _fileTypes=;
+SET _tableName=;
+SET _fieldName=;
+SET _qvctemp.ext=;
+SET _qvctemp.img=;
+SET _qvctemp.currImgName=;
+	
+END SUB
