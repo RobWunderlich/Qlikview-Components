@@ -91,7 +91,7 @@ Search a field for the specified value. Returns true if a the value is found in 
 @param 1 Field to be searched. No quotes.
 @param 2 Value to be searched for. String values must be enclosed in single quotes. If no quotes, the searchValue will be evaluated. 1+1 is the same as searching for '2'.
 */
-SET Qvc.FieldContains=sum(if($1=$2,1))>0;
+SET Qvc.FieldContains = sum(if($1=$2,1))>0;
 /*
 @EndFunction
 */
@@ -113,17 +113,64 @@ SET _Qvc.TableExists = len(NoOfRows('$1'))>0;
 
 ///$tab DateDiff
 /**
-@Function _Qvc.DateDiff
-@version $Id: Qvc_Icons.qvs 272 2015-01-09 14:03:12Z matt.fryer@datoniq.com $
+@Function Qvc.DateDiff
+@version $Id: Qvc_Utility.qvs 272 2015-01-09 14:03:12Z matt.fryer@datoniq.com $
 Calculates the number of the past interval between the 2 passed dates. For example, if week is requested the function calculates the number of weeks between the 2 passed dates. Supports years, quarters, months, weeks, days, hours, minutes and seconds. Accepts both dates and timestamps for the dates passed.
 
 It is important that the earlier of the passed dates is in param 2 and the later in param 3. This may be improved in the future.
 @syntax LET vDateDiff = $(_Qvc.DateDiff('DatDiffType', StartDate, EndDate));
 @param 1 String. A string defining which mode should be applied to the date diff. Possible values are 'year', 'quarter', 'month', 'week', 'day', 'hour', 'minute' and 'second'. Defaults is 'day'.
-@param 2 Number. The earlier of the 2 dates to compare.
-@param 3 Number. The later of the 2 dates to compare.
+@param 2 The earlier of the 2 dates to compare.
+@param 3 The later of the 2 dates to compare.
 */
-SET _Qvc.DateDiff = if(lower($1)='year', year($3) - year($2), if(lower($1)='quarter', year(end)*4 + ceil(month(end)/3) - year(start)*4 - ceil(month(end)/3), if(lower($1)='month', year(end)*12 + month(end) - year(start)*12 - month(start), if(lower($1)='week', (end - start)/7, if(lower($1)='day', end - start, if(lower($1)='hour', (end - start)*24, if(lower($1)='minute', (end - start)*1440, if(lower($1)='second', (end - start)*86400, end - start ))))))));
+SET _Qvc.DateDiff = if(lower($1)='year', year($3) - year($2), if(lower($1)='quarter', ((year($3)*4) + ceil(month($3)/3) - ((year($2)*4) - ceil(month($3)/3)), if(lower($1)='month', ((year($3)*12) + month($3)) - ((year($2)*12) - month($2)), if(lower($1)='week', ($3 - $2)/7, if(lower($1)='day', $3 - $2, if(lower($1)='hour', ($3 - $2)*24, if(lower($1)='minute', ($3 - $2)*1440, if(lower($1)='second', ($3 - $2)*86400, $3 - $2 ))))))));
+/*
+@EndFunction
+*/
+
+///$tab NVL
+/**
+@Function Qvc.NVL
+@version $Id: Qvc_Utility.qvs 272 2015-01-09 14:03:12Z matt.fryer@datoniq.com $
+Equivalent to the SQL NVL function. Checks to see if the first parameter is Null and if it is it returns the second parameter.
+
+@syntax LET vNVL = $(Qvc.NVL(TestVariable, 'DefaultValue')); 
+@param 1 A value to be tested against Null
+@param 2 The value to be returned if param 1 is equal to Null
+*/
+SET Qvc.NVL = if(isnull($1), $2, $1);
+/*
+@EndFunction
+*/
+
+///$tab Days360
+/**
+@Function Qvc.Days360
+@version $Id: Qvc_Utility.qvs 272 2015-01-09 14:03:12Z matt.fryer@datoniq.com $
+Equivalent to MS Excel function days360(). Returns the number of days between two dates based on a 360-day year (twelve 30-day months), which is used in some accounting calculations. 
+
+@syntax LET vDays360 = $(Qvc.Days360(StartDate, EndDate, 'DiffMode'));
+@param 1 The earlier of the 2 dates to compare
+@param 2 The later of the 2 dates to compare
+@param 3 The calculation mode. Possible values are 'US' and 'Europe'. Default is 'US'. 
+*/
+SET Qvc.Days360 = (((year($2)*12 + month($2)) - (year($1)*12 + month($1))) * 30) + if($3='EUROPE', numMin(day($2),30) - numMin(day($1),30), day($2) - day($1));
+/*
+@EndFunction
+*/
+
+///$tab InRange
+/**
+@Function Qvc.InRange
+@version $Id: Qvc_Utility.qvs 272 2015-01-09 14:03:12Z matt.fryer@datoniq.com $
+Equivalent to MS Excel function inrange(). Returns whether the past value is between the start and end values passed for the range. Returns true or false. Can be used for any numeric data including dates. It does not matter if the start of the range is a larger or smaller value than the end. 
+
+@syntax LET vInRange = $(Qvc.InRange(FirstValue, SecondValue, CompareValue));
+@param 1 The first of the 2 dates to compare
+@param 2 The second of the 2 dates to compare
+@param 3 The value to compare against the range 
+*/
+SET Qvc.InRange = if($1<$2, if($3>=$1 AND $3<=$2, true(), false()), if($3>=$2 AND $3<=$1, true(), false()));
 /*
 @EndFunction
 */
