@@ -1,6 +1,9 @@
 # Reload log files
 *.qvw.log
 
+# Windows thumb files
+Thumbs.db
+
 # temp files for tests
 Tests/temp/*
 Tests/*_log.txt
