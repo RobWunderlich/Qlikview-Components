@@ -118,7 +118,7 @@ SET _Qvc.TableExists = len(NoOfRows('$1'))>0;
 Calculates the number of the past interval between the 2 passed dates. For example, if week is requested the function calculates the number of weeks between the 2 passed dates. Supports years, quarters, months, weeks, days, hours, minutes and seconds. Accepts both dates and timestamps for the dates passed.
 
 It is important that the earlier of the passed dates is in param 2 and the later in param 3. This may be improved in the future.
-@syntax LET vDateDiff = $(_Qvc.DateDiff('DatDiffType', StartDate, EndDate));
+@syntax LET vDateDiff = $(Qvc.DateDiff('DatDiffType', StartDate, EndDate));
 @param 1 String. A string defining which mode should be applied to the date diff. Possible values are 'year', 'quarter', 'month', 'week', 'day', 'hour', 'minute' and 'second'. Defaults is 'day'.
 @param 2 The earlier of the 2 dates to compare.
 @param 3 The later of the 2 dates to compare.
