@@ -36,6 +36,16 @@ SUB Qvc.Test.AssertFalse (_msg, _actual)
 	CALL Qvc.Test.AssertEqual ('$(_msg)', 0, '$(_actual)');
 END SUB
 
+///$tab Row Count
+SUB Qvc.Test.AssertRowCount (_msg, _tableName, _rowExpr)
+	LET _qvctemp.Test.rowCount = alt(NoOfRows('$(_tableName)'),0);
+	CALL Qvc.Test.AssertTrue ('$(_msg)', $(_qvctemp.Test.rowCount) $(_rowExpr)) ;
+	SET _qvctemp.Test.rowCount =;
+END SUB
+
+SUB Qvc.Test.AssertHasRows (_msg, _tableName)
+	CALL Qvc.Test.AssertRowCount ('$(_msg)', '$(_tableName)', '>0') ;
+END SUB
 ///$tab RegisterTest
 SUB Qvc.Test.RegisterTest (_member)
 	CALL Qvc.Log('$(Qvc.Test.MsgPrefix) REGISTER $(_member)');
