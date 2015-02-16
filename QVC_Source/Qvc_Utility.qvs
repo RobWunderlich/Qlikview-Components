@@ -124,8 +124,8 @@ It is important that the earlier of the passed dates is in param 2 and the later
 @param 3 The later of the 2 dates to compare.
 */
 SET Qvc.DateDiff = if(lower($1)='year', year($3) - year($2)
-,if(lower($1)='quarter', ((year($3)*4) + ceil(month($3)/3)) - ((year($2)*4) - ceil(month($3)/3))
-,if(lower($1)='month', ((year($3)*12) + month($3)) - ((year($2)*12) - month($2))
+,if(lower($1)='quarter', ((year($3)*4) + ceil(month($3)/3)) - ((year($2)*4) + ceil(month($2)/3))
+,if(lower($1)='month', ((year($3)*12) + month($3)) - ((year($2)*12) + month($2))
 ,if(lower($1)='week', ($3 - $2)/7
 ,if(lower($1)='day', $3 - $2
 ,if(lower($1)='hour', ($3 - $2)*24
