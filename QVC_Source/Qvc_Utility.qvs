@@ -225,7 +225,7 @@ END SUB
 SUB Qvc.QvdEmpty (_qvctemp.qvdname)
 /**
 @version $Id: Qvc_Utility.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
-Empties a QVD of all data but maintains the fields structure.
+Empties a QVD of all data but maintains the field structure.
     
 @syntax CALL Qvc.QvdEmpty('..\QVD\myfile.qvd');
 
@@ -242,10 +242,9 @@ IF lower(subfield('$(_qvctemp.qvdname)', '.', -1))='qvd' AND $(Qvc.FileExists('$
 	STORE _qvctemp.temptab INTO [$(_qvctemp.qvdname)] (qvd);
 	
 	// Drop temp table 
-	DROP TABLE _qvctemp.temptab
+	DROP TABLE _qvctemp.temptab;
 END IF
 
 SET _qvctemp.qvdname=; //Delete variable
 	
 END SUB
-
