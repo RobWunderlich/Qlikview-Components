@@ -10,3 +10,6 @@ Tests/*_log.txt
 
 # Runtime directory
 Qvc_Runtime
+
+# Office temp files
+~$*
