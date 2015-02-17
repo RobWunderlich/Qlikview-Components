@@ -221,13 +221,13 @@ SET _qvctemp.idx=;		// Delete temp variable
 
 END SUB
 
-///$tab QvdEmpty
-SUB Qvc.QvdEmpty (_qvctemp.qvdname)
+///$tab EmptyQvd
+SUB Qvc.EmptyQvd (_qvctemp.qvdname)
 /**
 @version $Id: Qvc_Utility.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
 Empties a QVD of all data but maintains the field structure.
     
-@syntax CALL Qvc.QvdEmpty('..\QVD\myfile.qvd');
+@syntax CALL Qvc.EmptyQvd('..\QVD\myfile.qvd');
 
 @param 1 String. The QVD name, including path. Relative or full path.
 */
