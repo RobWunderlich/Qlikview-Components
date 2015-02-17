@@ -220,3 +220,31 @@ NEXT _qvctemp.idx
 SET _qvctemp.idx=;		// Delete temp variable
 
 END SUB
+
+///$tab QvdEmpty
+SUB Qvc.QvdEmpty (_qvctemp.qvdname)
+/**
+@version $Id: Qvc_Utility.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+Empties a QVD of all data but maintains the field structure.
+    
+@syntax CALL Qvc.QvdEmpty('..\QVD\myfile.qvd');
+
+@param 1 String. The QVD name, including path. Relative or full path.
+*/
+// Check if passed file is a QVD and the QVD exists
+IF lower(subfield('$(_qvctemp.qvdname)', '.', -1))='qvd' AND $(Qvc.FileExists('$(_qvctemp.qvdname)')) THEN
+	// If it does then load structure only from the QVD
+	_qvctemp.temptab:
+	NOCONCATENATE LOAD * FROM [$(_qvctemp.qvdname)] (qvd)
+	WHERE 1<>1;
+	
+	// Store QVD
+	STORE _qvctemp.temptab INTO [$(_qvctemp.qvdname)] (qvd);
+	
+	// Drop temp table 
+	DROP TABLE _qvctemp.temptab;
+END IF
+
+SET _qvctemp.qvdname=; //Delete variable
+	
+END SUB
