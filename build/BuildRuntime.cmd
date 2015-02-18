@@ -14,6 +14,7 @@ TYPE ..\QVC_Source\Qvc_Cleanup.qvs >>..\Qvc_Runtime\Qvc.qvs
 TYPE ..\QVC_Source\Qvc_ColorTheme.qvs >>..\Qvc_Runtime\Qvc.qvs
 TYPE ..\QVC_Source\Qvc_DataLineage.qvs >>..\Qvc_Runtime\Qvc.qvs
 TYPE ..\QVC_Source\Qvc_DbExtract.qvs >>..\Qvc_Runtime\Qvc.qvs
+TYPE ..\QVC_Source\Qvc_EmptyQvd.qvs >>..\Qvc_Runtime\Qvc.qvs
 TYPE ..\QVC_Source\Qvc_ExpandInterval.qvs >>..\Qvc_Runtime\Qvc.qvs
 TYPE ..\QVC_Source\Qvc_Incremental_Reload.qvs >>..\Qvc_Runtime\Qvc.qvs
 TYPE ..\QVC_Source\Qvc_InspectTable.qvs >>..\Qvc_Runtime\Qvc.qvs
