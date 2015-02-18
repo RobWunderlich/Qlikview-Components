@@ -156,14 +156,17 @@ SET Qvc.NVL = if(isnull($1), $2, $1);
 /**
 @Function Qvc.Days360
 @version $Id: Qvc_Utility.qvs 272 2015-01-09 14:03:12Z matt.fryer@datoniq.com $
-Equivalent to MS Excel function days360(). Returns the number of days between two dates based on a 360-day year (twelve 30-day months), which is used in some accounting calculations. 
+Equivalent to MS Excel function days360(). Returns the number of days between two dates based on a 360-day year (twelve 30-day months), 
+which is used in some accounting calculations. 
 
 @syntax LET vDays360 = $(Qvc.Days360(StartDate, EndDate, 'DiffMode'));
 @param 1 The earlier of the 2 dates to compare
 @param 2 The later of the 2 dates to compare
-@param 3 The calculation mode. Possible values are 'US' and 'Europe'. Default is 'US'. 
+@param 3 The calculation mode. Possible values are US and Europe. Default is US. Do not quote the value. 
 */
-SET Qvc.Days360 = (((year($2)*12 + month($2)) - (year($1)*12 + month($1))) * 30) + if($3='EUROPE', numMin(day($2),30) - numMin(day($1),30), day($2) - day($1));
+SET Qvc.Days360 = (((year($2)*12 + month($2)) - (year($1)*12 + month($1))) * 30) 
++ if(upper('$3')='EUROPE', numMin(day($2),30) - numMin(day($1),30)
+, day($2) - day($1));
 /*
 @EndFunction
 */
