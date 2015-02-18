@@ -1,0 +1,86 @@
+///$tab EmptyQvd
+SUB Qvc.SegmentedStore (_qvctemp.tableName, _qvctemp.dateFieldName, _qvctemp.storePath, _qvctemp.qvdBaseName, _qvctemp.segmentType, _qvctemp.segmentsPerFile)
+/**
+@version $Id: Qvc_SegmentedStore.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+Saves a table to multiple QVDs segmented by the specified interval
+    
+@syntax CALL Qvc.EmptyQvd('Table', 'SegmentField', ['StorePath'], ['FileBaseName'], ['SegmentType'], [SegmentsPerFile]);
+
+@param 1 String. The table to be stored
+@param 2 String. The field within the table, specified in param 1, that should be used to segment the store.
+@param 3 String. Optional. The path to which the files should be saved. Defaults is the QVW root.
+@param 4 String. Optional. The base name that should be used when naming the files. Defaults to the passed table name.
+@param 5 String. Optional. The segment size that should be used. Default is 'MONTH'. Currently supports 'MONTH' and 'WEEK'. Others may be added in the future.
+@param 6 Integer. Optional. The number of the passed segment that should be included in each single file.
+*/
+
+// Set the default value of the optional parameters if not passed
+LET _qvctemp.storePath = if(len('$(_qvctemp.storePath)')>0, '$(_qvctemp.storePath)', '\');
+LET _qvctemp.qvdBaseName = if(len('$(_qvctemp.qvdBaseName)')>0, '$(_qvctemp.qvdBaseName)', '$(_qvctemp.tableName)');
+LET _qvctemp.segmentType = if(len('$(_qvctemp.segmentType)')>0, '_qvctemp.segmentType', 'month');
+LET _qvctemp.segmentsPerFile = if(len('$(_qvctemp.segmentsPerFile)')>0, '$(_qvctemp.segmentsPerFile)', 1);
+
+// Add the ending \ if the passed path is missing it
+IF NOT right(_qvctemp.storePath,1)='\' THEN
+	LET _qvctemp.storePath = _qvctemp.storePath & '\';
+END IF
+
+// Create a temp table to contain the min and max available dates within the resident table
+_tempDatesTable:
+NOCONCATENATE LOAD
+	date(min([$(_qvctemp.dateFieldName)])) AS [MinDate],
+	date(max([$(_qvctemp.dateFieldName)])) AS [MaxDate]
+RESIDENT $(_qvctemp.tableName) GROUP BY 1;
+
+// Set min and max variables and drop temp table
+LET _qvctemp.minDate = floor(peek('MinDate', -1, '_tempDatesTable'));
+LET _qvctemp.maxDate = floor(peek('MaxDate', -1, '_tempDatesTable'));
+DROP TABLE _tempDatesTable;
+
+// Set initial value for loop variable to start of interval based on min available date
+IF lower(_qvctemp.segmentType) = 'month' THEN
+	LET _qvctemp.currMinDate = num(monthstart(_qvctemp.minDate));
+ELSEIF lower(_qvctemp.segmentType) = 'week' THEN
+	LET _qvctemp.currMinDate = num(weekstart(_qvctemp.minDate));
+END IF
+
+// Loop through table a month at a time
+DO WHILE _qvctemp.currMinDate <= _qvctemp.maxDate
+	// Set the max date for this loop iteration
+	IF lower(_qvctemp.segmentType) = 'month' THEN
+		LET _qvctemp.currMaxDate = num(monthend(_qvctemp.currMinDate) + time#('23:59:59', 'hh:mm:ss')); //set the time to 1 second before midnight in case dealing with timestamps
+		LET _qvctemp.currFileName = '$(_qvctemp.qvdBaseName)_' & date($(_qvctemp.currMinDate), 'YYYY_MM') & '.qvd';
+	ELSEIF lower(_qvctemp.segmentType) = 'week' THEN
+		LET _qvctemp.currMaxDate = num(monthend(_qvctemp.currMinDate) + time#('23:59:59', 'hh:mm:ss')); //set the time to 1 second before midnight in case dealing with timestamps
+		LET _qvctemp.currFileName = '$(_qvctemp.qvdBaseName)_WE_' & date($(_qvctemp.currMinDate), 'YYYY_MM_DD') & '.qvd';
+	END IF
+
+	// Build table between min and max
+	_TempSingleSegmentData:
+	NOCONCATENATE LOAD * RESIDENT $(_qvctemp.tableName)
+	WHERE [$(_qvctemp.dateFieldName)] >= $(_qvctemp.currMinDate)
+		AND [$(_qvctemp.dateFieldName)] <= $(_qvctemp.currMaxDate);
+	
+	// Store table and drop the temp data table
+	STORE [_TempSingleSegmentData] INTO [$(_qvctemp.storePath)$(_qvctemp.currFileName)] (qvd);
+	DROP TABLE _TempSingleSegmentData;
+	
+	// Update current min timestamp for next loop iteration
+	LET _qvctemp.currMinDate = num($(_qvctemp.currMaxDate) + time#('00:00:01', 'hh:mm:ss')); //add one second to be the start of the next segment
+LOOP
+
+// Clear all variables so they don't appear in the UI
+SET _qvctemp.tableName=; 
+SET _qvctemp.dateFieldName=; 
+SET _qvctemp.storePath=; 
+SET _qvctemp.qvdBaseName=; 
+SET _qvctemp.segmentType=; 
+SET _qvctemp.segmentsPerFile=;
+SET _qvctemp.minDate=;
+SET _qvctemp.maxDate=;
+SET _qvctemp.currMinDate=;
+SET _qvctemp.currMaxDate=;
+SET _qvctemp.currFileName=;
+
+END SUB
+

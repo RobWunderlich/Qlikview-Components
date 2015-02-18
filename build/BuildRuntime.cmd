@@ -26,6 +26,7 @@ TYPE ..\QVC_Source\Qvc_ListFiles.qvs >>..\Qvc_Runtime\Qvc.qvs
 TYPE ..\QVC_Source\Qvc_Log.qvs >>..\Qvc_Runtime\Qvc.qvs
 TYPE ..\QVC_Source\Qvc_PopulateVariables.qvs >>..\Qvc_Runtime\Qvc.qvs
 TYPE ..\QVC_Source\Qvc_QvcAvailableUpdate.qvs >>..\Qvc_Runtime\Qvc.qvs
+TYPE ..\QVC_Source\Qvc_SegmentedStore.qvs >>..\Qvc_Runtime\Qvc.qvs
 TYPE ..\QVC_Source\Qvc_TableStats.qvs >>..\Qvc_Runtime\Qvc.qvs
 TYPE ..\QVC_Source\Qvc_Utility.qvs >>..\Qvc_Runtime\Qvc.qvs
 TYPE ..\QVC_Source\Qvc_WildMap.qvs >>..\Qvc_Runtime\Qvc.qvs
@@ -35,3 +36,4 @@ XCOPY ..\QVC_Source\Language\*.* ..\Qvc_Runtime\Language\*.* /E
 @ECHO OFF
 set /p=Hit ENTER to Finish
 @ECHO ON
+
