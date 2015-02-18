@@ -15,13 +15,13 @@ Saves a table to multiple QVDs segmented by the specified interval
 */
 
 // Set the default value of the optional parameters if not passed
-LET _qvctemp.storePath = if(len('$(_qvctemp.storePath)')>0, '$(_qvctemp.storePath)', '\');
+LET _qvctemp.storePath = if(len('$(_qvctemp.storePath)')>0, '$(_qvctemp.storePath)', '');
 LET _qvctemp.qvdBaseName = if(len('$(_qvctemp.qvdBaseName)')>0, '$(_qvctemp.qvdBaseName)', '$(_qvctemp.tableName)');
-LET _qvctemp.segmentType = if(len('$(_qvctemp.segmentType)')>0, '_qvctemp.segmentType', 'month');
+LET _qvctemp.segmentType = if(len('$(_qvctemp.segmentType)')>0, '$(_qvctemp.segmentType)', 'MONTH');
 LET _qvctemp.segmentsPerFile = if(len('$(_qvctemp.segmentsPerFile)')>0, '$(_qvctemp.segmentsPerFile)', 1);
 
 // Add the ending \ if the passed path is missing it
-IF NOT right(_qvctemp.storePath,1)='\' THEN
+IF len(_qvctemp.storePath)>0 AND NOT right(_qvctemp.storePath,1)='\' THEN
 	LET _qvctemp.storePath = _qvctemp.storePath & '\';
 END IF
 
@@ -38,9 +38,9 @@ LET _qvctemp.maxDate = floor(peek('MaxDate', -1, '_tempDatesTable'));
 DROP TABLE _tempDatesTable;
 
 // Set initial value for loop variable to start of interval based on min available date
-IF lower(_qvctemp.segmentType) = 'month' THEN
+IF lower('$(_qvctemp.segmentType)') = 'month' THEN
 	LET _qvctemp.currMinDate = num(monthstart(_qvctemp.minDate));
-ELSEIF lower(_qvctemp.segmentType) = 'week' THEN
+ELSEIF lower('$(_qvctemp.segmentType)') = 'week' THEN
 	LET _qvctemp.currMinDate = num(weekstart(_qvctemp.minDate));
 END IF
 
@@ -48,11 +48,11 @@ END IF
 DO WHILE _qvctemp.currMinDate <= _qvctemp.maxDate
 	// Set the max date for this loop iteration
 	IF lower(_qvctemp.segmentType) = 'month' THEN
-		LET _qvctemp.currMaxDate = num(monthend(_qvctemp.currMinDate) + time#('23:59:59', 'hh:mm:ss')); //set the time to 1 second before midnight in case dealing with timestamps
+		LET _qvctemp.currMaxDate = num(monthend(addmonths(_qvctemp.currMinDate, $(_qvctemp.segmentsPerFile))-1)); 
 		LET _qvctemp.currFileName = '$(_qvctemp.qvdBaseName)_' & date($(_qvctemp.currMinDate), 'YYYY_MM') & '.qvd';
 	ELSEIF lower(_qvctemp.segmentType) = 'week' THEN
-		LET _qvctemp.currMaxDate = num(monthend(_qvctemp.currMinDate) + time#('23:59:59', 'hh:mm:ss')); //set the time to 1 second before midnight in case dealing with timestamps
-		LET _qvctemp.currFileName = '$(_qvctemp.qvdBaseName)_WE_' & date($(_qvctemp.currMinDate), 'YYYY_MM_DD') & '.qvd';
+		LET _qvctemp.currMaxDate = num(weekend(_qvctemp.currMinDate + (7 * $(_qvctemp.segmentsPerFile)) - 1)); 
+		LET _qvctemp.currFileName = '$(_qvctemp.qvdBaseName)_' & date($(_qvctemp.currMinDate), 'YYYY_MM_DD') & '.qvd';
 	END IF
 
 	// Build table between min and max
@@ -66,7 +66,7 @@ DO WHILE _qvctemp.currMinDate <= _qvctemp.maxDate
 	DROP TABLE _TempSingleSegmentData;
 	
 	// Update current min timestamp for next loop iteration
-	LET _qvctemp.currMinDate = num($(_qvctemp.currMaxDate) + time#('00:00:01', 'hh:mm:ss')); //add one second to be the start of the next segment
+	LET _qvctemp.currMinDate = floor($(_qvctemp.currMaxDate) + 1); 
 LOOP
 
 // Clear all variables so they don't appear in the UI
