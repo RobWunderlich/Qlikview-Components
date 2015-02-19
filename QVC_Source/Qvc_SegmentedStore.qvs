@@ -4,7 +4,7 @@ SUB Qvc.SegmentedStore (_qvctemp.tableName, _qvctemp.dateFieldName, _qvctemp.sto
 @version $Id: Qvc_SegmentedStore.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
 Saves a table to multiple QVDs segmented by the specified interval
     
-@syntax CALL Qvc.EmptyQvd('Table', 'SegmentField', ['StorePath'], ['FileBaseName'], ['SegmentType'], [SegmentsPerFile]);
+@syntax CALL Qvc.SegmentedStore('Table', 'SegmentField', ['StorePath'], ['FileBaseName'], ['SegmentType'], [SegmentsPerFile]);
 
 @param 1 String. The table to be stored
 @param 2 String. The field within the table, specified in param 1, that should be used to segment the store.
@@ -13,6 +13,8 @@ Saves a table to multiple QVDs segmented by the specified interval
 @param 5 String. Optional. The segment size that should be used. Default is 'MONTH'. Currently supports 'MONTH' and 'WEEK'. Others may be added in the future.
 @param 6 Integer. Optional. The number of the passed segment that should be included in each single file.
 */
+
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
 
 // Set the default value of the optional parameters if not passed
 LET _qvctemp.storePath = if(len('$(_qvctemp.storePath)')>0, '$(_qvctemp.storePath)', '');
@@ -26,16 +28,16 @@ IF len(_qvctemp.storePath)>0 AND NOT right(_qvctemp.storePath,1)='\' THEN
 END IF
 
 // Create a temp table to contain the min and max available dates within the resident table
-_tempDatesTable:
+_qvctemp._tempDatesTable:
 NOCONCATENATE LOAD
-	date(min([$(_qvctemp.dateFieldName)])) AS [MinDate],
-	date(max([$(_qvctemp.dateFieldName)])) AS [MaxDate]
+	date(min([$(_qvctemp.dateFieldName)])) AS [_qvctemp.MinDate],
+	date(max([$(_qvctemp.dateFieldName)])) AS [_qvctemp.MaxDate]
 RESIDENT $(_qvctemp.tableName) GROUP BY 1;
 
 // Set min and max variables and drop temp table
-LET _qvctemp.minDate = floor(peek('MinDate', -1, '_tempDatesTable'));
-LET _qvctemp.maxDate = floor(peek('MaxDate', -1, '_tempDatesTable'));
-DROP TABLE _tempDatesTable;
+LET _qvctemp.minDate = floor(peek('_qvctemp.MinDate', -1, '_qvctemp._tempDatesTable'));
+LET _qvctemp.maxDate = floor(peek('_qvctemp.MaxDate', -1, '_qvctemp._tempDatesTable'));
+DROP TABLE _qvctemp._tempDatesTable;
 
 // Set initial value for loop variable to start of interval based on min available date
 IF lower('$(_qvctemp.segmentType)') = 'month' THEN
@@ -56,14 +58,14 @@ DO WHILE _qvctemp.currMinDate <= _qvctemp.maxDate
 	END IF
 
 	// Build table between min and max
-	_TempSingleSegmentData:
+	_qvctemp._TempSingleSegmentData:
 	NOCONCATENATE LOAD * RESIDENT $(_qvctemp.tableName)
 	WHERE [$(_qvctemp.dateFieldName)] >= $(_qvctemp.currMinDate)
 		AND [$(_qvctemp.dateFieldName)] <= $(_qvctemp.currMaxDate);
 	
 	// Store table and drop the temp data table
-	STORE [_TempSingleSegmentData] INTO [$(_qvctemp.storePath)$(_qvctemp.currFileName)] (qvd);
-	DROP TABLE _TempSingleSegmentData;
+	STORE [_qvctemp._TempSingleSegmentData] INTO [$(_qvctemp.storePath)$(_qvctemp.currFileName)] (qvd);
+	DROP TABLE _qvctemp._TempSingleSegmentData;
 	
 	// Update current min timestamp for next loop iteration
 	LET _qvctemp.currMinDate = floor($(_qvctemp.currMaxDate) + 1); 
