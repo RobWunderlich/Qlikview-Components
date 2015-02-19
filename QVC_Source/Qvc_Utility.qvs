@@ -182,7 +182,7 @@ Equivalent to MS Excel function inrange(). Returns whether the past value is bet
 @param 2 The second of the 2 dates to compare
 @param 3 The value to compare against the range 
 */
-SET Qvc.InRange = if($1<$2, if($3>=$1 AND $3<=$2, true(), false()), if($3>=$2 AND $3<=$1, true(), false()));
+SET Qvc.InRange = if($1<$2, if($3>=$1 AND $3<=$2, -1, 0), if($3>=$2 AND $3<=$1, -1, 0));
 /*
 @EndFunction
 */
