@@ -1,13 +1,13 @@
 ﻿Qvc.LogMessage_Level,Qvc.LogMessage
-INFO,00001 10/16/2014 6:11:40 PM; #Qvc.Test# REGISTER Qvc.LogError
-INFO,00002 10/16/2014 6:11:40 PM; #Qvc.Test# REGISTER Qvc.LogWarning
-INFO,00003 10/16/2014 6:11:40 PM; Info message
-ERROR,00004 10/16/2014 6:11:40 PM; Error message. Its OK! Really!
-WARNING,00005 10/16/2014 6:11:40 PM; Warning message
-INFO,00006 10/16/2014 6:11:40 PM; Logfile size 347
-INFO,"00007 10/16/2014 6:11:40 PM; #Qvc.Test# SUCCESS Log records written: Expected: ""-1"" Actual ""-1"""
-INFO,00008 10/16/2014 6:11:40 PM; This message should not be written external
-INFO,"00009 10/16/2014 6:11:40 PM; #Qvc.Test# SUCCESS No Log records written: Expected: ""-1"" Actual ""-1"""
-INFO,"00010 10/16/2014 6:11:40 PM; #Qvc.Test# SUCCESS Issue#5, Level variable present: Expected: ""-1"" Actual ""-1"""
-INFO,00011 10/16/2014 6:11:40 PM; Another log records
-INFO,"00012 10/16/2014 6:11:40 PM; #Qvc.Test# SUCCESS Issue 13, new rows s/b added to same table: Expected: ""-1"" Actual ""-1"""
+INFO,00001 2/21/2015 12:09:29 PM; #Qvc.Test# REGISTER Qvc.LogError
+INFO,00002 2/21/2015 12:09:29 PM; #Qvc.Test# REGISTER Qvc.LogWarning
+INFO,00003 2/21/2015 12:09:29 PM; Info message
+ERROR,00004 2/21/2015 12:09:29 PM; Error message. Its OK! Really!
+WARNING,00005 2/21/2015 12:09:29 PM; Warning message
+INFO,00006 2/21/2015 12:09:29 PM; Logfile size 347
+INFO,"00007 2/21/2015 12:09:29 PM; #Qvc.Test# SUCCESS Log records written: Expected: ""-1"" Actual ""-1"""
+INFO,00008 2/21/2015 12:09:29 PM; This message should not be written external
+INFO,"00009 2/21/2015 12:09:29 PM; #Qvc.Test# SUCCESS No Log records written: Expected: ""-1"" Actual ""-1"""
+INFO,"00010 2/21/2015 12:09:29 PM; #Qvc.Test# SUCCESS Issue#5, Level variable present: Expected: ""-1"" Actual ""-1"""
+INFO,00011 2/21/2015 12:09:29 PM; Another log records
+INFO,"00012 2/21/2015 12:09:29 PM; #Qvc.Test# SUCCESS Issue 13, new rows s/b added to same table: Expected: ""-1"" Actual ""-1"""
