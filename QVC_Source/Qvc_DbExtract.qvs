@@ -251,6 +251,14 @@ UNQUALIFY ExtractTimestamp;			// Unqualify the currency field.
 DISCONNECT;			// Disconnect from database
 
 //==========================================================
+// Validate returned data
+//==========================================================
+// If a Delta extract but keyfield was not included, then log a warning. 
+IF '$(_qvctemp.den.extractMode)' = 'D' AND FieldNumber('$(_qvctemp.den.keyField)', '$(Qvc.Loader.v.Tablename)')=0 THEN
+	CALL Qvc.LogWarning('Warning: Keyfield "$(_qvctemp.den.keyField)" not found in table "$(Qvc.Loader.v.Tablename)".');
+ENDIF
+
+//==========================================================
 // Compute and log SQL statistics.
 //==========================================================
 // Using RangeMax because very short durations can calc as -0 because of different precision.
