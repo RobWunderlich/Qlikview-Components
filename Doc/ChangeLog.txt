@@ -1,7 +1,7 @@
 Version 10
 - Issue 12. Qvc.ExpandInterval script error when field name contains comma.
 - QVC Documentation and Examples are Personal Edition enabled. 
-- Merged QVACB library into QVC.
+- Merged QVACB library with QVC.
 - Migrated Sub from QVACB, Qvc.Icons. Bundle loads image files into a QVW.
 - Migrated sub from QVACB, Qvc.QvdEmpty. Empties data from a QVD.
 - Migrated sub from QVACB, Qvc.SegmentedStore. STOREs table into segmented QVDs by date range.
