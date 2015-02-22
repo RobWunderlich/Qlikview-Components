@@ -128,7 +128,7 @@ IF $(_vQvdExists) THEN		// QVD exists, we will do an incremental reload
 	Call Qvc.log ('Loading rows where $(Qvc.Loader.v.IncrementalExpression)') 
 	
 ELSE						// QVD does not exist
-	IF len('$(Qvc.Loader.v.BaseValue)') > 0 THEN 
+	IF len('$(Qvc.Loader.v.BaseValue)') > 0 AND len('$(_vSqlModField)') > 0 THEN 
 		LET Qvc.Loader.v.IncrementalExpression = '$(_vSqlModField) ' & $(_tempLoaderPredicate($(Qvc.Loader.v.BaseValue)));
 		SET Qvc.Loader.v.IncrementalFloor = $(Qvc.Loader.v.BaseValue);	// Save copy for user defined custom where expression
 	ELSE 
