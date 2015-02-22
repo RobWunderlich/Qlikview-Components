@@ -1,5 +1,0 @@
-﻿Issue07Log.LogMessage_Level,Issue07Log.LogMessage
-INFO,00018 16-Oct-2014 6:11:41 PM; First Line
-INFO,00019 16-Oct-2014 6:11:41 PM; Logfile size 101
-INFO,00020 16-Oct-2014 6:11:41 PM; First Line
-INFO,00021 16-Oct-2014 6:11:41 PM; Logfile size 201
