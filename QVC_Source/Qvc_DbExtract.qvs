@@ -47,6 +47,8 @@ The parameter fields are defined below. (R) indicates a required field, (O) indi
 
 -TableComment (O) A comment to be assigned to the QVD using the QV Script "COMMENT TABLES ..." statement.
 
+-BaseValue (O)  How far back to load if first load of a QVD. Overrides Qvc.Loader.v.BaseValue for this table.  
+
 @syntax CALL Qvc.DbExtract ('ExtractParams');
 
 @param 1 String. Name of the Qlikview extract parameter table.  
@@ -154,6 +156,15 @@ num(
 ,'00000.0000000','.',','
 );
 
+LET _qvctemp.den.baseValue = peek('BaseValue', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)');
+// Save current global BaseValue var.
+SET _qvctemp.den.save.Qvc.Loader.v.BaseValue = $(Qvc.Loader.v.BaseValue);
+
+// If an override BaseValue was supplied for this table,
+// then set the global BaseValue to the override value. 
+IF len('$(_qvctemp.den.baseValue)') > 0 THEN 
+	SET Qvc.Loader.v.BaseValue = $(_qvctemp.den.baseValue);
+ENDIF
 
 LET _qvctemp.den.qvdPath = '$(Qvc.Loader.v.QvdDirectory)\' & '$(_qvctemp.den.qvdName).qvd';
 
@@ -295,6 +306,11 @@ ENDIF 		// END for IF $(_qvctemp.den.doExtract) THEN
 //==========================================================
 // Clean up vars.
 //========================================================== 
+// Reset the global BaseValue from the saved
+SET Qvc.Loader.v.BaseValue = $(_qvctemp.den.save.Qvc.Loader.v.BaseValue);
+SET _qvctemp.den.save.Qvc.Loader.v.BaseValue=;
+
+// Reset temp vars
 SET _qvctemp.den.recid =;
 SET _qvctemp.den.connection =;
 SET _qvctemp.den.table =;
@@ -313,6 +329,7 @@ SET _qvctemp.den.vSqlDuration=;
 SET _qvctemp.den.vSqlStart=;
 SET _qvctemp.den.QvTableName=;
 SET _qvctemp.den.staleAfter=;
+SET _qvctemp.den.baseValue=;
 
 SET _qvctemp.den.doExtract=;
 
