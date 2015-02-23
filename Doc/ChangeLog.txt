@@ -1,5 +1,4 @@
 Version 10
-- Issue 12. Qvc.ExpandInterval script error when field name contains comma.
 - QVC Documentation and Examples are Personal Edition enabled. 
 - Merged QVACB library with QVC.
 - Migrated Sub from QVACB, Qvc.Icons. Bundle loads image files into a QVW.
@@ -9,6 +8,10 @@ Version 10
 - Migrated function from QVACB, Qvc.Days360.
 - Migrated function from QVACB, Qvc.NVL.
 - Migrated function from QVACB, Qvc.InRange.
+- Closed Issue 12. Qvc.ExpandInterval script error when field name contains comma.
+- Closed Issue 5. Qvc.DbExtract Initial extraction proceeds even when KeyField has typo in it.
+- Closed Issue 4. Qvc. DbExtract Provide table specific BaseValue.
+
 
 Version 9.1
 - Issue 8. Qvc.LinkTable may delete rows from source table.
