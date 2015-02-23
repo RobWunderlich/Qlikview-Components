@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
  <QvdTableHeader>
-   <QvBuildNo>12018</QvBuildNo>
-   <CreatorDoc>C:\QVC_Root\trunk\Examples\DbExtract.qvw</CreatorDoc>
-   <CreateUtcTime>2013-11-28 04:16:44</CreateUtcTime>
+   <QvBuildNo>12664</QvBuildNo>
+   <CreatorDoc>C:\Users\Rob\Documents\GitHub\Qlikview-Components\Examples\DbExtract.qvw</CreatorDoc>
+   <CreateUtcTime>2015-02-22 07:05:35</CreateUtcTime>
    <SourceCreateUtcTime></SourceCreateUtcTime>
    <SourceFileUtcTime></SourceFileUtcTime>
    <SourceFileSize>-1</SourceFileSize>
@@ -545,15 +545,15 @@
        <Statement></Statement>
      </LineageInfo>
      <LineageInfo>
-       <Discriminator>c:\qvc_root\trunk\examples\dbextract\adventureworks_connect.txt</Discriminator>
+       <Discriminator>c:\users\rob\documents\github\qlikview-components\examples\dbextract\adventureworks_connect.txt</Discriminator>
        <Statement></Statement>
      </LineageInfo>
      <LineageInfo>
-       <Discriminator>c:\qvc_root\trunk\examples\dbextract\qvd\orders.qvd</Discriminator>
+       <Discriminator>c:\users\rob\documents\github\qlikview-components\examples\dbextract\qvd\orders.qvd</Discriminator>
        <Statement></Statement>
      </LineageInfo>
      <LineageInfo>
-       <Discriminator>c:\qvc_root\trunk\examples\dbextract\sampleextractlist.xls</Discriminator>
+       <Discriminator>c:\users\rob\documents\github\qlikview-components\examples\dbextract\sampleextractlist.xls</Discriminator>
        <Statement></Statement>
      </LineageInfo>
    </Lineage>
@@ -568,7 +568,7 @@
   ´2  š%    1230190Vi82952 430191Vi77442 130192Vi64692 105041Vi84182 115213Vi29411 85274Vi6854 125295Vi53935 45303Vi22691 95555Vi4081 35568Vi78804 105623Vi69217 55680Vi53503 85817Vi8045 25877Vi80261 105888Vi93490 25904Vi70960 95915Vi20982 35931Vi7271 26081Vi99806 126121Vi61402 36168Vi94127 16302Vi72763 66363Vi26658 126365Vi28482 126370Vi34642 16608Vi27707 96712Vi373 76866Vi67506 37982Vi1394 108058Vi13146 48152Vi75759 128163Vi17021 88200Vi64099 98228Vi67566 28321Vi12181 28360Vi1235 108529Vi37251 128548Vi46064 118748Vi36747 128786Vi52413 98787Vi7192 530200Vi22686 1231736Vi86048 333376Vi30244 733791Vi66509 335093Vi57504 1230194Vi41919 1234632Vi48985 835095Vi10342 1035101Vi37381 230189Vi56258 230298Vi99064 130402Vi22912 1034602Vi80214 1134614Vi30135 430293Vi16007 1231128Vi32292 830288Vi85808 1031124Vi82522 1134605Vi41375 534626Vi30635 1235425Vi29858 530203Vi16052 1130295Vi31203 831105Vi14399 331111Vi61776 331099Vi63048 833793Vi87871 834617Vi32891 832136Vi34578 533796Vi44130 834627Vi58835 130201Vi80748 831735Vi13701 333375Vi69103 834633Vi74142 1235104Vi56140 135716Vi54667 330290Vi79368 1034619Vi33896 1135092Vi7270 631125Vi62053 834624Vi94036 530206Vi24524 932138Vi89574 1235097Vi7903 635648Vi67147 634611Vi49589 434629Vi26884             #      -   =   6   G   J   W   P   a   ]   q   j   w   ˆ   Š   ‹   „   ˜   ‘      ×£p=Šô«@¡g³êûØ@‹lçûiD˜@BÏfÕÃ?ã@·bÙ1ğà@Qkšwœu@mçû© Ü@Õçj+ÒËĞ@ì/»'¯¿·@ÎˆÒŞ€¼@/İ$!å@Éå¿‹‹@ÎˆÒŞ€°¼@V-²Ã@5ï8E±¼@™*•„z±@“:M„š¨@&Só³º@?Æ4¤Ğ@µ¦yÇa=Â@¬­Ø_öÿÆ@Å °r(’˜@é·¯?³Ê@­ú\m•&Ğ@n4€·€'²@Åké@@aÃÃ;º@RI€´©@³êsµõ;°@}Ğ³Y5˜—@½R–!ÛÍ@áz®µ÷ã@éH.ÿ!B˜@·Ñ Şg@xz¥,Ÿæ@À[ İ
 Ø@õJY†D&Ø@Á9#Jéç@®Gáúª@½ãÉØ…@®Gáú]ª@#J{ƒ/äq@×òAÎ@2æ®%ä_@Ş	Š£¨@ØsFT®¥@_ÎQ"D@¹ü‡ôûQ¢@Â&SÅ•@û\mÅşe~@¬­Ø_öP‚@¸@‚â‡«@…ëQ¸¡Q@—ÿ~{\‚@4€·@‚fˆ@“©‚Ñ\‚@şe÷äa_v@ëâ6~o@ˆôÛ×@òÒMbM•@M„ÏX‡@;ßO—p@l	ù gs_@@¤ß¾‘@~8gD¬”@&äƒÍ<w@`vO&°@¹ğÊ€@ğ§ÆK7sp@ºk	ù Çt@]ÜFx3^@Ò Ş‰“@^KÈı©@Œ¹k	ù_@‚âÇ˜»şT@(~Œ¹Ëà¬@úíëÀ9Æ@;M„Mé@çŒ(í–­@œ¢#¹üÿp@­ú\mÅöK@œ¢#¹üßp@46<]V@ioğ…É@ƒ@µûËîiC@•C‹lÌ@8gDé‹@BÏfÕç*)@®Gázæ†@mV}®¶ßz@’ËH¿ÿb@ŒJê4åf@ĞDØğ4ç@aÃÓ+e	6@ò°Pkšóf@•Ô	h"€n@n£¼ôf@úíëÀ9÷[@‰A`åĞ®S@I€&Â\e@Ãdª`T z@·Ñ Ş/m@š^fr@ã¥›Ä ¨C@Ú|a2\u@È=›U×y@².n£]@-²ï”@Qkšwœüd@ŒJêT@¨ÆK7‰ùY@¾0™*àB@|ò°Pkâw@46¼ò@ëâ6hC@ÊÃB­i>:@}®¶b’@2æ®%ä;ƒ@İµ„|ĞQƒ@ØsFT~’@œ¢#¹ü?U@
 ×£p=z1@œ¢#¹üU@¼–úã®@J+ã—Ú@œ3¢´·Ğš@x$(.Eå@µ7øÂ~·â@[±¿ìa@t$—ÿŒ¡ß@«>W[MÒ@V>º@ØğôJÉŸ¿@MŒJôXç@¡ø1æ.p@I.ÿ!­³¿@¬­Ø_~Å@².n£A´¿@±PkšWP³@QkšwÜ/«@“©‚Q¹½@Ôšæ‡cÒ@ÌîÉÃª'Ä@äƒÍ2jÉ@ŠäòŸ&›@P—nò€Í@¤p=
-·ØÑ@k+ö—}´@¶„|Ğ?³ë@R¸…ëü¼@°rh‘íf¬@Š°áéUğ±@3Ä±.nš@6Í;NÅ~Ğ@gDiopæ@Ú|a2Îš@îZB>è’@Ï÷Sãîè@+ö—İ‘Ú@¸@‚âg¯Ú@@¤ß¾J‹é@}?5^úY­@ Òo_$ˆ@}?5^º"­@å  Ø  Ù  Ú  Û  Ü  İ  Ş  ß  à  á  â  ã  ä  YÜ	»Pä@Ô:mTCä@                            !1("q„A A0"qb
+·ØÑ@k+ö—}´@¶„|Ğ?³ë@R¸…ëü¼@°rh‘íf¬@Š°áéUğ±@3Ä±.nš@6Í;NÅ~Ğ@gDiopæ@Ú|a2Îš@îZB>è’@Ï÷Sãîè@+ö—İ‘Ú@¸@‚âg¯Ú@@¤ß¾J‹é@}?5^úY­@ Òo_$ˆ@}?5^º"­@å  Ø  Ù  Ú  Û  Ü  İ  Ş  ß  à  á  â  ã  ä  5ümÊ‰ä@ Óº‰ä@                            !1("q„A A0"qb
 1
 Q83q†‚ Aa@ 3q£(PqH$
 qˆÃ0` P(q	ä8	p$	‘X,qŠA
