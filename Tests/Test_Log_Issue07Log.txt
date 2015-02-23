@@ -1,0 +1,5 @@
+﻿Issue07Log.LogMessage_Level,Issue07Log.LogMessage
+INFO,00018 22-Feb-2015 12:30:18 PM; First Line
+INFO,00019 22-Feb-2015 12:30:18 PM; Logfile size 102
+INFO,00020 22-Feb-2015 12:30:18 PM; First Line
+INFO,00021 22-Feb-2015 12:30:18 PM; Logfile size 204
