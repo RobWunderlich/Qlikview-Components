@@ -1,3 +1,7 @@
+Version 10.1
+- Fixed issue 23. Non-English characters not supported in log file.
+
+
 Version 10
 - QVC Documentation and Examples are Personal Edition enabled. 
 - Merged QVACB library with QVC.
