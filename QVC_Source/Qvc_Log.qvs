@@ -61,7 +61,7 @@ IF $(Qvc.Log.v.KeepDays) > 0 THEN		// If requested to keep previous logs...
 			@1 as [$(_levelField)], 
     	 	@2 as [$(Qvc.Log.v.LogField)]
 		FROM "$(Qvc.Log.v.LogFileName)"
-		(txt, no labels, delimiter is ',', msq, header is 1 lines)
+		(CodePage is 65001, txt, no labels, delimiter is ',', msq, header is 1 lines)
 		WHERE today(1) - Date#(subfield(@2,' ',2)) < $(Qvc.Log.v.KeepDays)
 		; 
 		// Get max value of current counter
