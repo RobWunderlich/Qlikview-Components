@@ -8,6 +8,7 @@ SET Qvc.Log.v.LogLevelField=;
 //SET Qvc.Log.v.LogDir='.';	// Directory to put logs. Default is current. 
 LET Qvc.Log.v.LogFileName = left(DocumentPath(), index(DocumentPath(),'.',-1)-1) & '_log.txt';
 SET Qvc.Log.v.WriteLogFile = 0;	// Write external log file, true/false
+SET Qvc.Log.v.WriteToQvLog = 0; // Write to the QlikView log file and script progress window, true/false
 SET Qvc.Log.v.KeepDays=0;		// How many days of log to keep, 0 means overwrite every time
 
 SET _Qvc.Log.v.FirstCall=-1;		// Private flag to indicate first call to this SUB
@@ -22,7 +23,7 @@ SET Qvc.Log.v.Level.ERROR=ERROR;
 SUB Qvc.Log (_msg, _level)
 /**
 @version $Id: Qvc_Log.qvs 356 2014-02-23 20:36:26Z rob@robwunderlich.com $
-Write a message line to a log table and external file.
+Write a message line to a log table and external file. Messages can also be written to the QlikView script progress window and log file.
 
 The default name for the external log file is documentName_log.txt and it is stored in the same directory as the qvw. Writing of the external file may be suppressed by setting config variable Qvc.Log.v.LogFile to empty.
 
@@ -35,13 +36,20 @@ The default name for the external log file is documentName_log.txt and it is sto
 @var Qvc.Log.v.LogLevelField in String. Fieldname for the log level. Default is '$(Qvc.Log.v.LogField)_Level'.
 @var Qvc.Log.v.LogFileName in String. External filename where log messages will be written. Default is qvwname_log.txt.
 @var Qvc.Log.v.WriteLogFile in -1/0 (true/false). If true, write log to external file. Default is false.
+@var Qvc.Log.v.WriteToQvLog in -1/0 (true/false). If true, write to script progress window and QV log file is being created. Default is false.
 @var Qvc.Log.v.KeepDays in Number. Number of days of log to keep in logfile. Log records older than this will be rolled off. If 0 (default), log will be overwritten with every reload.
 */
+
 UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
 
 LET _level=$(_Qvc.DefaultIfEmpty($(_level), $(Qvc.Log.v.Level.INFO)));
 SET _defaultLevelField='$(Qvc.Log.v.LogField)_Level';
 LET _levelField=$(_Qvc.DefaultIfEmpty($(Qvc.Log.v.LogLevelField), $(_defaultLevelField)));
+
+IF $(Qvc.Log.v.WriteToQvLog) THEN
+	TRACE QVC $(_level): $(_msg);
+ENDIF
+
 	
 UNQUALIFY [$(Qvc.Log.v.LogField)], [$(_levelField)];	// Ensure unqualified
 

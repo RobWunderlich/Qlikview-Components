@@ -36,6 +36,7 @@ SET Qvc.Loader.v.StoreMaxModFieldValue=;
 SET Qvc.Log.v.LogTable=;
 SET Qvc.Log.v.LogField=;
 SET Qvc.Log.v.WriteLogFile=;
+SET Qvc.Log.v.WriteToQvLog=;
 SET Qvc.Log.v.KeepDays=;
 SET _Qvc.Log.v.LineCounter=;
 SET _Qvc.Log.v.FirstCall=;
