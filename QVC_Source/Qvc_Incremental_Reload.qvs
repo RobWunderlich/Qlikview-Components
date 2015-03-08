@@ -99,8 +99,12 @@ SET _Qvc.Loader.v.TableModificationField = '$(_vQvdModField)';	// Save as privat
 // Set a variable indicating if the QVD exists or not
 IF '$(_vForceFullReload)' THEN
 	SET _vQvdExists = 0;	//ForceFullReload flag is on, treat as though QVD doesn't exist
-ELSE  						// Test if qvd file exists
-	LET _vQvdExists = $(Qvc.FileExists(_Qvc.Loader.v.QvdFile));
+ELSE  						// Test if qvd file exists and if it does, does it contain any records
+	IF $(Qvc.FileExists(_Qvc.Loader.v.QvdFile)) AND QvdNoOfRecords('$(_Qvc.Loader.v.QvdFile)')>0 THEN
+		SET _vQvdExists = -1;
+	ELSE 
+		SET _vQvdExists = 0;
+	ENDIF
 ENDIF
 
 // Find the right function for predicate formatting
@@ -122,7 +126,7 @@ IF $(_vQvdExists) THEN		// QVD exists, we will do an incremental reload
 	ENDIF
 	
 	SET Qvc.Loader.v.IncrementalFloor = $(_vDate.Max);	// Save copy for user defined custom where expression
-
+	
 	// Create a where predicate
 	LET Qvc.Loader.v.IncrementalExpression = '$(_vSqlModField) ' & $(_tempLoaderPredicate($(_vDate.Max)));	
 	Call Qvc.log ('Loading rows where $(Qvc.Loader.v.IncrementalExpression)') 
@@ -138,7 +142,7 @@ ELSE						// QVD does not exist
 	IF '$(_vForceFullReload)' THEN
 		Call Qvc.log ('ForceFullReload requested. Doing full reload where $(Qvc.Loader.v.IncrementalExpression).');
 	ELSE 
-		Call Qvc.log ('QVD $(_Qvc.Loader.v.QvdFile) does not exist. Doing full reload where $(Qvc.Loader.v.IncrementalExpression).');
+		Call Qvc.log ('QVD $(_Qvc.Loader.v.QvdFile) does not exist or is empty. Doing full reload where $(Qvc.Loader.v.IncrementalExpression).');
 	ENDIF		
 END IF
 
