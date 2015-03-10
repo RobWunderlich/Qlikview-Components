@@ -2,6 +2,7 @@ Version 10.1
 - Closed issue 23. Non-English characters not supported in log file. (Thanks to Alkopfer)
 - Qvc.Log -- New variable Qvc.Log.v.WriteToQvLog, indicated if the logging should also be written to the QlikView/Sense application log file and script progress window.
 - Closed issue 24. Qvc.IncrementalSetup failing when QVD exists but is empty. (Thanks for Luca Jonathan Panetta)
+- Qvc.SegmentedStore -- New segment type of 'day' added to create daily QVDs.
 
 
 Version 10
