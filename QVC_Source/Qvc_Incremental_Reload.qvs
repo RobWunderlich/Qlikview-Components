@@ -118,7 +118,7 @@ IF $(_vQvdExists) THEN		// QVD exists, we will do an incremental reload
 		// Get the Qvc.MaxModFieldValue value from first row of QVD
 		_qvctemp.MaxValueTable:
 		FIRST 1 LOAD Qvc.MaxModFieldValue FROM [$(_Qvc.Loader.v.QvdFile)] (qvd);
-		LET _vDate.Max = peek('Qvc.MaxModFieldValue');
+		LET _vDate.Max = replace(peek('Qvc.MaxModFieldValue'), '$(DecimalSep)', '.');	// Ensure using "." as decimal sep
 		DROP TABLE _qvctemp.MaxValueTable;
 	ELSE 
 		// Not saved on previous run, read the whole QVD to get max value.
