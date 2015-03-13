@@ -246,6 +246,11 @@ UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
 
 // Set defaults
 LET _vReplaceQvd=$(_Qvc.DefaultIfEmpty($(_vReplaceQvd), 0));
+// Remove possible brackets from paramters. We will selectively use brackets as needed.
+LET _vTablename=PurgeChar('$(_vTablename)','[]');
+LET _vQvdFile=PurgeChar('$(_vQvdFile)','[]');
+LET _vPrimaryKey=PurgeChar('$(_vPrimaryKey)','[]');
+LET _vDbKeyTable=PurgeChar('$(_vDbKeyTable)','[]');
 
 // Set a variable indicating if the QVD exists or not
 IF '$(_vReplaceQvd)' THEN
@@ -296,8 +301,8 @@ ENDIF
 REM If incremental reload, load previous data and concatenate to data just read.;
 IF $(_vQvdExists) THEN
 // Concatenate is required if adding fields
-	CONCATENATE ($(_vTablename))
-	LOAD * FROM $(_vQvdFile) (qvd)
+	CONCATENATE ([$(_vTablename)])
+	LOAD * FROM [$(_vQvdFile)] (qvd)
 	WHERE NOT exists($(_qvctemp.ExistsExpr))
 	;
 END IF
@@ -319,7 +324,7 @@ IF len('$(_vDbKeyTable)') > 0 AND $(_vQvdExists) THEN
 	SET _vDbKeyTable_Fieldname=;
 ENDIF
 
-STORE $(_vTablename) INTO $(_vQvdFile);
+STORE [$(_vTablename)] INTO [$(_vQvdFile)];
 
 // Cleanup variables
 SET _vQvdExists=;

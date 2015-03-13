@@ -1,11 +1,12 @@
 ﻿Qvc.LogMessage_Level,Qvc.LogMessage
-INFO,00001 2/21/2015 12:10:17 PM; >>>  Basic test
-INFO,"00002 2/21/2015 12:10:18 PM; #Qvc.Test# SUCCESS Row count after update: Expected: ""4"" Actual ""4"""
-INFO,00003 2/21/2015 12:10:18 PM; >>>  Deletes test
-INFO,00004 2/21/2015 12:10:18 PM; Before deletes: Updates rows=4
-INFO,00005 2/21/2015 12:10:18 PM; After deletes: Updates rows=2
-INFO,"00006 2/21/2015 12:10:18 PM; #Qvc.Test# SUCCESS Row count after update with deletes: Expected: ""2"" Actual ""2"""
-INFO,"00007 2/21/2015 12:10:18 PM; >>>  Issue #14, spaces in Keyfield name"
-INFO,00008 2/21/2015 12:10:18 PM; >>>  Generic (non-unique Primary Key) test
-INFO,"00009 2/21/2015 12:10:18 PM; #Qvc.Test# SUCCESS Generic Row count after update: Expected: ""4"" Actual ""4"""
-INFO,"00010 2/21/2015 12:10:18 PM; #Qvc.Test# SUCCESS ScriptErrorCount: Expected: ""0"" Actual ""0"""
+INFO,00001 3/13/2015 2:47:48 PM; >>>  Basic test
+INFO,"00002 3/13/2015 2:47:49 PM; #Qvc.Test# SUCCESS Row count after update: Expected: ""4"" Actual ""4"""
+INFO,00003 3/13/2015 2:47:49 PM; >>>  Deletes test
+INFO,00004 3/13/2015 2:47:49 PM; Before deletes: Updates rows=4
+INFO,00005 3/13/2015 2:47:49 PM; After deletes: Updates rows=2
+INFO,"00006 3/13/2015 2:47:49 PM; #Qvc.Test# SUCCESS Row count after update with deletes: Expected: ""2"" Actual ""2"""
+INFO,"00007 3/13/2015 2:47:49 PM; >>>  Issue #14, spaces in Keyfield name"
+INFO,"00008 3/13/2015 2:47:49 PM; >>>  Issue #27, spaces in Table name"
+INFO,00009 3/13/2015 2:47:49 PM; >>>  Generic (non-unique Primary Key) test
+INFO,"00010 3/13/2015 2:47:49 PM; #Qvc.Test# SUCCESS Generic Row count after update: Expected: ""4"" Actual ""4"""
+INFO,"00011 3/13/2015 2:47:49 PM; #Qvc.Test# SUCCESS ScriptErrorCount: Expected: ""0"" Actual ""0"""
