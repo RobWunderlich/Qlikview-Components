@@ -15,7 +15,7 @@ NOCONCATENATE
 LOAD 
 	text(DownloadableQvcVersion) as _qvctemp.DownloadableQvcVersion
 FROM
-[http://qlikview-components.googlecode.com/svn/trunk/QVC_Source/LatestQvcDownloadVersion.txt]
+[https://raw.githubusercontent.com/RobWunderlich/Qlikview-Components/master/QVC_Source/LatestQvcDownloadVersion.txt]
 (txt, codepage is 1252, embedded labels, delimiter is ',', msq)
 ;
 
