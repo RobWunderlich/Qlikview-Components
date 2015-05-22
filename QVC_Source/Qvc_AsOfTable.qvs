@@ -3,7 +3,7 @@
 SET Qvc.Calendar.v.ExtFields=AsOfTableExtFields.qvs;
 SUB Qvc.AsOfTable (_dateField)
 /**
-@version $Id: Qvc_AsOfTable.qvs  $
+@source Qvc_AsOfTable.qvs
 Create an AsOfTable. 
 
 @param 1 String. FieldName containing a Date or some other ordered field, such as Month, Year, etc. 

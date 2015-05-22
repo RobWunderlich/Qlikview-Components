@@ -19,7 +19,7 @@ SET Qvc.Calendar.v.ExtSetVariables=CalendarExtSetVariables.qvs;
 ///$tab Calendar
 SUB Qvc.Calendar(_startDate, _endDate, _tableName, _fieldPrefix, _firstMonth)
 /**
-@version $Id: Qvc_Calendar.qvs 354 2013-11-28 05:01:02Z rob@robwunderlich.com $
+@source Qvc_Calendar.qvs
 Create a Master Calendar Table.
 
 By default, this routine creates "vSetxxx" and "vSetxxxModifier" variables containing time period set analysis expressions. Creation of the variables can be suppressed via a configuration variable. Note also that the variable names may be prefixed with the string given in parameter 4.
@@ -378,7 +378,7 @@ END SUB
 ///$tab CalendarFromField
 SUB Qvc.CalendarFromField(_fieldname, _tableName, _fieldPrefix, _firstMonth)
 /**
-@version $Id: Qvc_Calendar.qvs 354 2013-11-28 05:01:02Z rob@robwunderlich.com $
+@source Qvc_Calendar.qvs
 Create a Master Calendar based on the Min and Max values of an existing field. The fieldname is used as the "Date" field in the calendar, providinging automatic lkinkage.
 
 This Sub calls Qvc.Calendar to generate the calendar. See the doc for Qvc.Calendar to understand the output and available configuration variables. 

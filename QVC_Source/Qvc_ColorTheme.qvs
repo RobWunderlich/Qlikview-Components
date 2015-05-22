@@ -1,7 +1,7 @@
 ///$tab LoadColorTheme
 SUB Qvc.ColorTheme (_themeFile, _permColorTable)
 /**
-@version $Id: Qvc_ColorTheme.qvs $
+@source Qvc_ColorTheme.qvs
 Populate Qvc.Color.v.* color variables from a QVC color theme file. 
 
 In the theme file, field "ColorVariable" defines the variable name. The variables will be SET to the contents of field "ColorValue" on the corressponding row. 

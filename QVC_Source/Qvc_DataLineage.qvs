@@ -1,7 +1,7 @@
 ///$tab DataLineage
 SUB Qvc.DataLineage (_qvwpath)
 /**
-@version $Id: Qvc_DataLineage.qvs 214 2012-07-30 18:45:36Z rob@robwunderlich.com $
+@source Qvc_DataLineage.qvs
 Load a table describing the data sources for a qvw. 
 
 The table will be named Qvc.LineageInfo and contains the following fields:

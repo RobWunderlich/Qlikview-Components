@@ -1,7 +1,7 @@
 ///$tab Cleanup
 SUB Qvc.Cleanup
 /** 
-@version $Id: Qvc_Cleanup.qvs 356 2014-02-23 20:36:26Z rob@robwunderlich.com $
+@source Qvc_Cleanup.qvs
 Cleanup Qvc data such as global variables. Cleanup should always be called at the end of your script.
 @syntax CALL Qvc.Cleanup
 */
