@@ -18,7 +18,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/licenses.html
 ///$tab Global
 // Qvc.Global.v.Version MUST be specified in the 3 line format to be picked up as an ANT property!
 SET 
-Qvc.Global.v.Version = 10.1
+Qvc.Global.v.Version = 10.2TEST
 ;
 LET Qvc.Global.v.ScriptStart = now(1);
 
