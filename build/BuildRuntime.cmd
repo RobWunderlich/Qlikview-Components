@@ -3,6 +3,7 @@
 REM ***************************************************************************************************************
 REM This cmd file is for people who don't want to use ANT (requires Java & ANT) to rebuild the Runtime\Qvc.qvs >>..\Qvc_Runtime\Qvc.qvs file. 
 REM ****************************************************************************************************************
+REM ** Make sure we are in the build directory so we can call this script from anywhere
 CD "%~dp0"
 ECHO Cleaning Qvc_Runtime directory...
 DEL /S /Q ..\Qvc_Runtime\*.* > nul
