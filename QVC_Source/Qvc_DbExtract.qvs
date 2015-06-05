@@ -10,7 +10,7 @@ SET Qvc.Loader.v.CreateExtractTimestampField=0;
 SUB Qvc.DbExtract (_extractList)
 REM Start of SUB _Qvc.DbExtract; 
 /**
-@version $Id: Qvc_DbExtract.qvs 353 2013-11-28 04:20:47Z rob@robwunderlich.com $
+@source Qvc_DbExtract.qvs
 Table driven batch database table extract routine. 
 
 The input parameter names a Qlikview table. Each row of the table defines one database (SQL) table to be extracted and stored in a QVD. The table fields define the parameters to be used when extract each table.

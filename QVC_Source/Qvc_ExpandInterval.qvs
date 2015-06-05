@@ -2,7 +2,7 @@
 LET Qvc.ExpandInterval.v.RangeCeiling = num(today(1));	// Default for how high to generate a range
 SUB Qvc.ExpandInterval (_vRangeTable, _vStartDateField, _vEndDateField, _vGrouping, _vStep)
 /**
-@version $Id: Qvc_ExpandInterval.qvs 269 2013-02-21 02:49:07Z rob@robwunderlich.com $
+@source Qvc_ExpandInterval.qvs
 Explode a table of date range data (such as currency rates) into a row per day. 
 
 @param 1 String. Table to be expanded.

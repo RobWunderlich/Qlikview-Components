@@ -1,7 +1,7 @@
 ///$tab Main
 SUB Qvc.QvcAvailableUpdate (_retvar)
 /**
-@version $Id: Qvc_QvcAvailableUpdate.qvs 321 2013-08-13 17:59:34Z rob@robwunderlich.com $
+@source Qvc_QvcAvailableUpdate.qvs
 Test if a newer version of Qvc is available for download. If a newer version is available, the new version number will be returned. If a newer version is not available, null will be returned.
     
 @syntax CALL Qvc.QvcAvailableUpdate(vRetvar);

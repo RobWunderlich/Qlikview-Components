@@ -1,7 +1,7 @@
 ///$tab Icons
 SUB Qvc.Icons (_dir, _mask, _fileTypes, _tableName, _fieldName)
 /**
-@version $Id: Qvc_Icons.qvs 272 2015-01-09 14:03:12Z matt.fryer@datoniq.com $
+@source Qvc_Icons.qvs
 Bundle loads icons from a specified folder.
 
 @param 1 String. Optional. Directory containing icons. May be relative or absolute. Default is QVW route.

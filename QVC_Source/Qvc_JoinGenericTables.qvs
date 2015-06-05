@@ -1,7 +1,7 @@
 ///$tab JoinGeneric
 SUB Qvc.JoinGenericTables (_targetTable, _genericTables)
 /**
-@version $Id: Qvc_JoinGenericTables.qvs 272 2013-04-19 16:42:49Z rob@robwunderlich.com $
+@source Qvc_JoinGenericTables.qvs
 Join Generic loaded output tables to a target table. 
 
 @param 1 String. Table to be joined to. This is usually the table that was the source of the Generic load.

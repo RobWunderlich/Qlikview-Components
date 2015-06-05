@@ -1,7 +1,7 @@
 ///$tab EmptyQvd
 SUB Qvc.SegmentedStore (_qvctemp.tableName, _qvctemp.dateFieldName, _qvctemp.storePath, _qvctemp.qvdBaseName, _qvctemp.segmentType, _qvctemp.segmentsPerFile)
 /**
-@version $Id: Qvc_SegmentedStore.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+@source Qvc_SegmentedStore.qvs
 Saves a table to multiple QVDs segmented by the specified interval
     
 @syntax CALL Qvc.SegmentedStore('Table', 'SegmentField', ['StorePath'], ['FileBaseName'], ['SegmentType'], [SegmentsPerFile]);

@@ -1,7 +1,7 @@
 ///$tab ListFiles
 SUB Qvc.ListFiles (dir, mask, subdirectories, callback)
 /**
-@version $Id: Qvc_ListFiles.qvs 275 2013-04-26 02:49:52Z rob@robwunderlich.com $
+@source Qvc_ListFiles.qvs
 List files from a directory and it's subdirectories.
 
 If the callback parameter is specified, the callback SUB is called for each file with filepath as a calling parameter.

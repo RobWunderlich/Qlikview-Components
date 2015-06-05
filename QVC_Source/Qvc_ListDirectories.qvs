@@ -1,7 +1,7 @@
 ///$tab ListFiles
 SUB Qvc.ListDirectories (dir, mask, subdirectories, callback)
 /**
-@version $Id: Qvc_ListDirectories.qvs 275 2013-04-26 02:49:52Z rob@robwunderlich.com $
+@source Qvc_ListDirectories.qvs
 List filesystem directories. 
 
 If the callback parameter is specified, the callback SUB is called for each directory with dirpath as a calling parameter.
