@@ -1,7 +1,7 @@
 ///$tab PopulateVariables
 SUB Qvc.PopulateVariables (_vartable, _useLET)
 /**
-@version $Id: Qvc_PopulateVariables.qvs 350 2013-10-02 19:30:20Z rob@robwunderlich.com $
+@source Qvc_PopulateVariables.qvs
 Populate variables from a two column table.
 
 Column 1 of the table contains variable names. The variables will be SET to the contents of column 2 on the corressponding row. 

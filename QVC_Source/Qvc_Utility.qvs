@@ -1,7 +1,7 @@
 ///$tab GetFieldValue
 SUB Qvc.GetFieldValues (_retvar, _field, _vTable)
 /**
-@version $Id: Qvc_Utility.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+@source Qvc_Utility.qvs
 Get min & max values for a Field. The values are set in compound variables names using parameter 1 as the prefix. For example, if parameter 1 is 'vStat', the set variables will be:
 
 	vStat.Min  =  the Min value of the field.
@@ -41,7 +41,7 @@ END SUB
 ///$tab FileExists
 /** 
 @Function Qvc.FileExists
-@version $Id: Qvc_Utility.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+@source Qvc_Utility.qvs
 Returns true if a file exists. This function may only be used in script.
 
 @syntax LET vExists = $(Qvc.FileExists('dir\filename.ext'));
@@ -55,7 +55,7 @@ SET Qvc.FileExists = if(len(FileSize($1)) > 0, -1, 0);
 ///$tab DefaultIfEmpty
 /** 
 @Function _Qvc.DefaultIfEmpty
-@version $Id: Qvc_Utility.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+@source Qvc_Utility.qvs
 Returns a default value if paramter not supplied
 
 @syntax LET _param = $(_Qvc.DefaultIfEmpty('_param', 'String default'));
@@ -71,7 +71,7 @@ SET _Qvc.DefaultIfEmpty = if(len('$1')= 0,'$2', '$1');
 SET _Qvc.UniqueId.v.Counter=0;
 SUB _Qvc.UniqueId (_retvar)
 /**
-@version $Id: Qvc_Utility.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+@source Qvc_Utility.qvs
 Returns a unique identifier on each call.
 @syntax CALL _Qvc.UniqueId ('returnVariable');
 @param 1 Variable in which to return new unique identifier, quoted.
@@ -83,7 +83,7 @@ END SUB
 ///$tab FieldContains
 /** 
 @Function Qvc.FieldContains
-@version $Id: Qvc_Utility.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+@source Qvc_Utility.qvs
 Search a field for the specified value. Returns true if a the value is found in the possible values.
 
 @syntax LET vContains = $(Qvc.FieldContains(Field, searchValue));
@@ -99,7 +99,7 @@ SET Qvc.FieldContains = sum(if($1=$2,1))>0;
 ///$tab TableExists
 /** 
 @Function _Qvc.TableExists
-@version $Id: Qvc_Utility.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+@source Qvc_Utility.qvs
 Returns true if a table exists in the current script.
 
 @syntax LET vTableExists = $(_Qvc.TableExists(tablename));
@@ -114,7 +114,7 @@ SET _Qvc.TableExists = len(NoOfRows('$1'))>0;
 ///$tab DateDiff
 /**
 @Function Qvc.DateDiff
-@version $Id: Qvc_Utility.qvs 272 2015-01-09 14:03:12Z matt.fryer@datoniq.com $
+@source Qvc_Utility.qvs
 Calculates the number of the past interval between the 2 passed dates. For example, if week is requested the function calculates the number of weeks between the 2 passed dates. Supports years, quarters, months, weeks, days, hours, minutes and seconds. Accepts both dates and timestamps for the dates passed.
 
 It is important that the earlier of the passed dates is in param 2 and the later in param 3. This may be improved in the future.
@@ -140,7 +140,7 @@ SET Qvc.DateDiff = if(lower($1)='year', year($3) - year($2)
 ///$tab NVL
 /**
 @Function Qvc.NVL
-@version $Id: Qvc_Utility.qvs 272 2015-01-09 14:03:12Z matt.fryer@datoniq.com $
+@source Qvc_Utility.qvs
 Equivalent to the SQL NVL function. Checks to see if the first parameter is Null and if it is it returns the second parameter.
 
 @syntax LET vNVL = $(Qvc.NVL(TestVariable, 'DefaultValue')); 
@@ -155,7 +155,7 @@ SET Qvc.NVL = if(isnull($1), $2, $1);
 ///$tab Days360
 /**
 @Function Qvc.Days360
-@version $Id: Qvc_Utility.qvs 272 2015-01-09 14:03:12Z matt.fryer@datoniq.com $
+@source Qvc_Utility.qvs
 Equivalent to MS Excel function days360(). Returns the number of days between two dates based on a 360-day year (twelve 30-day months), 
 which is used in some accounting calculations. 
 
@@ -174,7 +174,7 @@ SET Qvc.Days360 = (((year($2)*12 + month($2)) - (year($1)*12 + month($1))) * 30)
 ///$tab InRange
 /**
 @Function Qvc.InRange
-@version $Id: Qvc_Utility.qvs 272 2015-01-09 14:03:12Z matt.fryer@datoniq.com $
+@source Qvc_Utility.qvs
 Equivalent to MS Excel function inrange(). Returns whether the past value is between the start and end values passed for the range. Returns true or false. Can be used for any numeric data including dates. It does not matter if the start of the range is a larger or smaller value than the end. 
 
 @syntax LET vInRange = $(Qvc.InRange(FirstValue, SecondValue, CompareValue));
@@ -190,7 +190,7 @@ SET Qvc.InRange = if($1<$2, if($3>=$1 AND $3<=$2, -1, 0), if($3>=$2 AND $3<=$1, 
 ///$tab QvdFieldNumber
 SUB Qvc.QvdFieldNumber (_qvctemp.fieldname, _qvctemp.qvdname, _qvctemp.retvar)
 /**
-@version $Id: Qvc_Utility.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+@source Qvc_Utility.qvs
 Returns the number of a specified field within a QVD. If the field is not found, 0 is returned. This is the QVD form of the native "FieldNumber()" function.
 
 The optional third parameter is a variable name used to return the result. If omitted, the default of "Qvc.v.Return" will be used. 

@@ -22,7 +22,7 @@ SET Qvc.Log.v.Level.ERROR=ERROR;
 // Code
 SUB Qvc.Log (_msg, _level)
 /**
-@version $Id: Qvc_Log.qvs 356 2014-02-23 20:36:26Z rob@robwunderlich.com $
+@source Qvc_Log.qvs
 Write a message line to a log table and external file. Messages can also be written to the QlikView script progress window and log file.
 
 The default name for the external log file is documentName_log.txt and it is stored in the same directory as the qvw. Writing of the external file may be suppressed by setting config variable Qvc.Log.v.LogFile to empty.
@@ -102,7 +102,7 @@ END SUB
 
 SUB Qvc.LogError (_msg)
 /**
-@version $Id: Qvc_Log.qvs 356 2014-02-23 20:36:26Z rob@robwunderlich.com $
+@source Qvc_Log.qvs
 Writes an error level message to the Qvc.Log. Convienence sub that calls Qvc.Log('message',Qvc.Log.v.Level.ERROR). 
 @syntax CALL Qvc.LogError ('Message to be logged');
 @param 1 Message string to be written to the log.
@@ -112,7 +112,7 @@ END SUB
 
 SUB Qvc.LogWarning (_msg)
 /**
-@version $Id: Qvc_Log.qvs 356 2014-02-23 20:36:26Z rob@robwunderlich.com $
+@source Qvc_Log.qvs
 Writes an warning level message to the Qvc.Log. Convienence sub that calls Qvc.Log('message',Qvc.Log.v.Level.WARNING). 
 @syntax CALL Qvc.LogWarning ('Message to be logged');
 @param 1 Message string to be written to the log.

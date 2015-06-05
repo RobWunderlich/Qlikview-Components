@@ -30,7 +30,7 @@ SET Qvc.Loader.v.StoreMaxModFieldValue = 0;
 ///$tab Incremental Setup
 SUB Qvc.IncrementalSetup (_vTablename, _vSqlModField, _vPk, _vForceFullReload)
 /**
-@version $Id: Qvc_Incremental_Reload.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+@source Qvc_Incremental_Reload.qvs
 Set up for incremental load. This is Step 1 of an incremental load process that supports insert, updates and optionally deletes.
 
 Incremental load select rows from the database that have been updated after the last time ("delta time") that reload was run. 
@@ -166,7 +166,7 @@ END SUB;		// End of IncrementalSetup sub
 ///$tab Incremental Store
 SUB Qvc.IncrementalStore (_vDbKeyTable)
 /**
-@version $Id: Qvc_Incremental_Reload.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+@source Qvc_Incremental_Reload.qvs
 Update the QVD with changes from Incremental load. This is Step 2 of an incremental load process that supports insert, updates and optionally deletes.
 
 If the optional parameter 1 is specified, delete processing will be done by inner joining the supplied key values with the QVD Primary Key. If parameter 1 is omitted, no delete processing will take place. 
@@ -224,7 +224,7 @@ END SUB		// End of IncrementalStore sub
 ///$tab UpdateQvd
 SUB Qvc.UpdateQvd (_vTablename, _vQvdFile, _vPrimaryKey, _vDbKeyTable, _vReplaceQvd) 
 /**
-@version $Id: Qvc_Incremental_Reload.qvs 299 2013-08-12 05:27:23Z rob@robwunderlich.com $
+@source Qvc_Incremental_Reload.qvs
 Update a QVD with changed rows.
 
 IF parameter ReplaceQvd is 0 or not specified, the QVD is CONCATENATE loaded to the Table using a WHERE NOT EXISTS(PrimaryKey) clause. If optional parameter 4 is specified, that table is INNER JOINed to remove rows that do not exist in the database. The QVD is then STOREd to the filesystem.

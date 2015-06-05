@@ -1,7 +1,7 @@
 ///$tab LinkTable
 SUB Qvc.LinkTable (_linkTableName, _table, _fields)
 /**
-@version $Id: Qvc_LinkTable.qvs 186 2012-04-07 23:36:07Z rob@robwunderlich.com $
+@source Qvc_LinkTable.qvs
 Create or update a LinkTable. 
 
 The Fields specfied in parameter 3 will be moved from the source table specified in parameter 2, into the link table specified by parameter 1. 

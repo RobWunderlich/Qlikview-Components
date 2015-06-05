@@ -1,7 +1,7 @@
 ///$tab TableStats
 SUB Qvc.TableStats (_msg, _tableIncludeList)
 /**
-@version $Id: Qvc_TableStats.qvs 195 2012-05-29 22:34:59Z rob@robwunderlich.com $
+@source Qvc_TableStats.qvs
 Write statistics about current Qlikview tables to the Qvc.Log. 
 
 One log line will be written for each table. Header and footer lines will be written at the begining and end of each set of lines. If Parameter 1 is specified, the parameter string will be included in the header and footer. 

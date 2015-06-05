@@ -2,7 +2,7 @@
 
 SUB Qvc.InspectTable (_tableName)
 /**
-@version $Id: Qvc_InspectTable.qvs 273 2013-04-19 16:44:04Z rob@robwunderlich.com $
+@source Qvc_InspectTable.qvs
 Inspect the current contents of a table using a QVD viewer utility such as Qviewer. 
 
 This routine uses the script EXECUTE statement and therefore requires the script Setting "Can Execute External Programs". You will be prompted at reload to allow or confirm this permission. 
