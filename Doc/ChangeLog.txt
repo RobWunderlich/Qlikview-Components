@@ -1,3 +1,6 @@
+Version 10.2
+- Closed Issue 35, Calendar Code Extension not working in Sense. 
+
 Version 10.1
 - Closed issue 23. Non-English characters not supported in log file. (Thanks to Alkopfer)
 - Qvc.Log -- New variable Qvc.Log.v.WriteToQvLog, indicated if the logging should also be written to the QlikView/Sense application log file and script progress window.
