@@ -24,3 +24,6 @@ LET Qvc.Global.v.ScriptStart = now(1);
 
 // What product are we executing in
 LET Qvc.Global.v.QlikProduct = if(subfield(QlikViewVersion(),'.',1)>6, 'VIEW', 'SENSE');
+
+// Set Qlik product Build Number
+LET Qvc.Global.v.QlikBuild = subfield(QlikViewVersion(),'.',3);
