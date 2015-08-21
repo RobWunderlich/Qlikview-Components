@@ -6,3 +6,4 @@ SET Qvc.Calendar.v.Field.Year=Année;
 SET Qvc.Calendar.v.Field.Month=Mois;
 SET Qvc.Calendar.v.Field.YearMonth=Année-Mois;
 SET Qvc.Calendar.v.Field.Quarter=Trimestre;
+SET Qvc.Calendar.v.Field.YearQuarter=Année-Trimestre;

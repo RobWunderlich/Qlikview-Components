@@ -1,5 +1,4 @@
-﻿///$tab Main
-// Localization for Germany
+﻿// Localization for Germany
 SET Qvc.Calendar.v.Field.Date=Datum;
 SET Qvc.Calendar.v.Field.Day=Tag;
 SET Qvc.Calendar.v.Field.Weekday=Wochentag;
@@ -7,3 +6,4 @@ SET Qvc.Calendar.v.Field.Year=Jahr;
 SET Qvc.Calendar.v.Field.Month=Monat;
 SET Qvc.Calendar.v.Field.YearMonth=Jahr-Monat;
 SET Qvc.Calendar.v.Field.Quarter=Quartal;
+SET Qvc.Calendar.v.Field.YearQuarter=Jahr-Quartal;

@@ -10,6 +10,7 @@ SET Qvc.Calendar.v.Field.Year=Year;
 SET Qvc.Calendar.v.Field.Month=Month;
 SET Qvc.Calendar.v.Field.YearMonth=Year-Month;
 SET Qvc.Calendar.v.Field.Quarter=Quarter;
+SET Qvc.Calendar.v.Field.YearQuarter=Year-Quarter;
 
 // Name of the optional script file that defines additonal Calendar fields.
 SET Qvc.Calendar.v.ExtFields=CalendarExtFields.qvs;
@@ -107,6 +108,7 @@ SET _f_MonthSerial='[$(_fieldPrefix)_MonthSerial]';
 SET _f_QuarterSerial='[$(_fieldPrefix)_QuarterSerial]';
 SET _f_WeekSerial='[$(_fieldPrefix)_WeekSerial]';
 SET _f_DateSerial='[$(_fieldPrefix)_DateSerial]';
+SET _fYearQuarter='[$(_fieldPrefix)$(Qvc.Calendar.v.Field.YearQuarter)]';
 
 IF len('$(Qvc.Global.Extension.Directory)')> 0 THEN
 	LET _qvctemp.v.IncludeExtension = replace(
@@ -122,7 +124,8 @@ LET _concatenate = if($(_Qvc.TableExists($(_tableName))), 'CONCATENATE ([$(_tabl
 $(_concatenate) 
 LOAD
 	*,
-	dual($(_fYear) & '-' & $(_fMonth),Date(MonthStart($(_fDate),$(_monthOffset))))  as $(_fYearMonth)
+	dual($(_fYear) & '-' & $(_fMonth),Date(MonthStart($(_fDate),$(_monthOffset))))  as $(_fYearMonth),
+	dual($(_fYear) & '-' & $(_fQuarter),Date(QuarterStart($(_fDate),$(_monthOffset))))  as $(_fYearQuarter)
 ;
 
 LOAD

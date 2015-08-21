@@ -6,3 +6,4 @@ SET Qvc.Calendar.v.Field.Year=Vuosi;
 SET Qvc.Calendar.v.Field.Month=Kuukausi;
 SET Qvc.Calendar.v.Field.YearMonth=Vuosi-Kuukausi;
 SET Qvc.Calendar.v.Field.Quarter=Kvartaali;
+SET Qvc.Calendar.v.Field.YearQuarter=Vuosi-Kvartaali;

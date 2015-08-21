@@ -6,3 +6,4 @@ SET Qvc.Calendar.v.Field.Year=Tahun;
 SET Qvc.Calendar.v.Field.Month=Bulan;
 SET Qvc.Calendar.v.Field.YearMonth=Tahun Bulan;
 SET Qvc.Calendar.v.Field.Quarter=Triwulan;
+SET Qvc.Calendar.v.Field.YearQuarter=Tahun-Triwulan;
