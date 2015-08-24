@@ -83,6 +83,7 @@
 				<include name="Doc/ExpandInterval_Doc.pdf"/>
 				<include name="etc/**"/>
 				<include name="Examples/**"/>
+				<include name="Sense Examples/**"/>
 				<include name="Qvc_Runtime/**"/>
 				<include name="LICENSE"/>
 				<include name="ReadMe.txt"/>
