@@ -1,7 +1,9 @@
 Version 10.2
+- Closed Issue 25, Added a “Year-Quarter” field to Qvc.Calendar and Qvc.CalendarFromField.
 - Closed Issue 35, Calendar Code Extension not working in Sense. 
 - Added Romanian (RO) Language file. (Credit to Cotiso Hanganu)
 - Started adding Qlik Sense examples. 
+
 
 Version 10.1
 - Closed issue 23. Non-English characters not supported in log file. (Thanks to Alkopfer)
