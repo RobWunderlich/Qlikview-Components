@@ -12,7 +12,7 @@ Qlikview Components (Qvc) is a library of script subroutines and functions. The 
 
 ## Getting Started
 To get started using Qvc, download the latest distribution file from the [Releases](https://github.com/RobWunderlich/Qlikview-Components/releases) section. 
-Unzip the distribution and copy the Qvc_Runtime folder to the same place as your QlickView document. Add          ```$(Include=.\qvc_runtime\qvc.qvs); ``` 
+Unzip the distribution and copy the Qvc_Runtime folder to the same place as your QlikView document. Add          ```$(Include=.\qvc_runtime\qvc.qvs); ``` 
 at the top of the QlikView load script, or create a new tab called Includes and put the include script in there.
 
 ## Support
