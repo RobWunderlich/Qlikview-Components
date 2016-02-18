@@ -9,11 +9,11 @@ Explode a table of date range data (such as currency rates) into a row per day.
 @param 2 String. Fieldname containing Start date of interval. This field will receive the generated daily dates.
 @param 3 String. Optional. Fieldname containing EndDate of interval. If omitted, it will be calculated as the previous row StartDate-1.
 @param 4 String. Optional. Comma seperated list of fields that represent the group by set for determining which interval rows belong together. This param is only used when param3, EndDate, is omitted. Note that any fieldname containing spaces should be enclosed in square brackets.
-//@param 5 String. Optional. The value to be used to step the interval. One of 'DAY', 'HOUR', 'MINUTE', 'SECOND'.
+@param 5 String. Optional. The value to be used to step the interval. One of 'd', 'h', 'm', 's', representing Day, Hour, Minute, Second respectively. If omitted, the default is 'd'.
 
 @var Qvc.ExpandInterval.v.RangeCeiling in Number. Used to extend the generated range to this date number. The high generated date will be the RangeMax() of this variable and the max(StartDate) in the table. Default is "num(today(1))"
 
-@syntax CALL Qvc.ExpandInterval('MyTable', 'StartDate', ['EndDate'], ['GroupField1, GroupFieldn,...']); 
+@syntax CALL Qvc.ExpandInterval('MyTable', 'StartDate', ['EndDate'], ['GroupField1, GroupFieldn,...'], [Interval]); 
 */
 
 UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
@@ -21,8 +21,12 @@ UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
 //===
 // Set defaults
 //===
-//WHEN len('$(_vStep)')=0 _vStep='DAY';
-//LET _vStep = Upper('$(vStep)');
+// If the Interval parameter is omitted, default to 'd' (Day).
+WHEN len('$(_vStep)')=0 SET _vStep='d';
+LET _qvctemp.Interval=Num(Interval#(1,'$(_vStep)'));
+
+// Set the format to use for generated dates. If vStep='d', assume Date(), otherwise TimeStamp().
+LET _qvctemp.IntervalFormat=if('$(_vStep)'='d', 'Date', 'TimeStamp');
 
 //=== 
 // Build the variables to be used in finding interval start/end. 
@@ -39,7 +43,7 @@ IF len('$(_vEndDateField)')<> 0 THEN
 ELSEIF len('$(_vGrouping)')=0 THEN			// If no grouping specified,
 	SET _qvctemp.er.EndDateStatement=		//  then we use StartDate from previous row as EndDate
 	,if(NOT IsNull(previous($(_vStartDateField)))
-		,previous($(_vStartDateField))-1
+		,previous($(_vStartDateField))-$(_qvctemp.Interval)
 		// Expand first interval to RangeCeiling if present, else use the StartField
 		,alt('$(Qvc.ExpandInterval.v.RangeCeiling)', $(_vStartDateField))
 	) as _qvctemp.er.EndDate;	
@@ -81,8 +85,8 @@ $(_qvctemp.er.OrderBy)
 // Create one RefDate row for each date.
 _qvctemp.er.RefDate:
 LOAD
-	Date(_qvctemp.er.MinDate+IterNo()) as _qvctemp.er.RefDate
-WHILE _qvctemp.er.MinDate+IterNo() <= _qvctemp.er.MaxDate	
+	$(_qvctemp.IntervalFormat)(_qvctemp.er.MinDate + (IterNo() * $(_qvctemp.Interval))) as _qvctemp.er.RefDate
+WHILE _qvctemp.er.MinDate + (IterNo() * $(_qvctemp.Interval)) <= _qvctemp.er.MaxDate	
 ;	
 // Get min as is, max is greater of data max or RangeCeiling variable value.
 LOAD
@@ -91,7 +95,7 @@ LOAD
 ;
 // Get min/max from data
 LOAD 
-	min(_qvctemp.er.StartDate)-1 as _qvctemp.er.MinDate
+	min(_qvctemp.er.StartDate)-$(_qvctemp.Interval) as _qvctemp.er.MinDate
 	,max(_qvctemp.er.EndDate) as _qvctemp.er.MaxDate
 RESIDENT [$(_vRangeTable)]
 ;
@@ -124,5 +128,7 @@ DROP FIELD _qvctemp.er.StartDate, _qvctemp.er.EndDate FROM [$(_vRangeTable)];
 // Cleanup temp vars
 SET _qvctemp.er.EndDateStatement=;
 SET _qvctemp.er.OrderBy=;
+SET _qvctemp.Interval=;
+SET _qvctemp.IntervalFormat=;
 
 END SUB
