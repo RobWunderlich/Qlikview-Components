@@ -1,0 +1,51 @@
+Let vSTART = now(); //Need to be out of the routine, to be evaluated at the begining of the script
+
+SUB Qvc_LoadStats(t,q,d)
+/**
+@source Qvc_LoadStats.qvs
+Creates a summary table for each QVD file that is created, with QVD name, folder, size, rows and last update
+
+@param 1 String. Table name
+@param 2 String, Optional. QVD filename
+@param 3 String, Optional. Folder
+
+@syntax CALL Qvc_LoadStats('table', ['QVD filename'], ['folder']); 
+*/
+
+	if q = '' or isnull(q) then
+		q = t
+	end if
+	let n = NoOfRows('$(t)');
+	let h = now();
+	
+	Qvc.Stats:
+	Load
+		rowno()												as ID,
+		'$(t)' 												as Table,
+		if('$(n)' = '','-','$(q)' & '.qvd')					as [QVD filename],
+		'$(d)'												as Folder,
+		'$(n)' 												as [No of rows],
+		now() 												as [Last Update],
+		interval(now() - rangemax('$(vSTART)','$(vEND)')) 	as [Reload Time]
+	autogenerate(1);
+	
+	Let vEND = now(); 
+	
+	if isnull(n) then
+		// continue
+	else
+		Store $(t) into $(d)$(q).qvd;
+		drop table $(t);
+		Let  vID = peek('ID',-1,'Qvc.Stats');
+	
+		Qvc.Stats_QVDs:
+		Load
+			ID,
+			now() 							as [Creation time QVD],
+			FileSize('$(d)'&[QVD filename])	as Size			
+		resident [Qvc.Stats]
+		where 
+			ID = $(vID)
+		;
+	end if	
+END SUB
