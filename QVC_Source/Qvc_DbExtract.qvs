@@ -77,7 +77,7 @@ FALSE, 0
 
 // Call the Extract routine sub for each row of the parameter table
 FOR _qvctemp.dbe.listIndex = 0 TO NoOfRows('$(_extractList)')-1
-	CALL _Qvc.DbExtract_NextTable ('$(_extractList)', $(_qvctemp.dbe.listIndex));
+	CALL _Qvc.DbExtract_NextTable ('$(_extractList)', '$(_qvctemp.dbe.listIndex)');
 NEXT _qvctemp.dbe.listIndex
 
 SET _qvctemp.dbe.listIndex=;
@@ -338,11 +338,18 @@ SET _qvctemp.den.vSqlStart=;
 SET _qvctemp.den.QvTableName=;
 SET _qvctemp.den.staleAfter=;
 SET _qvctemp.den.baseValue=;
+SET _qvctemp.den.connect =;
+SET _qvctemp.den.connectionFilename =;
+SET _qvctemp.den.deletes =;
+SET _qvctemp.den.loadStatement =;
+SET _qvctemp.den.qvdName=;
+SET _qvctemp.den.updateFieldType =;
 
 SET _qvctemp.den.doExtract=;
 
 SET _qvctemp.den.vNoOfRows=;
 SET _qvctemp.den.vNoOfRows=;
+
 
 REM End of SUB _Qvc.DbExtract_NextTable; 
 END SUB
