@@ -71,6 +71,8 @@ YES, -1
 NO, 0
 TRUE, -1
 FALSE, 0
+0, 0
+1, -1
 ]
 ;
 
@@ -137,7 +139,7 @@ ENDIF
 LET _qvctemp.den.keyField = peek('KeyField', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)');
 LET _qvctemp.den.updateField = peek('UpdateField', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)');
 
-LET _qvctemp.den.uniqueKey = ApplyMap('_qvctemp.TFMap', peek('UniqueKey', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)'), -1);
+LET _qvctemp.den.uniqueKey = upper(ApplyMap('_qvctemp.TFMap', peek('UniqueKey', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)'), -1));
 IF len('$(_qvctemp.den.uniqueKey)')=0 THEN
 	// If UniqueKey omitted, set default of True.
 	SET _qvctemp.den.uniqueKey = -1;
