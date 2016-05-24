@@ -170,6 +170,12 @@ ENDIF
 
 LET _qvctemp.den.qvdPath = '$(Qvc.Loader.v.QvdDirectory)\' & '$(_qvctemp.den.qvdName).qvd';
 
+LET _qvctemp.den.updateFieldType = peek('UpdateFieldType', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)');
+
+IF len('$(_qvctemp.den.updateFieldType)') > 0 THEN 
+SET Qvc.Loader.v.ModField.Type = $(_qvctemp.den.updateFieldType);
+ENDIF
+
 // Log start of processing
 CALL Qvc.Log('Processing table $(_qvctemp.den.table), Extract Mode=$(_qvctemp.den.extractMode)');
 
