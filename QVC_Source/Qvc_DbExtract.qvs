@@ -41,7 +41,7 @@ The parameter fields are defined below. (R) indicates a required field, (O) indi
 
 -UpdateField (R|O) Names the column that identifies updated rows. Required if ExtractMode=D.
 
--UpdateFieldType (O) Identifies the datatype of the UpdateField column. Valid values are DATETIME and REVISION. If omitted, default is DATETIME.
+-UpdateFieldType (O) Identifies the datatype of the UpdateField column. Valid values are DATETIME and REVISION. If omitted, default is global variable Qvc.Loader.v.ModField.Type.
 
 -StaleAfter (O) Indicates a threshold age for the QVD. If the QVD is not this old, thi extract row will be skipped. Value is in interval format "d hh:mm:ss". If omitted, the age test will be suppressed.\
 
@@ -138,6 +138,16 @@ ENDIF
 
 LET _qvctemp.den.keyField = peek('KeyField', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)');
 LET _qvctemp.den.updateField = peek('UpdateField', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)');
+
+LET _qvctemp.den.updateFieldType = peek('UpdateFieldType', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)');
+// Save current global ModField Type var.
+SET _qvctemp.den.save.Qvc.Loader.v.ModField.Type = $(Qvc.Loader.v.ModField.Type);
+
+// If an override ModField Type was supplied for this table,
+// then set the global ModField Type to the override value. 
+IF len('$(_qvctemp.den.updateFieldType)') > 0 THEN 
+	SET Qvc.Loader.v.ModField.Type = $(_qvctemp.den.updateFieldType);
+ENDIF
 
 LET _qvctemp.den.uniqueKey = upper(ApplyMap('_qvctemp.TFMap', peek('UniqueKey', $(_qvctemp.den._listIndex), '$(_qvctemp.den.extractList)'), -1));
 IF len('$(_qvctemp.den.uniqueKey)')=0 THEN
@@ -319,6 +329,9 @@ ENDIF 		// END for IF $(_qvctemp.den.doExtract) THEN
 // Reset the global BaseValue from the saved
 SET Qvc.Loader.v.BaseValue = $(_qvctemp.den.save.Qvc.Loader.v.BaseValue);
 SET _qvctemp.den.save.Qvc.Loader.v.BaseValue=;
+// Reset the global UpdateFieldType from the saved
+SET Qvc.Loader.v.Modfield.Type = $(_qvctemp.den.save.Qvc.Loader.v.ModField.Type);
+SET _qvctemp.den.save.Qvc.Loader.v.ModField.Type=;
 
 // Reset temp vars
 SET _qvctemp.den.recid =;
