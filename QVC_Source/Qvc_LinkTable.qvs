@@ -22,7 +22,7 @@ LET _LinkTableTemp = '$(_linkTableName)' & '_temp_' & '$(_vId)';
 [$(_LinkTableTemp)]:
 NOCONCATENATE LOAD DISTINCT 		// Load fields from source table to link table
 	$(_fields),
-	AutoNumberHash128($(_fields)) as %$(_linkTableName)_Key
+	AutoNumberHash128('$(_fields)',$(_fields)) as %$(_linkTableName)_Key
 RESIDENT $(_table);
 
 LEFT JOIN ($(_table))	// Join key from link table to source table
