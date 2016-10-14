@@ -438,7 +438,7 @@ MapSubString('_qvctemp.Calendar.EscapeCharsMap',
 // Create a convienence variable we will use to form the variables
 SET _qvctemp.vMaxModifier = 'Max({1<_Qvc.DummyField=@(_Qvc.Calendar.v.SelectedFieldList_$(_fieldPrefix))>}';	
 
-IF '$(Qvc.Global.v.QlikProduct)' = 'VIEW' OR len('$(Qvc.Global.Extension.Directory)')> 0 THEN
+IF len('$(Qvc.Global.Extension.Directory)')> 0 THEN
 	LET _qvctemp.v.IncludeExtension = replace(
 	'@(Include=@(Qvc.Global.Extension.Directory)\@(Qvc.Calendar.v.ExtSetVariables))'
 	,'@','$');
