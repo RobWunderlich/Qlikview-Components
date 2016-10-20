@@ -1,3 +1,43 @@
+Version 11
+-	It is now possible to include the QVC Runtime directly from the github repository using http. Use the following script statement on a single line (ignore the line wrapping in this doc): 
+
+$(Must_Include=http://raw.githubusercontent.com/RobWunderlich/Qlikview-Components/master/Qvc_Runtime/Qvc.qvs); 
+
+For language files:
+
+$(Must_Include=http://raw.githubusercontent.com/RobWunderlich/Qlikview-Components/master/Qvc_Runtime/language/Qvc_Language_ES.qvs); 
+
+
+-	New routines Qvc.ExportModel and Qvc.ImportModel.
+Qvc.ExportModel is used to export all current tables to a single QVD file. Qvc.ImportModel is used to re-import that QVD into a data model of multiple tables.
+
+-	Additions to Qvc.Calendar and Qvc.CalendarFromField (Credit Mark Miller)
+	Qvc.CalendarFromField has a new input variable: Qvc.Calendar.v.SparseDates. If set to true, dates missing from the input filed will not be populated in the Calendar table.
+	New Calendar Set Analysis variables:
+	vSetPreviousFULLMonth  - the previous Full month. Not month-to-date
+	vSetPreviousFULLMonthN – the month ago, specified by a parameter number.
+	vSetRollingN – variable number of rolling months, specified by a parmeter.
+
+-	Fixed Issue 52 , Issue 54, Issue 51. Qlik Sense V3. “QVC include fails if SET Qvc.Global.Extension.Directory is predefined”
+
+-	Fixed  Issue 50, “Issue with Qvc.LinkTable”
+
+-	Fixed Issue 47 “QVC DBExtract: parameter UpdateFieldType is not actually used anywhere in the code”
+
+-	Fixed Issue 43. Qvc.DbExtract, Tolerate lowercase for UniqueKey switch.
+
+-	Fixed Issue 41. “DbExtract doesn't clean up all its variables”.
+
+-	Fixed Issue 37. “Qvc_ExpandInterval Step Interval Parameter”.  Qvc.ExpandInterval has an added parameter: 
+o	param 5 String. Optional. The value to be used to step the interval. One of 'DAY', 'HOUR', 'MINUTE', 'SECOND'.
+
+-	Fixed Issue 35, Calendar Code Extension not working in Sense.
+
+-	Fixed Issue 27. Qvc.IncrementalStore throws error when table name contains spaces. 
+
+-	Fixed Issue 51, Issue 54, Residual temp variables causing errors in Qlik Sense reload. 
+
+
 Version 10.2
 - Closed Issue 25, Added a “Year-Quarter” field to Qvc.Calendar and Qvc.CalendarFromField.
 - Closed Issue 35, Calendar Code Extension not working in Sense. 
