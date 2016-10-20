@@ -1,0 +1,9 @@
+// Localization for Romanian
+SET Qvc.Calendar.v.Field.Date=Data;
+SET Qvc.Calendar.v.Field.Day=Ziua;
+SET Qvc.Calendar.v.Field.Weekday=ZiSapt;
+SET Qvc.Calendar.v.Field.Year=An;
+SET Qvc.Calendar.v.Field.Month=Luna;
+SET Qvc.Calendar.v.Field.YearMonth=AnLuna;
+SET Qvc.Calendar.v.Field.Quarter=Trimestru;
+SET Qvc.Calendar.v.Field.YearQuarter=An-Trimestru;
