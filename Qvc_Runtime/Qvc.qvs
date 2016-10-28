@@ -1,4 +1,4 @@
-REM ===== Begin of Qlikview Components included Qvc.qvs version 11 =====;
+REM ===== Begin of Qlikview Components included Qvc.qvs version 11.1 =====;
 /*
 Copyright (C) 2011  Rob Wunderlich
 
@@ -17,7 +17,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/licenses.html
 */
 // Qvc.Global.v.Version MUST be specified in the 3 line format to be picked up as an ANT property!
 SET 
-Qvc.Global.v.Version = 11
+Qvc.Global.v.Version = 11.1
 ;
 LET Qvc.Global.v.ScriptStart = now(1);
 
@@ -525,7 +525,7 @@ MapSubString('_qvctemp.Calendar.EscapeCharsMap',
 // Include possible extension to create additional Set variables.
  $(_qvctemp.v.Include.ExtSetVariables);
 
-SET _Qvc.Calendar.v.SelectedFieldList_$(_fieldPrefix)=;
+// Clean temp variables
 SET _vClearFieldList=;
 SET _qvctemp.vMaxModifier=;
 SET _qvctemp.v.Include.ExtSetVariables=;
@@ -2759,4 +2759,4 @@ SET _MapValueField=;
 END SUB
 /* * End of Qvc.CreateWildMapExpression subroutine * */
 
-REM ===== End of Qlikview Components included Qvc.qvs version 11 =====;
+REM ===== End of Qlikview Components included Qvc.qvs version 11.1 =====;
