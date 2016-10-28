@@ -1,3 +1,7 @@
+Version 11.1
+- Fixed issue 55 "vSetYTD not working as before".
+- Corrected "Date Range" chart in Qvc.CalendarFromField example file.
+
 Version 11
 -	It is now possible to include the QVC Runtime directly from the github repository using http. Use the following script statement on a single line (ignore the line wrapping in this doc): 
 
