@@ -431,7 +431,7 @@ MapSubString('_qvctemp.Calendar.EscapeCharsMap',
 // Include possible extension to create additional Set variables.
  $(_qvctemp.v.Include.ExtSetVariables);
 
-SET _Qvc.Calendar.v.SelectedFieldList_$(_fieldPrefix)=;
+// Clean temp variables
 SET _vClearFieldList=;
 SET _qvctemp.vMaxModifier=;
 SET _qvctemp.v.Include.ExtSetVariables=;
