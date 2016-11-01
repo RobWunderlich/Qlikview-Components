@@ -61,7 +61,10 @@ LOAD DISTINCT
 LOAD 
 	Discriminator,
 	Statement
-FROM [$(_qvdpath)] (XmlSimple, Table is [QvdTableHeader/Lineage/LineageInfo]);
+FROM [$(_qvdpath)] (XmlSimple, Table is [QvdTableHeader/Lineage/LineageInfo])
+WHERE NOT Discriminator LIKE 'STORE *'		// Don't process STORE statements
+
+;
 
 IF NoOfRows('_qvctemp.LineageInfo_qvd_Temp')>0 THEN		// If any qvd sources,
 	// Add the rows collected in this call to the collection
@@ -75,7 +78,8 @@ IF NoOfRows('_qvctemp.LineageInfo_qvd_Temp')>0 THEN		// If any qvd sources,
 	LOAD concat(Qvc.LineageInfo.Source, chr(39) & ',' & chr(39)) as _qvctemp.qvdlist
 	RESIDENT _qvctemp.LineageInfo_qvd_Temp
 	WHERE lower(SubField(Qvc.LineageInfo.Source,'.',-1)) = 'qvd'
-	AND $(Qvc.FileExists(Qvc.LineageInfo.Source));
+	AND $(Qvc.FileExists(Qvc.LineageInfo.Source))
+	AND lower(Qvc.LineageInfo.Source) <> lower('$(_qvdpath)')	// Don't recurse to self
 	;
 	// Create a comma seperate list to use in FOR EACH
 	LET _qvctemp.qvdlist = chr(39) & peek('_qvctemp.qvdlist',0,'_qvctemp.qvdlist') & chr(39);
