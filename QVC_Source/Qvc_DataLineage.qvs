@@ -51,6 +51,7 @@ NoConcatenate
 LOAD DISTINCT 
 	'$(_qvctemp.vCreatorDoc)'			as Qvc.LineageInfo.Creator,  // Use Creator name we pulled earlier
 	'$(_qvdpath)' 						as Qvc.LineageInfo.Target,	// The QVD file is the target (output)
+	FileTime('$(_qvdpath)') 			as Qvc.LineageInfo.Target.FileTime,	// File time of the QVD
 	if(len(Statement)=0		// If no Statement,
 		,Discriminator		// Then Discriminator holds a filename. Use it for Source
 		// Otherwise, get what is after FROM (dbtablename) as the Source					  
@@ -107,6 +108,7 @@ END SUB	//_Qvc.LoadQvdInfo
 Qvc.LineageInfo:
 LOAD 
 	*
+	,FileTime(Qvc.LineageInfo.Source)			as Qvc.LineageInfo.Source.FileTime	// File time of the QVD
 WHERE NOT mixmatch(Qvc.LineageInfo.Source, DocumentPath())		// Ignore the Self-references
 	AND NOT Qvc.LineageInfo.Source LIKE 'RESIDENT _qvctemp.*'
 ;	
@@ -140,13 +142,6 @@ FOR EACH _qvctemp.recurse.qvdpath IN $(_qvctemp.qvdlist)
 	CALL _Qvc.LoadQvdInfo('$(_qvctemp.recurse.qvdpath)');
 NEXT;
 
-//FOR _qvctemp.lineageRow = 0 to NoOfRows('Qvc.LineageInfo')
-//	LET _qvctemp.qvdpath = peek('Qvc.LineageInfo.Source', $(_qvctemp.lineageRow), 'Qvc.LineageInfo');
-//	IF lower(SubField('$(_qvctemp.qvdpath)','.',-1)) = 'qvd' Then 
-//		CALL _Qvc.LoadQvdInfo('$(_qvctemp.qvdpath)');
-//	ENDIF
-//NEXT;
-
 // Join the Creator (who created the QVD) QVW names with QVD Sources used in this QVW
 IF NoOfRows('_qvctemp.LineageInfo_qvd')>0 THEN		// If any qvd sources,
 	LEFT JOIN (Qvc.LineageInfo)
@@ -167,6 +162,7 @@ LET ErrorMode=$(_qvctemp.SaveErrorMode);	// Restore the ErrorMode
 
 
 // Clean up temp variables
+DROP FIELD _qvctemp.LineageInfo_qvd.DummyField;
 SET _qvwpath=;
 SET _qvctemp.lineageRow=;
 SET _qvctemp.vCreatorDoc=;
