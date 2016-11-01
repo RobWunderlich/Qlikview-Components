@@ -162,7 +162,9 @@ LET ErrorMode=$(_qvctemp.SaveErrorMode);	// Restore the ErrorMode
 
 
 // Clean up temp variables
-DROP FIELD _qvctemp.LineageInfo_qvd.DummyField;
+IF FieldValueCount('_qvctemp.LineageInfo_qvd.DummyField') > 0 THEN   // If we have a dummy field,
+	DROP FIELD _qvctemp.LineageInfo_qvd.DummyField;
+ENDIF
 SET _qvwpath=;
 SET _qvctemp.lineageRow=;
 SET _qvctemp.vCreatorDoc=;
