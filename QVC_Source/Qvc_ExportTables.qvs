@@ -1,0 +1,61 @@
+///$tab ExportTables
+SUB Qvc.ExportTables (_outputDir, _format, _filter)
+/**
+@source Qvc_ExportTable.qvs
+Export  tables to a QVD or CSV files 
+
+@param 1 String. Optional. Relative or absolute directory where the tables will be stored. If relative, it follows the same rules as the STORE script statement for relative directory.
+@param 2 String, Optional. Format of the stored file. Valid values are "qvd", "txt". If omitted, default is "qvd".
+@param 3 String, Optional. Filter expression that can be used to limit the tables processed. In the expression, $1 is used to represent the tablename. For example, 'NOT $1 LIKE ''Log*'''  will exclude any tablenames that begin with "Log*" (note the quote escaping). If omitted, the default is 'NOT $1 LIKE ''Qvc.LogTable''' 
+
+@syntax CALL Qvc.ExportTables(['outputDir'],['format'],['filter']);
+*/
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+LET _qvctemp.TableName=left(DocumentName(),len(DocumentName())-4);		// Table name is document name
+
+//Set default values for params if not passed
+// Directory to Store in
+LET _qvctemp.qvddir = if(len(Trim('$(_outputDir)'))=0, '', Trim('$(_outputDir)'));
+// Add the ending \ if the passed path is missing it
+IF len('$(_qvctemp.qvddir)')>0 AND NOT right(_qvctemp.qvddirqvddir,1)='\' THEN
+	LET _qvctemp.qvddir = _qvctemp.qvddir & '\';
+END IF
+
+
+// Format to Store
+IF NOT WildMatch(trim('$(_format)'),'','qvd','txt') THEN
+	SET _qvctemp.ErrorMsg='***ERROR*** Qvc.ExportTables: Invalid value "$(_format)" specified for parameter #2. Valid values are "qvd", "txt"';
+	CALL Qvc.LogError('$(_qvctemp.ErrorMsg)')
+	TRACE '$(_qvctemp.ErrorMsg)';
+	EXIT SCRIPT;
+ENDIF
+LET _qvctemp.format = if(len(trim('$(_format)'))=0, 'qvd', lower(trim('$(_format)')));
+// File extension to use
+LET _qvctemp.ext = if('$(_qvctemp.format)'='txt','csv','qvd');
+
+
+// Filter expression
+LET _qvctemp.filter =
+if(len(trim('$(_filter)'))=0, 'NOT $1 LIKE ''Qvc.LogTable'''
+, '$(_filter)'
+);
+
+// Loop through the tables, storing those not excluded;
+FOR _qvctemp.i = NoOfTables()-1 to 0 step -1
+	LET _qvctemp.vTable = TableName($(_qvctemp.i));
+	IF $(_qvctemp.filter('$(_qvctemp.vTable)')) THEN
+		STORE [$(_qvctemp.vTable)] INTO [$(_qvctemp.qvddir)$(_qvctemp.vTable).$(_qvctemp.ext)] ($(_qvctemp.format));
+		CALL Qvc.Log('Table [$(_qvctemp.vTable)] STOREd INTO [$(_qvctemp.qvddir)$(_qvctemp.vTable).$(_qvctemp.ext)]') 
+	ENDIF	
+NEXT _qvctemp.i
+
+
+// Clean up temp variables
+SET _qvctemp.vTable=;
+SET _qvctemp.qvddir=;
+SET _qvctemp.i=;
+SET _qvctemp.format=;
+SET _qvctemp.ext=;
+	
+END SUB
