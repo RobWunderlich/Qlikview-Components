@@ -119,3 +119,18 @@ Writes an warning level message to the Qvc.Log. Convienence sub that calls Qvc.L
 */
 	CALL Qvc.Log(_msg, '$(Qvc.Log.v.Level.WARNING)');
 END SUB
+///$tab Log Utility
+/*
+@Function _Qvc.Log.LevelNumber
+@source Qvc_Log.qvs
+Returns the associated numeric value for a Qvc.Log.v.Level string value.
+
+@syntax LET _return = $(_Qvc.Log.LevelNumber('INFO'));
+
+@param 1 One of the Qvc.Log.v.Level.* strings.
+*/
+SET _Qvc.Log.LevelNumber = wildmatch('$1','$(Qvc.Log.v.Level.INFO)', '$(Qvc.Log.v.Level.WARNING)', '$(Qvc.Log.v.Level.ERROR)');
+/*
+@EndFunction
+*/
+
