@@ -1,0 +1,3 @@
+﻿_metricName,_metricExpr
+Sales,Sum(Sales)
+Margin,Sum(Margin)

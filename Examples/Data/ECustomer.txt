@@ -1,0 +1,21 @@
+﻿CustomerId,Customer Name,Customer Region
+0,A,A0
+1,B,A0
+2,C,A0
+3,D,A1
+4,E,A1
+5,F,A1
+6,G,A1
+7,H,A2
+8,I,A2
+9,J,A2
+10,K,A2
+11,L,A3
+12,M,A3
+13,N,A3
+14,O,A3
+15,P,A4
+16,Q,A4
+17,R,A4
+18,S,A4
+19,T,A5
