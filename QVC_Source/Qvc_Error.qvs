@@ -1,0 +1,33 @@
+///$tab Error Handling
+SET Qvc.Error.v.TerminatingLevel=Qvc.Log.v.Level.ERROR;		// Default level for termination
+
+SUB _Qvc.Error (_errorLevel, _errormsg)
+/**
+@source Qvc_Error.qvs
+Internal Error handler.
+
+@param 1 String. Error type. 
+@param 2 String. Error message.
+
+
+@syntax CALL _Qvc.Error('level','msg']);
+*/
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+// Always write a log message
+CALL Qvc.Log('$(_errormsg)', '$(_errorLevel)') 
+// Terminate if this error exceeds the terminating level
+IF  $(_Qvc.Log.LevelNumber($(_errorLevel))) >= $(_Qvc.Log.LevelNumber($(Qvc.Error.v.TerminatingLevel))) THEN 
+REM ***********************************************************************************************;
+REM QVC Terminating with $(_errorLevel).
+REM $(_errormsg);
+REM ***********************************************************************************************;
+Qvc script failure: $(_errormsg);
+	
+ENDIF
+
+
+
+// Clean up temp variables
+
+	
+END SUB
