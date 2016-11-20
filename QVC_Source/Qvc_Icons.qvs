@@ -40,11 +40,11 @@ FOR EACH _qvctemp.ext IN $(_fileTypes)
 		// Build the list of icons and then bundle the image in to the application
 		[$(_tableName)]:
 		LOAD
-			'$(_qvctemp.currImgName)' AS Icon
+			'$(_qvctemp.currImgName)' AS [$(_fieldName)]
 		AUTOGENERATE 1;
 		
 		BUNDLE INFO LOAD
-			'$(_qvctemp.currImgName)' AS Icon,
+			'$(_qvctemp.currImgName)' AS [$(_fieldName)],
 			'$(_qvctemp.img)'
 		AUTOGENERATE 1;
 				 
