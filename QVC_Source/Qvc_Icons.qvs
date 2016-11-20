@@ -35,7 +35,8 @@ FOR EACH _qvctemp.ext IN $(_fileTypes)
 	FOR EACH _qvctemp.img IN filelist(_dir & _mask & '.' & _qvctemp.ext);
 	
 		// Get the file name without the file extension
-		LET _qvctemp.currImgName = capitalize(subfield(subfield(_qvctemp.img, '\', -1), '.', 1));
+		LET _qvctemp.currImgName = subfield(_qvctemp.img, '\', -1);
+		LET _qvctemp.currImgName = Capitalize(Left('$(_qvctemp.currImgName)', Index('$(_qvctemp.currImgName)', '.', -1)-1));
 		
 		// Build the list of icons and then bundle the image in to the application
 		[$(_tableName)]:
