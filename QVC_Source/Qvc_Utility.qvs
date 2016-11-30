@@ -18,11 +18,11 @@ UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
 IF len('$(_vTable)')=0 THEN
 	SET _vSource = ";LOAD FieldValue('$(_field)', recno()) as [$(_field)] AUTOGENERATE FieldValueCount('$(_field)')";
 ELSEIF index('$(_vTable)', '.') = 0 THEN
-	SET _vSource = 'RESIDENT $(_vTable)';
+	SET _vSource = 'RESIDENT [$(_vTable)]';
 ELSEIF '.qvd' = lower(right('$(_vTable)', 4)) THEN
-	SET _vSource = 'FROM $(_vTable) (qvd)';
+	SET _vSource = 'FROM [$(_vTable)] (qvd)';
 ELSE 
-	SET _vSource = 'FROM $(_vTable)';	// Assume text file
+	SET _vSource = 'FROM [$(_vTable)]';	// Assume text file
 ENDIF
 
 _qvctemp.temptab:
