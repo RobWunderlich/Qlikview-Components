@@ -1,4 +1,6 @@
 ///$tab Icons
+// Config variables for Qvc.Icons
+SET Qvc.Icons.v.Capitalize.ImageName = -1;
 SUB Qvc.Icons (_dir, _mask, _fileTypes, _tableName, _fieldName)
 /**
 @source Qvc_Icons.qvs
@@ -9,6 +11,8 @@ Bundle loads icons from a specified folder.
 @param 3 String, Optional. Comma separated list of image file types. For example, 'jpg,png'. Default is 'png,jpg,bmp,gif'.
 @param 4 String, Optional. Table name to load icons into. For example, 'IconsTable'. Default is 'Icons'.
 @param 5 String, Optional. Field name to use in icons table. For example, 'Icon'. Default is 'Icon'.
+
+@var Qvc.Icons.v.Capitalize.ImageName True/False (0/1). If True, the Capitalize() function will be applied to image filenames to create the Icon field value. If false, the name will be used as provided by Windows. Default is True.
 
 @syntax CALL Qvc.Icons(['IconsFolder'],['mask'],['fileTypes,...'],['tableName'],['fieldName']);
 */
@@ -36,7 +40,13 @@ FOR EACH _qvctemp.ext IN $(_fileTypes)
 	
 		// Get the file name without the file extension
 		LET _qvctemp.currImgName = subfield(_qvctemp.img, '\', -1);
-		LET _qvctemp.currImgName = Capitalize(Left('$(_qvctemp.currImgName)', Index('$(_qvctemp.currImgName)', '.', -1)-1));
+		IF '$(Qvc.Icons.v.Capitalize.ImageName)' THEN 
+			// Capitalize the filename
+			LET _qvctemp.currImgName = Capitalize(Left('$(_qvctemp.currImgName)', Index('$(_qvctemp.currImgName)', '.', -1)-1));
+		ELSE 
+			// Don't Capitalize the filename
+			LET _qvctemp.currImgName = Left('$(_qvctemp.currImgName)', Index('$(_qvctemp.currImgName)', '.', -1)-1);
+		ENDIF	
 		
 		// Build the list of icons and then bundle the image in to the application
 		[$(_tableName)]:
