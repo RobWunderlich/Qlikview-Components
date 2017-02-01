@@ -100,8 +100,11 @@ SET _Qvc.Loader.v.TableModificationField = '$(_vQvdModField)';	// Save as privat
 IF '$(_vForceFullReload)' THEN
 	SET _vQvdExists = 0;	//ForceFullReload flag is on, treat as though QVD doesn't exist
 ELSE  						// Test if qvd file exists and if it does, does it contain any records
-	IF $(Qvc.FileExists(_Qvc.Loader.v.QvdFile)) AND QvdNoOfRecords('$(_Qvc.Loader.v.QvdFile)')>0 THEN
-		SET _vQvdExists = -1;
+	IF $(Qvc.FileExists(_Qvc.Loader.v.QvdFile)) THEN 
+	// QV12.10 throws error if file doesn't exist, so we do QvdNoOfRecords() after confirming fileExists. 
+		IF QvdNoOfRecords('$(_Qvc.Loader.v.QvdFile)')>0 THEN
+			SET _vQvdExists = -1;
+		ENDIF	
 	ELSE 
 		SET _vQvdExists = 0;
 	ENDIF
