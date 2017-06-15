@@ -125,6 +125,7 @@ SET _f_QuarterSerial='[$(_fieldPrefix)_QuarterSerial]';
 SET _f_WeekSerial='[$(_fieldPrefix)_WeekSerial]';
 SET _f_DateSerial='[$(_fieldPrefix)_DateSerial]';
 SET _fYearQuarter='[$(_fieldPrefix)$(Qvc.Calendar.v.Field.YearQuarter)]';
+SET _f_DateIsFuture='[$(_fieldPrefix)_Qvc.Calendar_DateIsFuture]';
 
 IF len('$(Qvc.Global.Extension.Directory)')> 0 THEN
 	LET _qvctemp.v.Include.ExtFields = replace(
@@ -133,6 +134,8 @@ IF len('$(Qvc.Global.Extension.Directory)')> 0 THEN
 ELSE 
 	SET _qvctemp.v.Include.ExtFields=;	
 ENDIF
+
+LET _qvctemp.vToday = Num(Today(1));	// Establish today's date
 
 LET _concatenate = if($(_Qvc.TableExists($(_tableName))), 'CONCATENATE ([$(_tableName)])', ''); 
    
@@ -159,7 +162,8 @@ LOAD
     num(Date)					 	as $(_f_DateSerial),
     AutoNumber(MonthStart(Date),'$(_f_MonthSerial)') 	as $(_f_MonthSerial),
     AutoNumber(QuarterStart(Date),'$(_f_QuarterSerial)')	as $(_f_QuarterSerial),
-    AutoNumber(weekyear(Date) &'|' & week(Date),'$(_f_WeekSerial)')	as $(_f_WeekSerial)
+    AutoNumber(weekyear(Date) &'|' & week(Date),'$(_f_WeekSerial)')	as $(_f_WeekSerial),
+    -(Date > $(_qvctemp.vToday)) as $(_f_DateIsFuture)
    $(_qvctemp.v.Include.ExtFields);
 
 REM If we are generating from a field and the SparseDates option is set;   
@@ -178,6 +182,7 @@ AUTOGENERATE date('$(_endDate)') - date('$(_startDate)') + 1
 
 SET _concatenate=;
 SET _qvctemp.v.Include.ExtFields=;
+SET __qvctemp.vToday=;
 
 
 ///$tab Calendar Set Variables
@@ -232,7 +237,7 @@ MapSubString('_qvctemp.Calendar.EscapeCharsMap',
 ;
 
 // Create a convienence variable we will use to form the variables
-SET _qvctemp.vMaxModifier = 'Max({1<_Qvc.DummyField=@(_Qvc.Calendar.v.SelectedFieldList_$(_fieldPrefix))>}';	
+SET _qvctemp.vMaxModifier = 'Max({1<@(_f_DateIsFuture)={0},_Qvc.DummyField=@(_Qvc.Calendar.v.SelectedFieldList_$(_fieldPrefix))>}';	
 
 IF len('$(Qvc.Global.Extension.Directory)')> 0 THEN
 	LET _qvctemp.v.Include.ExtSetVariables = replace(
