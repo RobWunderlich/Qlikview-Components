@@ -27,6 +27,11 @@ SET Qvc.Loader.v.KeyFieldIsUnique = -1;
 // This will greatly increase the speed of subsequent delta loads. 
 // True (-1) is the recommended value. 
 SET Qvc.Loader.v.StoreMaxModFieldValue = 0;
+
+// Specify if the modfield (param #2) contains a table qualfied name like "T.modfield". 
+// If true, the value after the "." will be taken as the QVD fieldname. 
+// If false, the modfield name will remain unchanged and assumed that modfield = QVD Fieldname. 
+SET Qvc.Loader.v.QualifiedModfield = -1;
 ///$tab Incremental Setup
 SUB Qvc.IncrementalSetup (_vTablename, _vSqlModField, _vPk, _vForceFullReload)
 /**
@@ -54,6 +59,7 @@ See the example qvw for complete instructions.
 @var Qvc.Loader.v.ModField.Type in Type of the modification (param 2) column -- "Datetime" or "Revision".
 @var Qvc.Loader.v.DatabaseDatetimeMask in Datetime format used by database mod field. Default is 'MM-DD-YYYY hh:mm:ss'.
 @var Qvc.Loader.v.StoreMaxModFieldValue in True/False (-1/0). If True, the QVD field "Qvc.MaxModFieldValue" will be used to determine the high value of the ModField. Default is 0.
+@var Qvc.Loader.v.QualifiedModfield in True/False (-1/0). If True (default) parameter #2 (modfield) may be an SQL table qualified name like "T.modfield". The "T." will be stripped to assume the QVD fieldname is "modfield".  If False, parameter #2 will be unchanged and used for both the SQL fieldname and the QVD fieldname as-is.  
 
 @var Qvc.Loader.v.Tablename out Name of Qlikview table.
 @var Qvc.Loader.v.IncrementalExpression out The SQL Predicate (where) clause to be included in your SQL Select.
@@ -93,8 +99,13 @@ SET _Qvc.Loader.v.Predicate.SFDC.Revision = '' & '>$1';
 
 
 // The SQL modfield may be a qualified name like "T.LastUpdate". Remove the qualifier to get the QVD fieldname.
-LET _vQvdModField = subfield('$(_vSqlModField)', '.', -1);	
-SET _Qvc.Loader.v.TableModificationField = '$(_vQvdModField)';	// Save as private global var
+IF $(Qvc.Loader.v.QualifiedModfield) THEN 
+	LET _vQvdModField = subfield('$(_vSqlModField)', '.', -1);	
+	SET _Qvc.Loader.v.TableModificationField = '$(_vQvdModField)';	// Save as private global var
+ELSE
+	SET _vQvdModField = '$(_vSqlModField)';	
+	SET _Qvc.Loader.v.TableModificationField = '$(_vQvdModField)';	// Save as private global var
+ENDIF	
 
 // Set a variable indicating if the QVD exists or not
 IF '$(_vForceFullReload)' THEN
@@ -104,6 +115,8 @@ ELSE  						// Test if qvd file exists and if it does, does it contain any recor
 	// QV12.10 throws error if file doesn't exist, so we do QvdNoOfRecords() after confirming fileExists. 
 		IF QvdNoOfRecords('$(_Qvc.Loader.v.QvdFile)')>0 THEN
 			SET _vQvdExists = -1;
+			ELSE 
+				SET _vQvdExists = 0;
 		ENDIF	
 	ELSE 
 		SET _vQvdExists = 0;
