@@ -1,3 +1,14 @@
+Version 11.2
+- Fixed issue 62, Qvc.IncrementalSetup script error when QVD not exists in QV12.10.
+- Added new routine, Qvc.ExportTables.
+- Removed variable Qvc.Global.v.QlikProduct as there is no reliable way to detect product during script execution. 
+- Added "QVC Developer Mode On" button on Detail sheet to expose QVC developer objects. Note this is only meaningful to developers working on updating the source version of QVC.
+- Qvc.Calendar: Future dates (later than load date) are excluded from "to date" (such as YTD) set variables. 
+- Fixed issue 61. Add option to Qvc.Icons to not Capitalize Icon filenames.
+- Fixed issue 58. Qvc.GetFieldValues error when tablename contains spaces.
+- Fixed issue 56. Qvc.Icons do not set custom field name. 
+- Fixed issue 59. Error in Qvc_Incremental_Reload if 2nd parameter contains "." (dot).
+
 Version 11.1
 - Fixed issue 55 "vSetYTD not working as before".
 - Corrected "Date Range" chart in Qvc.CalendarFromField example file.
