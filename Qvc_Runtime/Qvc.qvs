@@ -1,4 +1,4 @@
-REM ===== Begin of Qlikview Components included Qvc.qvs version 11.1 =====;
+REM ===== Begin of Qlikview Components included Qvc.qvs version 11.2 =====;
 /*
 Copyright (C) 2011  Rob Wunderlich
 
@@ -17,12 +17,9 @@ along with this program.  If not, see http://www.gnu.org/licenses/licenses.html
 */
 // Qvc.Global.v.Version MUST be specified in the 3 line format to be picked up as an ANT property!
 SET 
-Qvc.Global.v.Version = 11.1
+Qvc.Global.v.Version = 11.2
 ;
 LET Qvc.Global.v.ScriptStart = now(1);
-
-// What product are we executing in
-LET Qvc.Global.v.QlikProduct = if(subfield(QlikViewVersion(),'.',1)>6, 'VIEW', 'SENSE');
 
 // Set Qlik product Build Number
 LET Qvc.Global.v.QlikBuild = subfield(QlikViewVersion(),'.',3);
@@ -220,6 +217,7 @@ SET _f_QuarterSerial='[$(_fieldPrefix)_QuarterSerial]';
 SET _f_WeekSerial='[$(_fieldPrefix)_WeekSerial]';
 SET _f_DateSerial='[$(_fieldPrefix)_DateSerial]';
 SET _fYearQuarter='[$(_fieldPrefix)$(Qvc.Calendar.v.Field.YearQuarter)]';
+SET _f_DateIsFuture='[$(_fieldPrefix)_Qvc.Calendar_DateIsFuture]';
 
 IF len('$(Qvc.Global.Extension.Directory)')> 0 THEN
 	LET _qvctemp.v.Include.ExtFields = replace(
@@ -228,6 +226,8 @@ IF len('$(Qvc.Global.Extension.Directory)')> 0 THEN
 ELSE 
 	SET _qvctemp.v.Include.ExtFields=;	
 ENDIF
+
+LET _qvctemp.vToday = Num(Today(1));	// Establish today's date
 
 LET _concatenate = if($(_Qvc.TableExists($(_tableName))), 'CONCATENATE ([$(_tableName)])', ''); 
    
@@ -254,7 +254,8 @@ LOAD
     num(Date)					 	as $(_f_DateSerial),
     AutoNumber(MonthStart(Date),'$(_f_MonthSerial)') 	as $(_f_MonthSerial),
     AutoNumber(QuarterStart(Date),'$(_f_QuarterSerial)')	as $(_f_QuarterSerial),
-    AutoNumber(weekyear(Date) &'|' & week(Date),'$(_f_WeekSerial)')	as $(_f_WeekSerial)
+    AutoNumber(weekyear(Date) &'|' & week(Date),'$(_f_WeekSerial)')	as $(_f_WeekSerial),
+    -(Date > $(_qvctemp.vToday)) as $(_f_DateIsFuture)
    $(_qvctemp.v.Include.ExtFields);
 
 REM If we are generating from a field and the SparseDates option is set;   
@@ -273,6 +274,7 @@ AUTOGENERATE date('$(_endDate)') - date('$(_startDate)') + 1
 
 SET _concatenate=;
 SET _qvctemp.v.Include.ExtFields=;
+SET __qvctemp.vToday=;
 
 
 IF $(Qvc.Calendar.v.CreateSetVariables) THEN	// If SA variables requested,
@@ -326,7 +328,7 @@ MapSubString('_qvctemp.Calendar.EscapeCharsMap',
 ;
 
 // Create a convienence variable we will use to form the variables
-SET _qvctemp.vMaxModifier = 'Max({1<_Qvc.DummyField=@(_Qvc.Calendar.v.SelectedFieldList_$(_fieldPrefix))>}';	
+SET _qvctemp.vMaxModifier = 'Max({1<@(_f_DateIsFuture)={0},_Qvc.DummyField=@(_Qvc.Calendar.v.SelectedFieldList_$(_fieldPrefix))>}';	
 
 IF len('$(Qvc.Global.Extension.Directory)')> 0 THEN
 	LET _qvctemp.v.Include.ExtSetVariables = replace(
@@ -599,7 +601,6 @@ UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
 // Remove variables
 // Global
 SET Qvc.Global.Extension.Directory=;
-SET Qvc.Global.v.QlikProduct =;
 SET Qvc.Global.v.QlikBuild =;
 
 // Calendar
@@ -780,6 +781,7 @@ NoConcatenate
 LOAD DISTINCT 
 	'$(_qvctemp.vCreatorDoc)'			as Qvc.LineageInfo.Creator,  // Use Creator name we pulled earlier
 	'$(_qvdpath)' 						as Qvc.LineageInfo.Target,	// The QVD file is the target (output)
+	FileTime('$(_qvdpath)') 			as Qvc.LineageInfo.Target.FileTime,	// File time of the QVD
 	if(len(Statement)=0		// If no Statement,
 		,Discriminator		// Then Discriminator holds a filename. Use it for Source
 		// Otherwise, get what is after FROM (dbtablename) as the Source					  
@@ -790,7 +792,10 @@ LOAD DISTINCT
 LOAD 
 	Discriminator,
 	Statement
-FROM [$(_qvdpath)] (XmlSimple, Table is [QvdTableHeader/Lineage/LineageInfo]);
+FROM [$(_qvdpath)] (XmlSimple, Table is [QvdTableHeader/Lineage/LineageInfo])
+WHERE NOT Discriminator LIKE 'STORE *'		// Don't process STORE statements
+
+;
 
 IF NoOfRows('_qvctemp.LineageInfo_qvd_Temp')>0 THEN		// If any qvd sources,
 	// Add the rows collected in this call to the collection
@@ -804,7 +809,8 @@ IF NoOfRows('_qvctemp.LineageInfo_qvd_Temp')>0 THEN		// If any qvd sources,
 	LOAD concat(Qvc.LineageInfo.Source, chr(39) & ',' & chr(39)) as _qvctemp.qvdlist
 	RESIDENT _qvctemp.LineageInfo_qvd_Temp
 	WHERE lower(SubField(Qvc.LineageInfo.Source,'.',-1)) = 'qvd'
-	AND $(Qvc.FileExists(Qvc.LineageInfo.Source));
+	AND $(Qvc.FileExists(Qvc.LineageInfo.Source))
+	AND lower(Qvc.LineageInfo.Source) <> lower('$(_qvdpath)')	// Don't recurse to self
 	;
 	// Create a comma seperate list to use in FOR EACH
 	LET _qvctemp.qvdlist = chr(39) & peek('_qvctemp.qvdlist',0,'_qvctemp.qvdlist') & chr(39);
@@ -832,6 +838,7 @@ END SUB	//_Qvc.LoadQvdInfo
 Qvc.LineageInfo:
 LOAD 
 	*
+	,FileTime(Qvc.LineageInfo.Source)			as Qvc.LineageInfo.Source.FileTime	// File time of the QVD
 WHERE NOT mixmatch(Qvc.LineageInfo.Source, DocumentPath())		// Ignore the Self-references
 	AND NOT Qvc.LineageInfo.Source LIKE 'RESIDENT _qvctemp.*'
 ;	
@@ -865,13 +872,6 @@ FOR EACH _qvctemp.recurse.qvdpath IN $(_qvctemp.qvdlist)
 	CALL _Qvc.LoadQvdInfo('$(_qvctemp.recurse.qvdpath)');
 NEXT;
 
-//FOR _qvctemp.lineageRow = 0 to NoOfRows('Qvc.LineageInfo')
-//	LET _qvctemp.qvdpath = peek('Qvc.LineageInfo.Source', $(_qvctemp.lineageRow), 'Qvc.LineageInfo');
-//	IF lower(SubField('$(_qvctemp.qvdpath)','.',-1)) = 'qvd' Then 
-//		CALL _Qvc.LoadQvdInfo('$(_qvctemp.qvdpath)');
-//	ENDIF
-//NEXT;
-
 // Join the Creator (who created the QVD) QVW names with QVD Sources used in this QVW
 IF NoOfRows('_qvctemp.LineageInfo_qvd')>0 THEN		// If any qvd sources,
 	LEFT JOIN (Qvc.LineageInfo)
@@ -892,6 +892,9 @@ LET ErrorMode=$(_qvctemp.SaveErrorMode);	// Restore the ErrorMode
 
 
 // Clean up temp variables
+IF FieldValueCount('_qvctemp.LineageInfo_qvd.DummyField') > 0 THEN   // If we have a dummy field,
+	DROP FIELD _qvctemp.LineageInfo_qvd.DummyField;
+ENDIF
 SET _qvwpath=;
 SET _qvctemp.lineageRow=;
 SET _qvctemp.vCreatorDoc=;
@@ -1297,6 +1300,39 @@ SET _qvctemp.qvdname=; //Delete variable
 	
 END SUB
 
+SET Qvc.Error.v.TerminatingLevel=Qvc.Log.v.Level.ERROR;		// Default level for termination
+
+SUB _Qvc.Error (_errorLevel, _errormsg)
+/**
+@source Qvc_Error.qvs
+Internal Error handler.
+
+@param 1 String. Error type. 
+@param 2 String. Error message.
+
+
+@syntax CALL _Qvc.Error('level','msg']);
+*/
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+// Always write a log message
+CALL Qvc.Log('$(_errormsg)', '$(_errorLevel)') 
+// Terminate if this error exceeds the terminating level
+IF  $(_Qvc.Log.LevelNumber($(_errorLevel))) >= $(_Qvc.Log.LevelNumber($(Qvc.Error.v.TerminatingLevel))) THEN 
+REM ***********************************************************************************************;
+REM QVC Terminating with $(_errorLevel).
+REM $(_errormsg);
+REM ***********************************************************************************************;
+Qvc script failure: $(_errormsg);
+	
+ENDIF
+
+
+
+// Clean up temp variables
+
+	
+END SUB
+
 LET Qvc.ExpandInterval.v.RangeCeiling = num(today(1));	// Default for how high to generate a range
 SUB Qvc.ExpandInterval (_vRangeTable, _vStartDateField, _vEndDateField, _vGrouping, _vStep)
 /**
@@ -1528,6 +1564,73 @@ NEXT _qvctemp.tableidx
 DROP TABLE _qvctemp.TempTableNames;	
 
 END SUB
+SUB Qvc.ExportTables (_outputDir, _format, _filter)
+/**
+@source Qvc_ExportTables.qvs
+Export  tables to a QVD or CSV files. 
+
+The output filename will be Tablename.format. For example, a QV table named "Orders" will be stored as "Orders.csv" if param#2 is "csv".
+
+@param 1 String. Optional. Relative or absolute directory where the tables will be stored. If relative, it follows the same rules as the STORE script statement for relative directory.
+@param 2 String, Optional. Format and extension of the stored file. Valid values are "qvd", "txt", "csv".  "qvd" will create files in the QVD format, "txt" or "csv" will create file in CSV format. If omitted, default is "qvd".
+@param 3 String, Optional. Filter expression that can be used to limit the tables processed. In the expression, $1 is used to represent the tablename. For example, 'NOT $1 LIKE ''Log*'''  will exclude any tablenames that begin with "Log*" (note the quote escaping). If omitted, the default is 'NOT $1 LIKE ''Qvc.LogTable''' 
+
+@syntax CALL Qvc.ExportTables(['outputDir'],['format'],['filter']);
+*/
+UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
+
+LET _qvctemp.TableName=left(DocumentName(),len(DocumentName())-4);		// Table name is document name
+
+//Set default values for params if not passed
+// Directory to Store in
+LET _qvctemp.qvddir = if(len(Trim('$(_outputDir)'))=0, '', Trim('$(_outputDir)'));
+// Add the ending \ if the passed path is missing it
+IF len('$(_qvctemp.qvddir)')>0 AND NOT right(_qvctemp.qvddirqvddir,1)='\' THEN
+	LET _qvctemp.qvddir = _qvctemp.qvddir & '\';
+END IF
+
+
+// Format to Store
+IF NOT WildMatch(trim('$(_format)'),'','qvd','csv','txt') THEN
+	SET _qvctemp.ErrorMsg='Qvc.ExportTables: Invalid value "$(_format)" specified for parameter #2. Valid values are "qvd", "txt", "csv"';
+	CALL _Qvc.Error('$(Qvc.Log.v.Level.ERROR)', '$(_qvctemp.ErrorMsg)')
+	EXIT SCRIPT;
+ENDIF
+LET _qvctemp.format = if(len(trim('$(_format)'))=0, 'qvd', lower(trim('$(_format)')));
+// File extension to use. Same as Format parameter.
+LET _qvctemp.ext = '$(_qvctemp.format)';
+
+// We are allowing "csv" as an alias for the STORE (txt) format. if "csv", change to "txt"
+LET _qvctemp.format = if('$(_qvctemp.format)' = 'csv', 'txt','$(_qvctemp.format)'); 
+
+
+// Filter expression
+LET _qvctemp.filter =
+if(len(trim('$(_filter)'))=0, 'NOT $1 LIKE ''Qvc.LogTable'''
+, '$(_filter)'
+);
+
+// Loop through the tables, storing those not excluded;
+FOR _qvctemp.i = NoOfTables()-1 to 0 step -1
+	LET _qvctemp.vTable = TableName($(_qvctemp.i));
+	IF $(_qvctemp.filter('$(_qvctemp.vTable)')) THEN
+		STORE [$(_qvctemp.vTable)] INTO [$(_qvctemp.qvddir)$(_qvctemp.vTable).$(_qvctemp.ext)] ($(_qvctemp.format));
+		CALL Qvc.Log('Table [$(_qvctemp.vTable)] STOREd INTO [$(_qvctemp.qvddir)$(_qvctemp.vTable).$(_qvctemp.ext)]') 
+	ENDIF	
+NEXT _qvctemp.i
+
+
+// Clean up temp variables
+SET _qvctemp.vTable=;
+SET _qvctemp.qvddir=;
+SET _qvctemp.i=;
+SET _qvctemp.format=;
+SET _qvctemp.ext=;
+	
+END SUB
+
+// Config variables for Qvc.Icons
+SET Qvc.Icons.v.Capitalize.ImageName = -1;
 SUB Qvc.Icons (_dir, _mask, _fileTypes, _tableName, _fieldName)
 /**
 @source Qvc_Icons.qvs
@@ -1538,6 +1641,8 @@ Bundle loads icons from a specified folder.
 @param 3 String, Optional. Comma separated list of image file types. For example, 'jpg,png'. Default is 'png,jpg,bmp,gif'.
 @param 4 String, Optional. Table name to load icons into. For example, 'IconsTable'. Default is 'Icons'.
 @param 5 String, Optional. Field name to use in icons table. For example, 'Icon'. Default is 'Icon'.
+
+@var Qvc.Icons.v.Capitalize.ImageName True/False (0/1). If True, the Capitalize() function will be applied to image filenames to create the Icon field value. If false, the name will be used as provided by Windows. Default is True.
 
 @syntax CALL Qvc.Icons(['IconsFolder'],['mask'],['fileTypes,...'],['tableName'],['fieldName']);
 */
@@ -1564,16 +1669,23 @@ FOR EACH _qvctemp.ext IN $(_fileTypes)
 	FOR EACH _qvctemp.img IN filelist(_dir & _mask & '.' & _qvctemp.ext);
 	
 		// Get the file name without the file extension
-		LET _qvctemp.currImgName = capitalize(subfield(subfield(_qvctemp.img, '\', -1), '.', 1));
+		LET _qvctemp.currImgName = subfield(_qvctemp.img, '\', -1);
+		IF '$(Qvc.Icons.v.Capitalize.ImageName)' THEN 
+			// Capitalize the filename
+			LET _qvctemp.currImgName = Capitalize(Left('$(_qvctemp.currImgName)', Index('$(_qvctemp.currImgName)', '.', -1)-1));
+		ELSE 
+			// Don't Capitalize the filename
+			LET _qvctemp.currImgName = Left('$(_qvctemp.currImgName)', Index('$(_qvctemp.currImgName)', '.', -1)-1);
+		ENDIF	
 		
 		// Build the list of icons and then bundle the image in to the application
 		[$(_tableName)]:
 		LOAD
-			'$(_qvctemp.currImgName)' AS Icon
+			'$(_qvctemp.currImgName)' AS [$(_fieldName)]
 		AUTOGENERATE 1;
 		
 		BUNDLE INFO LOAD
-			'$(_qvctemp.currImgName)' AS Icon,
+			'$(_qvctemp.currImgName)' AS [$(_fieldName)],
 			'$(_qvctemp.img)'
 		AUTOGENERATE 1;
 				 
@@ -1619,6 +1731,11 @@ SET Qvc.Loader.v.KeyFieldIsUnique = -1;
 // This will greatly increase the speed of subsequent delta loads. 
 // True (-1) is the recommended value. 
 SET Qvc.Loader.v.StoreMaxModFieldValue = 0;
+
+// Specify if the modfield (param #2) contains a table qualfied name like "T.modfield". 
+// If true, the value after the "." will be taken as the QVD fieldname. 
+// If false, the modfield name will remain unchanged and assumed that modfield = QVD Fieldname. 
+SET Qvc.Loader.v.QualifiedModfield = -1;
 SUB Qvc.IncrementalSetup (_vTablename, _vSqlModField, _vPk, _vForceFullReload)
 /**
 @source Qvc_Incremental_Reload.qvs
@@ -1645,6 +1762,7 @@ See the example qvw for complete instructions.
 @var Qvc.Loader.v.ModField.Type in Type of the modification (param 2) column -- "Datetime" or "Revision".
 @var Qvc.Loader.v.DatabaseDatetimeMask in Datetime format used by database mod field. Default is 'MM-DD-YYYY hh:mm:ss'.
 @var Qvc.Loader.v.StoreMaxModFieldValue in True/False (-1/0). If True, the QVD field "Qvc.MaxModFieldValue" will be used to determine the high value of the ModField. Default is 0.
+@var Qvc.Loader.v.QualifiedModfield in True/False (-1/0). If True (default) parameter #2 (modfield) may be an SQL table qualified name like "T.modfield". The "T." will be stripped to assume the QVD fieldname is "modfield".  If False, parameter #2 will be unchanged and used for both the SQL fieldname and the QVD fieldname as-is.  
 
 @var Qvc.Loader.v.Tablename out Name of Qlikview table.
 @var Qvc.Loader.v.IncrementalExpression out The SQL Predicate (where) clause to be included in your SQL Select.
@@ -1684,15 +1802,25 @@ SET _Qvc.Loader.v.Predicate.SFDC.Revision = '' & '>$1';
 
 
 // The SQL modfield may be a qualified name like "T.LastUpdate". Remove the qualifier to get the QVD fieldname.
-LET _vQvdModField = subfield('$(_vSqlModField)', '.', -1);	
-SET _Qvc.Loader.v.TableModificationField = '$(_vQvdModField)';	// Save as private global var
+IF $(Qvc.Loader.v.QualifiedModfield) THEN 
+	LET _vQvdModField = subfield('$(_vSqlModField)', '.', -1);	
+	SET _Qvc.Loader.v.TableModificationField = '$(_vQvdModField)';	// Save as private global var
+ELSE
+	SET _vQvdModField = '$(_vSqlModField)';	
+	SET _Qvc.Loader.v.TableModificationField = '$(_vQvdModField)';	// Save as private global var
+ENDIF	
 
 // Set a variable indicating if the QVD exists or not
 IF '$(_vForceFullReload)' THEN
 	SET _vQvdExists = 0;	//ForceFullReload flag is on, treat as though QVD doesn't exist
 ELSE  						// Test if qvd file exists and if it does, does it contain any records
-	IF $(Qvc.FileExists(_Qvc.Loader.v.QvdFile)) AND QvdNoOfRecords('$(_Qvc.Loader.v.QvdFile)')>0 THEN
-		SET _vQvdExists = -1;
+	IF $(Qvc.FileExists(_Qvc.Loader.v.QvdFile)) THEN 
+	// QV12.10 throws error if file doesn't exist, so we do QvdNoOfRecords() after confirming fileExists. 
+		IF QvdNoOfRecords('$(_Qvc.Loader.v.QvdFile)')>0 THEN
+			SET _vQvdExists = -1;
+			ELSE 
+				SET _vQvdExists = 0;
+		ENDIF	
 	ELSE 
 		SET _vQvdExists = 0;
 	ENDIF
@@ -2285,6 +2413,20 @@ Writes an warning level message to the Qvc.Log. Convienence sub that calls Qvc.L
 */
 	CALL Qvc.Log(_msg, '$(Qvc.Log.v.Level.WARNING)');
 END SUB
+/*
+@Function _Qvc.Log.LevelNumber
+@source Qvc_Log.qvs
+Returns the associated numeric value for a Qvc.Log.v.Level string value.
+
+@syntax LET _return = $(_Qvc.Log.LevelNumber('INFO'));
+
+@param 1 One of the Qvc.Log.v.Level.* strings.
+*/
+SET _Qvc.Log.LevelNumber = wildmatch('$1','$(Qvc.Log.v.Level.INFO)', '$(Qvc.Log.v.Level.WARNING)', '$(Qvc.Log.v.Level.ERROR)');
+/*
+@EndFunction
+*/
+
 
 SUB Qvc.PopulateVariables (_vartable, _useLET)
 /**
@@ -2527,11 +2669,11 @@ UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
 IF len('$(_vTable)')=0 THEN
 	SET _vSource = ";LOAD FieldValue('$(_field)', recno()) as [$(_field)] AUTOGENERATE FieldValueCount('$(_field)')";
 ELSEIF index('$(_vTable)', '.') = 0 THEN
-	SET _vSource = 'RESIDENT $(_vTable)';
+	SET _vSource = 'RESIDENT [$(_vTable)]';
 ELSEIF '.qvd' = lower(right('$(_vTable)', 4)) THEN
-	SET _vSource = 'FROM $(_vTable) (qvd)';
+	SET _vSource = 'FROM [$(_vTable)] (qvd)';
 ELSE 
-	SET _vSource = 'FROM $(_vTable)';	// Assume text file
+	SET _vSource = 'FROM [$(_vTable)]';	// Assume text file
 ENDIF
 
 _qvctemp.temptab:
@@ -2759,4 +2901,4 @@ SET _MapValueField=;
 END SUB
 /* * End of Qvc.CreateWildMapExpression subroutine * */
 
-REM ===== End of Qlikview Components included Qvc.qvs version 11.1 =====;
+REM ===== End of Qlikview Components included Qvc.qvs version 11.2 =====;
