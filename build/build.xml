@@ -79,8 +79,8 @@
 			<zipfileset dir="." prefix="QlikviewComponents-${Qvc.Global.v.Version}">
 				<exclude name="**/**-prj/**"/>
 				<include name="Doc/QvcDocumentation.qvw"/>
+				<include name="Doc/Qvc Documentation.qvf"/>
 				<include name="Doc/Qlikview Components Release Notes V${Qvc.Global.v.Version}.pdf"/>
-				<include name="Doc/ExpandInterval_Doc.pdf"/>
 				<include name="etc/**"/>
 				<include name="Examples/**"/>
 				<include name="Sense Examples/**"/>
@@ -129,13 +129,6 @@
 			<fileset dir="${build.dir}" includes="**"/>
 		</copy>
 		
-		<!-- Test against QV9 -->
-		<!--
-		<antcall target="_RunTestVersion">
-			<param name="test.version" value="QV9"/>
-			<param name="test.version.qve.dir" value="${qve.dir.QV9}"/>
-		</antcall>
-		-->
 		
 		<!-- Test against QV10 -->
 		<antcall target="_RunTestVersion">
@@ -147,6 +140,12 @@
 		<antcall target="_RunTestVersion">
 			<param name="test.version" value="QV11"/>
 			<param name="test.version.qve.dir" value="${qve.dir.QV11}"/>
+		</antcall>
+		
+		<!-- Test against QV12 -->
+		<antcall target="_RunTestVersion">
+			<param name="test.version" value="QV12"/>
+			<param name="test.version.qve.dir" value="${qve.dir.QV12}"/>
 		</antcall>
 		
 		<!-- Test if the signal file was created that indicates all tests passed -->
