@@ -1,3 +1,11 @@
+[![GitHub version](https://img.shields.io/github/release/RobWunderlich/Qlikview-Components.svg)](https://github.com/RobWunderlich/Qlikview-Components/releases/latest)
+[![GitHub Release Date](https://img.shields.io/github/release-date/RobWunderlich/Qlikview-Components.svg)](https://github.com/RobWunderlich/Qlikview-Components/releases/latest)
+[![GitHub download](https://img.shields.io/github/downloads/RobWunderlich/Qlikview-Components/total.svg)](https://github.com/RobWunderlich/Qlikview-Components/releases/latest)
+[![GitHub stars](https://img.shields.io/github/stars/RobWunderlich/Qlikview-Components.svg)](https://github.com/RobWunderlich/Qlikview-Components/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/RobWunderlich/Qlikview-Components.svg)](https://github.com/RobWunderlich/Qlikview-Components/issues)
+[![GitHub contributors](https://img.shields.io/github/contributors/RobWunderlich/Qlikview-Components.svg)](https://github.com/RobWunderlich/Qlikview-Components/graphs/contributors)
+[![GitHub license](https://img.shields.io/github/license/RobWunderlich/Qlikview-Components.svg)](https://github.com/RobWunderlich/Qlikview-Components/blob/master/LICENSE)
+
 # QlikView Components
 
 A library for common QlikView Scripting tasks
