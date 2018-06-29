@@ -237,7 +237,7 @@ MapSubString('_qvctemp.Calendar.EscapeCharsMap',
 ;
 
 // Create a convienence variable we will use to form the variables
-SET _qvctemp.vMaxModifier = 'Max({1<@(_f_DateIsFuture)={0},_Qvc.DummyField=@(_Qvc.Calendar.v.SelectedFieldList_$(_fieldPrefix))>}';	
+SET _qvctemp.vMaxModifier = 'Max({1<$(_f_DateIsFuture)={0},_Qvc.DummyField=@(_Qvc.Calendar.v.SelectedFieldList_$(_fieldPrefix))>}';	
 
 IF len('$(Qvc.Global.Extension.Directory)')> 0 THEN
 	LET _qvctemp.v.Include.ExtSetVariables = replace(
@@ -459,6 +459,7 @@ SET _f_QuarterSerial=;
 SET _f_WeekSerial=;
 SET _f_DateSerial=;
 SET _fYearQuarter=;
+SET _f_DateIsFutur;
 SET _monthOffset =;
 			
 END SUB	
