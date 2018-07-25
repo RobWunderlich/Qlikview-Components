@@ -459,7 +459,7 @@ SET _f_QuarterSerial=;
 SET _f_WeekSerial=;
 SET _f_DateSerial=;
 SET _fYearQuarter=;
-SET _f_DateIsFutur;
+SET _f_DateIsFutur=;
 SET _monthOffset =;
 			
 END SUB	
