@@ -1,4 +1,4 @@
-﻿// Localization for Russian
+// Localization for Russian
 SET Qvc.Calendar.v.Field.Date=Дата;
 SET Qvc.Calendar.v.Field.Day=День;
 SET Qvc.Calendar.v.Field.Weekday=День недели;
