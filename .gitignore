@@ -13,3 +13,5 @@ Tests/*_log.txt
 
 # Office temp files
 ~$*
+build/QvcValidate.qvw
+build/ScriptRepository_V1.8.qvw
