@@ -1,8 +1,0 @@
-﻿Qvc.LogMessage_Level,Qvc.LogMessage
-INFO,"00001 2/21/2015 12:08:34 PM; #Qvc.Test# SUCCESS Correctly quoted literal: Expected: ""-1"" Actual ""-1"""
-INFO,"00002 2/21/2015 12:08:34 PM; #Qvc.Test# SUCCESS Missing quotes: Expected: ""0"" Actual ""0"""
-INFO,"00003 2/21/2015 12:08:34 PM; #Qvc.Test# SUCCESS Using variable: Expected: ""-1"" Actual ""-1"""
-INFO,"00004 2/21/2015 12:08:34 PM; #Qvc.Test# SUCCESS Using expression: Expected: ""-1"" Actual ""-1"""
-INFO,"00005 2/21/2015 12:08:34 PM; #Qvc.Test# SUCCESS Empty file: Expected: ""-1"" Actual ""-1"""
-INFO,"00006 2/21/2015 12:08:34 PM; #Qvc.Test# SUCCESS Missing file: Expected: ""0"" Actual ""0"""
-INFO,"00007 2/21/2015 12:08:34 PM; #Qvc.Test# SUCCESS ScriptErrorCount: Expected: ""0"" Actual ""0"""
