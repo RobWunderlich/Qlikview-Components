@@ -1,0 +1,9 @@
+// Localization for Polish
+SET Qvc.Calendar.v.Field.Date=Data;
+SET Qvc.Calendar.v.Field.Day=Dzieñ;
+SET Qvc.Calendar.v.Field.Weekday=Dzieñ tygodnia;
+SET Qvc.Calendar.v.Field.Year=Rok;
+SET Qvc.Calendar.v.Field.Month=Miesi¹c;
+SET Qvc.Calendar.v.Field.YearMonth=Rok-Miesi¹c;
+SET Qvc.Calendar.v.Field.Quarter=Kwarta³;
+SET Qvc.Calendar.v.Field.YearQuarter=Rok-Kwarta³;
