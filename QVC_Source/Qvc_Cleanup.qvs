@@ -21,6 +21,7 @@ SET Qvc.Calendar.v.Field.Year=;
 SET Qvc.Calendar.v.Field.Month=;
 SET Qvc.Calendar.v.Field.YearMonth=;
 SET Qvc.Calendar.v.Field.Quarter=;
+SET Qvc.Calendar.v.Field.YearQuarter=;
 SET Qvc.Calendar.v.ExtFields=;
 SET Qvc.Calendar.v.ExtSetVariables=;
 
