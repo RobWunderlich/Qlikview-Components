@@ -203,124 +203,134 @@ SET _qvctemp.den.qvdAge=;			// Delete variable
 
 IF $(_qvctemp.den.doExtract) THEN		// If not turned off by previous test, then extract this table
 
-//==============================================
-// Find the connection. First look for a connectionString,
-// then a connectionFile. 
-//==============================================
-IF len('$(_qvctemp.den.connectionString)') > 0 THEN			// We have a connectionString, use it.
-	SET _qvctemp.den.connect = $(_qvctemp.den.connectionString);
+	//==============================================
+	// Find the connection. First look for a connectionString,
+	// then a connectionFile. 
+	//==============================================
+	IF len('$(_qvctemp.den.connectionString)') > 0 THEN			// We have a connectionString, use it.
+		SET _qvctemp.den.connect = $(_qvctemp.den.connectionString);
 
-// No connectionString, look for a connectionFile.
-ELSEIF len('$(_qvctemp.den.connectionFilename)') > 0 THEN	// We have a connectionFile.
-	// Load the connection string.
-	_qvctemp.Conn_temp:
-	LOAD @1:n as _qvctemp.ConnectString
-	FROM [$(Qvc.Loader.v.ConnectionDir)\$(_qvctemp.den.connectionFilename)]
-	(fix, codepage is 1252);
-	
-	LET _qvctemp.den.connect = peek('_qvctemp.ConnectString');	// Assign to connection string to variable
-	DROP TABLE _qvctemp.Conn_temp;		// Drop temp table
-ELSE	
-// Neither connectionString or connectionFile, it's an error.
-	CALL Qvc.LogError('No connection specified for $(_qvctemp.den.table). Extract skipped.');
-	SET _qvctemp.den.doExtract = 0;		// Skip this table
-END IF
-
-
-IF $(_qvctemp.den.doExtract) THEN		// If not turned off by previous test, then extract this table
-$(_qvctemp.den.connect);		// Execute the Connect statement
-
-LET _qvctemp.den.extractStart = num(now(1),'00000.0000000','.',',');	// Record a start time for the Extract
-
-QUALIFY ExtractTimestamp;	// File ExtractTimestamp will record date of extract in final table.
-
-// Calc fullreload flag
-LET _qvctemp.den.fullReload = if('$(_qvctemp.den.extractMode)'='F', -1, 0);		// Set full reload boolean flag
-// Call IncrementalSetup(). 
-// Calling parameters are Tablename, UpdateColumn, QVD_PrimaryKey.
-CALL Qvc.IncrementalSetup ('$(_qvctemp.den.qvdName)', '$(_qvctemp.den.updateField)', '$(_qvctemp.den.keyField)', $(_qvctemp.den.fullReload));  
-
-LET _qvctemp.den.vSqlStart = num(now(1),'00000.0000000','.',',');	// Record SQL start time
-
-//==========================================================
-// Execute the SQL Select.
-//==========================================================
-[$(Qvc.Loader.v.Tablename)]: 		// vTablename is set by the IncrementalSetup routine.
-REM; // Fix syntax error from table label with variable
-	// If LOAD Statement provided, use it
-IF len('$(_qvctemp.den.loadStatement)')>0 THEN
-	$(_qvctemp.den.loadStatement);
-ELSE	// No LOAD Statement, build a SQL SELECT 
-	IF $(Qvc.Loader.v.CreateExtractTimestampField) THEN
-		LOAD *, now(1) as ExtractTimestamp;
+	// No connectionString, look for a connectionFile.
+	ELSEIF len('$(_qvctemp.den.connectionFilename)') > 0 THEN	// We have a connectionFile.
+		// Load the connection string.
+		_qvctemp.Conn_temp:
+		LOAD @1:n as _qvctemp.ConnectString
+		FROM [$(Qvc.Loader.v.ConnectionDir)\$(_qvctemp.den.connectionFilename)]
+		(fix, codepage is 1252);
+		
+		LET _qvctemp.den.connect = peek('_qvctemp.ConnectString');	// Assign to connection string to variable
+		DROP TABLE _qvctemp.Conn_temp;		// Drop temp table
+	ELSE	
+	// Neither connectionString or connectionFile, it's an error.
+		CALL Qvc.LogError('No connection specified for $(_qvctemp.den.table). Extract skipped.');
+		SET _qvctemp.den.doExtract = 0;		// Skip this table
 	ENDIF
-	SQL SELECT $(_qvctemp.den.columns) FROM $(_qvctemp.den.table)
-	WHERE $(Qvc.Loader.v.IncrementalExpression)	// IncrementalExpression is set up the Qvc.IncrementalSetup routine.	
+
+	$(_qvctemp.den.connect);		// Execute the Connect statement
+
+	LET _qvctemp.den.extractStart = num(now(1),'00000.0000000','.',',');	// Record a start time for the Extract
+
+	QUALIFY ExtractTimestamp;	// File ExtractTimestamp will record date of extract in final table.
+
+	// Calc fullreload flag
+	LET _qvctemp.den.fullReload = if('$(_qvctemp.den.extractMode)'='F', -1, 0);		// Set full reload boolean flag
+	// Call IncrementalSetup(). 
+	// Calling parameters are Tablename, UpdateColumn, QVD_PrimaryKey.
+	CALL Qvc.IncrementalSetup ('$(_qvctemp.den.qvdName)', '$(_qvctemp.den.updateField)', '$(_qvctemp.den.keyField)', $(_qvctemp.den.fullReload));  
+
+	LET _qvctemp.den.vSqlStart = num(now(1),'00000.0000000','.',',');	// Record SQL start time
+
+	//==========================================================
+	// Execute the SQL Select.
+	//==========================================================
+	// This IF is written this way to satisfy the script parser requirement that a table label be paired with a 
+	// LOAD statement. Otherwise, we could just generate the table label at the top of the section. 
+	//
+	// If LOAD Statement provided, use it
+	IF len('$(_qvctemp.den.loadStatement)')>0 THEN
+		[$(Qvc.Loader.v.Tablename)]:
+		$(_qvctemp.den.loadStatement);
+	ELSE	// No LOAD Statement, build a SQL SELECT 
+		IF $(Qvc.Loader.v.CreateExtractTimestampField) THEN
+			[$(Qvc.Loader.v.Tablename)]:
+			LOAD *, now(1) as ExtractTimestamp;
+		ENDIF	
+		
+		IF $(Qvc.Loader.v.CreateExtractTimestampField) THEN		// Dont' generate tablename label
+			SQL SELECT $(_qvctemp.den.columns) FROM $(_qvctemp.den.table)
+			WHERE $(Qvc.Loader.v.IncrementalExpression)	// IncrementalExpression is set up the Qvc.IncrementalSetup routine.	
+			;
+		ELSE		//Generate tablename label
+			[$(Qvc.Loader.v.Tablename)]:
+			SQL SELECT $(_qvctemp.den.columns) FROM $(_qvctemp.den.table)
+			WHERE $(Qvc.Loader.v.IncrementalExpression)	// IncrementalExpression is set up the Qvc.IncrementalSetup routine.	
+			;	
+		ENDIF
+		
+		
+	ENDIF	
+
+	UNQUALIFY ExtractTimestamp;			// Unqualify the currency field.
+	DISCONNECT;			// Disconnect from database
+
+	//==========================================================
+	// Validate returned data
+	//==========================================================
+	// If a Delta extract but keyfield was not included, then log a warning. 
+	IF '$(_qvctemp.den.extractMode)' = 'D' AND FieldNumber('$(_qvctemp.den.keyField)', '$(Qvc.Loader.v.Tablename)')=0 THEN
+		CALL Qvc.LogWarning('Warning: Keyfield "$(_qvctemp.den.keyField)" not found in table "$(Qvc.Loader.v.Tablename)".');
+	ENDIF
+
+	//==========================================================
+	// Compute and log SQL statistics.
+	//==========================================================
+	// Using RangeMax because very short durations can calc as -0 because of different precision.
+	LET _qvctemp.den.vSqlDuration = Interval(RangeMax(0, Now(1)-$(_qvctemp.den.vSqlStart)), 'hh:mm:ss');
+	CALL Qvc.Log('SQL SELECT Duration=$(_qvctemp.den.vSqlDuration)');
+
+	LET _qvctemp.den.vNoOfRows = num(NoOfRows('$(Qvc.Loader.v.Tablename)'),'#,##0');
+	CALL Qvc.Log('$(_qvctemp.den.vNoOfRows) rows loaded from Table $(_qvctemp.den.table)');
+
+
+	//==========================================================
+	// Prepare and store the QVD.
+	//==========================================================
+	// Apply any Table Comment
+	IF len('$(_qvctemp.den.tableComment)') > 0 THEN
+		COMMENT TABLES [$(Qvc.Loader.v.Tablename)] WITH '$(_qvctemp.den.tableComment)';
+	ENDIF
+
+	// Specify if we are using non-unique (generic) key. This has to be specified before IncrementalStore is called.
+	SET Qvc.Loader.v.KeyFieldIsUnique = $(_qvctemp.den.uniqueKey);
+
+	// If we are doing Delete processing, get the keys from the DB Table
+	IF '$(_qvctemp.den.deletes)'='Y' THEN
+		[_qvctemp.den.DeleteKeys]:
+		LOAD [$(_qvctemp.den.keyField)] as [_qvctemp.den.DeleteKeysField]
+		;
+		SQL SELECT $(_qvctemp.den.keyField)  FROM $(_qvctemp.den.table);
+		// Call IncrementalStore to update the QVD, with deletes. 
+		CALL Qvc.IncrementalStore('_qvctemp.den.DeleteKeys');
+	ELSE 
+		// Call IncrementalStore to update the QVD, no deletes. 
+		CALL Qvc.IncrementalStore 
+	ENDIF
+
+
+	//==========================================================
+	// Record statistics about this load.
+	//========================================================== 
+	ExtractStats:
+	LOAD
+		'$(_qvctemp.den.recid)' as RecId,
+		timestamp($(_qvctemp.den.extractStart)) as [Extract Start],
+		'$(_qvctemp.den.vSqlDuration)' as [SQL Duration],
+		'$(_qvctemp.den.vNoOfRows)' as [SQL Rows],
+		num(QvdNoOfRecords('$(_qvctemp.den.qvdPath)'),'#,##0') as [QVD Rows],
+		QvdNoOfFields('$(_qvctemp.den.qvdPath)') as [QVD Fields]
+	AUTOGENERATE 1
 	;
-ENDIF	
 
-UNQUALIFY ExtractTimestamp;			// Unqualify the currency field.
-DISCONNECT;			// Disconnect from database
-
-//==========================================================
-// Validate returned data
-//==========================================================
-// If a Delta extract but keyfield was not included, then log a warning. 
-IF '$(_qvctemp.den.extractMode)' = 'D' AND FieldNumber('$(_qvctemp.den.keyField)', '$(Qvc.Loader.v.Tablename)')=0 THEN
-	CALL Qvc.LogWarning('Warning: Keyfield "$(_qvctemp.den.keyField)" not found in table "$(Qvc.Loader.v.Tablename)".');
-ENDIF
-
-//==========================================================
-// Compute and log SQL statistics.
-//==========================================================
-// Using RangeMax because very short durations can calc as -0 because of different precision.
-LET _qvctemp.den.vSqlDuration = Interval(RangeMax(0, Now(1)-$(_qvctemp.den.vSqlStart)), 'hh:mm:ss');
-CALL Qvc.Log('SQL SELECT Duration=$(_qvctemp.den.vSqlDuration)');
-
-LET _qvctemp.den.vNoOfRows = num(NoOfRows('$(Qvc.Loader.v.Tablename)'),'#,##0');
-CALL Qvc.Log('$(_qvctemp.den.vNoOfRows) rows loaded from Table $(_qvctemp.den.table)');
-
-
-//==========================================================
-// Prepare and store the QVD.
-//==========================================================
-// Apply any Table Comment
-IF len('$(_qvctemp.den.tableComment)') > 0 THEN
-	COMMENT TABLES [$(Qvc.Loader.v.Tablename)] WITH '$(_qvctemp.den.tableComment)';
-ENDIF
-
-// Specify if we are using non-unique (generic) key. This has to be specified before IncrementalStore is called.
-SET Qvc.Loader.v.KeyFieldIsUnique = $(_qvctemp.den.uniqueKey);
-
-// If we are doing Delete processing, get the keys from the DB Table
-IF '$(_qvctemp.den.deletes)'='Y' THEN
-	[_qvctemp.den.DeleteKeys]:
-	LOAD [$(_qvctemp.den.keyField)] as [_qvctemp.den.DeleteKeysField]
-	;
-	SQL SELECT $(_qvctemp.den.keyField)  FROM $(_qvctemp.den.table);
-	// Call IncrementalStore to update the QVD, with deletes. 
-	CALL Qvc.IncrementalStore('_qvctemp.den.DeleteKeys');
-ELSE 
-	// Call IncrementalStore to update the QVD, no deletes. 
-	CALL Qvc.IncrementalStore 
-ENDIF
-
-
-//==========================================================
-// Record statistics about this load.
-//========================================================== 
-ExtractStats:
-LOAD
-	'$(_qvctemp.den.recid)' as RecId,
-	timestamp($(_qvctemp.den.extractStart)) as [Extract Start],
-	'$(_qvctemp.den.vSqlDuration)' as [SQL Duration],
-	'$(_qvctemp.den.vNoOfRows)' as [SQL Rows],
-	num(QvdNoOfRecords('$(_qvctemp.den.qvdPath)'),'#,##0') as [QVD Rows],
-	QvdNoOfFields('$(_qvctemp.den.qvdPath)') as [QVD Fields]
-AUTOGENERATE 1
-;
-
-ENDIF 		// END for IF $(_qvctemp.den.doExtract) THEN
 ENDIF 		// END for IF $(_qvctemp.den.doExtract) THEN
 
 //==========================================================

@@ -1,7 +1,0 @@
-﻿Qvc.LogMessage_Level,Qvc.LogMessage
-INFO,"00001 2/21/2015 12:09:40 PM; #Qvc.Test# SUCCESS SET v1c : Expected: ""2 + 4"" Actual ""2 + 4"""
-INFO,"00002 2/21/2015 12:09:40 PM; #Qvc.Test# SUCCESS LET v2c : Expected: ""6"" Actual ""6"""
-INFO,"00003 2/21/2015 12:09:40 PM; #Qvc.Test# SUCCESS SET v3-a : Expected: ""abc"" Actual ""abc"""
-INFO,"00004 2/21/2015 12:09:40 PM; #Qvc.Test# SUCCESS SET v4b : Expected: ""0"" Actual ""0"""
-INFO,"00005 2/21/2015 12:09:40 PM; #Qvc.Test# SUCCESS LET v4b : Expected: ""2"" Actual ""2"""
-INFO,"00006 2/21/2015 12:09:40 PM; #Qvc.Test# SUCCESS ScriptErrorCount: Expected: ""0"" Actual ""0"""

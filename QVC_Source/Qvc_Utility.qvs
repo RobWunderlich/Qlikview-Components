@@ -203,12 +203,14 @@ The optional third parameter is a variable name used to return the result. If om
 */
 UNQUALIFY "_qvctemp.*";	// UNQUALIFY all qvctemp fields
 
-IF len('$(_qvctemp.retvar)')=0 THEN; SET _qvctemp.retvar = 'Qvc.v.Return'; ENDIF
+IF len('$(_qvctemp.retvar)')=0 THEN
+	SET _qvctemp.retvar = 'Qvc.v.Return'; 
+ENDIF
 // Using "0" as not found is consistent with the FieldNumber() function. 
 SET $(_qvctemp.retvar) = 0;	// Default return value is "not found"
 
 // If the QVD does not exist, exit with 0. This is consistent with table-not-found condition in FieldNumber().
-IF NOT $(Qvc.FileExists('$(_qvctemp.qvdname)')) THEN ;
+IF NOT $(Qvc.FileExists('$(_qvctemp.qvdname)')) THEN
 	SET $(_qvctemp.retvar) = 0;	
 	EXIT Sub
 ENDIF		

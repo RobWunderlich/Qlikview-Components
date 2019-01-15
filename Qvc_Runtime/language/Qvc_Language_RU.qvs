@@ -1,9 +1,9 @@
 // Localization for Russian
-SET Qvc.Calendar.v.Field.Date=����;
-SET Qvc.Calendar.v.Field.Day=����;
-SET Qvc.Calendar.v.Field.Weekday=���� ������;
-SET Qvc.Calendar.v.Field.Year=���;
-SET Qvc.Calendar.v.Field.Month=�����;
-SET Qvc.Calendar.v.Field.YearMonth=���-�����;
-SET Qvc.Calendar.v.Field.Quarter=�������;
-SET Qvc.Calendar.v.Field.YearQuarter=���-�������;
+SET Qvc.Calendar.v.Field.Date=Дата;
+SET Qvc.Calendar.v.Field.Day=День;
+SET Qvc.Calendar.v.Field.Weekday=День недели;
+SET Qvc.Calendar.v.Field.Year=Год;
+SET Qvc.Calendar.v.Field.Month=Месяц;
+SET Qvc.Calendar.v.Field.YearMonth=Год-Месяц;
+SET Qvc.Calendar.v.Field.Quarter=Квартал;
+SET Qvc.Calendar.v.Field.YearQuarter=Год-Квартал;

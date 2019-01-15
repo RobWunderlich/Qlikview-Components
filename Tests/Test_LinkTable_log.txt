@@ -1,8 +1,0 @@
-﻿Qvc.LogMessage_Level,Qvc.LogMessage
-INFO,"00001 2/21/2015 12:09:06 PM; #Qvc.Test# SUCCESS LinkTable exists: Expected: ""-1"" Actual ""-1"""
-INFO,"00002 2/21/2015 12:09:06 PM; #Qvc.Test# SUCCESS LinkTable fields: Expected: ""4"" Actual ""4"""
-INFO,"00003 2/21/2015 12:09:06 PM; #Qvc.Test# SUCCESS Order fields: Expected: ""4"" Actual ""4"""
-INFO,"00004 2/21/2015 12:09:06 PM; #Qvc.Test# SUCCESS Supplier fields: Expected: ""2"" Actual ""2"""
-INFO,"00005 2/21/2015 12:09:07 PM; #Qvc.Test# SUCCESS T1 Rows: Expected: ""4"" Actual ""4"""
-INFO,"00006 2/21/2015 12:09:07 PM; #Qvc.Test# SUCCESS T2 Rows: Expected: ""3"" Actual ""3"""
-INFO,"00007 2/21/2015 12:09:07 PM; #Qvc.Test# SUCCESS ScriptErrorCount: Expected: ""0"" Actual ""0"""
