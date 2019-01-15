@@ -1,0 +1,23 @@
+///$tab DropTable
+SUB Qvc.DropTable (_qvctemp.tablename)
+/**
+@source Qvc_DropTable.qvs
+Drop table if it exists.
+Not need to make any checks before drop table.
+- if noofrows('tab') > 0 then drop end if 
+- if tablenumber('tab') > 0 then drop end if
+- etc...
+    
+@syntax CALL Qvc.DropTable('tablename');
+
+@param 1 String. The table name
+*/
+// Check table exists
+IF NOT ISNULL (TableNumber('$(_qvctemp.tablename)')) THEN
+	// If not null then table exist, drop it
+	DROP TABLE '$(_qvctemp.tablename)';
+END IF
+
+SET _qvctemp.tablename=; //Delete variable
+	
+END SUB
