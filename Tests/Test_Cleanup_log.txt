@@ -1,2 +1,0 @@
-﻿Qvc.LogMessage_Level,Qvc.LogMessage
-INFO,"00001 2/21/2015 12:07:45 PM; #Qvc.Test# SUCCESS ScriptErrorCount: Expected: ""0"" Actual ""0"""
