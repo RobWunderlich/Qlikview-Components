@@ -41,24 +41,24 @@ DROP TABLE _qvctemp._tempDatesTable;
 
 // Set initial value for loop variable to start of interval based on min available date
 IF lower('$(_qvctemp.segmentType)') = 'month' THEN
-	LET _qvctemp.currMinDate = num(monthstart(_qvctemp.minDate));
+	LET _qvctemp.currMinDate = num(monthstart(_qvctemp.minDate), '0.0', '.', '');
 ELSEIF lower('$(_qvctemp.segmentType)') = 'week' THEN
-	LET _qvctemp.currMinDate = num(weekstart(_qvctemp.minDate));
+	LET _qvctemp.currMinDate = num(weekstart(_qvctemp.minDate), '0.0', '.', '');
 ELSEIF lower('$(_qvctemp.segmentType)') = 'day' THEN
-	LET _qvctemp.currMinDate = num(daystart(_qvctemp.minDate));
+	LET _qvctemp.currMinDate = num(daystart(_qvctemp.minDate), '0.0', '.', '');
 END IF
 
 // Loop through table a period at a time
 DO WHILE _qvctemp.currMinDate <= _qvctemp.maxDate
 	// Set the max date for this loop iteration
 	IF lower(_qvctemp.segmentType) = 'month' THEN
-		LET _qvctemp.currMaxDate = num(monthend(addmonths(_qvctemp.currMinDate, $(_qvctemp.segmentsPerFile))-1)); 
+		LET _qvctemp.currMaxDate = num(monthend(addmonths(_qvctemp.currMinDate, $(_qvctemp.segmentsPerFile))-1), '0.0', '.', ''); 
 		LET _qvctemp.currFileName = '$(_qvctemp.qvdBaseName)_' & date($(_qvctemp.currMinDate), 'YYYY_MM') & '.qvd';
 	ELSEIF lower(_qvctemp.segmentType) = 'week' THEN
-		LET _qvctemp.currMaxDate = num(weekend(_qvctemp.currMinDate + (7 * $(_qvctemp.segmentsPerFile)) - 1)); 
+		LET _qvctemp.currMaxDate = num(weekend(_qvctemp.currMinDate + (7 * $(_qvctemp.segmentsPerFile)) - 1), '0.0', '.', ''); 
 		LET _qvctemp.currFileName = '$(_qvctemp.qvdBaseName)_' & date($(_qvctemp.currMinDate), 'YYYY_MM_DD') & '.qvd';
 	ELSEIF lower(_qvctemp.segmentType) = 'day' THEN
-		LET _qvctemp.currMaxDate = num(dayend(_qvctemp.currMinDate + $(_qvctemp.segmentsPerFile) - 1)); 
+		LET _qvctemp.currMaxDate = num(dayend(_qvctemp.currMinDate + $(_qvctemp.segmentsPerFile) - 1), '0.0', '.', ''); 
 		LET _qvctemp.currFileName = '$(_qvctemp.qvdBaseName)_' & date($(_qvctemp.currMinDate), 'YYYY_MM_DD') & '.qvd';
 	END IF
 
