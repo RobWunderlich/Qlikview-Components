@@ -1,3 +1,10 @@
+Version 11.3 
+- This release is a rollup of bug fixes and compatabilty updates for QV12. 
+- New routine, Qvc.DropTable. Credit to Stanislav Chernov.
+- Russian language corrections and various other fixes from Stanislav Chernov.
+- Qvc.Calender correction to future date variable from walteryiphk.
+- Qvc.DbExtract updated for syntax compatability with QV12.
+
 Version 11.2
 - Fixed issue 62, Qvc.IncrementalSetup script error when QVD not exists in QV12.10.
 - Added new routine, Qvc.ExportTables.
