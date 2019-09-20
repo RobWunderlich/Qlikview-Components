@@ -1,0 +1,43 @@
+///$tab MoveQvd
+SUB Qvc.MoveQvd(_qvctemp.qvdname, _qvctemp.targetdir)
+/**
+@source Qvc_MoveQvd.qvs
+Moves a QVD from one directory to another. 
+    
+@syntax CALL Qvc.MoveQvd('lib://QVD/SampleASCII.qvd','lib://QlikShare/Dev/Test/');
+
+@param 1 String. The QVD name, including path. Relative or full path.
+*/
+// Check if passed file is a QVD and the QVD exists
+IF lower(subfield('$(_qvctemp.qvdname)', '.', -1))='qvd' AND $(Qvc.FileExists('$(_qvctemp.qvdname)')) THEN
+
+	// If it does then load structure only from the QVD
+	Load
+		*
+	From
+		[$(_qvctemp.qvdname)] (qvd);	
+
+	// Figure out table name and where to store it
+	Let _qvctemp.tablecount = NoOfTables();
+	Let _qvctemp.tablename = TableName($(_qvctemp.tablecount)-1);
+	Let _qvctemp.orgfile = Subfield(Replace('$(_qvctemp.qvdname)','\','/'),'/',-1);
+	Let _qvctemp.newfile = If(Right(Replace('$(_qvctemp.targetdir)','\','/'),1) = '/', '$(_qvctemp.targetdir)','$(_qvctemp.targetdir)/') & '$(_qvctemp.orgfile)';
+
+	// Store QVD
+	Store [$(_qvctemp.tablename)] into [$(_qvctemp.newfile)] (qvd);
+
+	DROP TABLE [$(_qvctemp.tablename)];
+
+
+	SET _qvctemp.tablecount=;
+	SET _qvctemp.tablename=;
+	SET _qvctemp.orgfile=;
+	SET _qvctemp.newfile=;
+
+END IF
+
+//Delete variables
+SET _qvctemp.qvdname=; 
+SET _qvctemp.targetdir=;
+	
+END SUB

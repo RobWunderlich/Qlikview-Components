@@ -1,0 +1,28 @@
+///$tab LoadFileContentAsString
+SUB Qvc.LoadFileContentAsString (_qvctemp.filename,_qvctemp.qliktablename)
+/**
+@source Qvc_LoadFileContentAsString.qvs
+Loads the contents of a file as single string value. 
+    
+@syntax CALL Qvc.LoadFileContentAsString('..\SQL\audit.sql','Queries');
+
+@param 1 String. The file name you would like to load contents as a single string.
+@param 2 String. The name you would like the resulting table to be.
+*/
+// Check if passed file exists
+IF $(Qvc.FileExists('$(_qvctemp.filename)')) THEN
+
+	// If it does then load file content as 1 record. !!! Limit is set to files with 100,000 lines !!!
+	[$(_qvctemp.qliktablename)]:
+	LOAD 
+		Subfield(FileBaseName(),'.',2) 	as Qvc.FileName,
+		"@1:n"  						as Qvc.Source
+	FROM 
+		[$(_qvctemp.filename)](fix, utf8, record is 100000 lines);
+	
+END IF
+
+SET _qvctemp.filename=; //Delete variable
+SET _qvctemp.qliktablename=;
+	
+END SUB
