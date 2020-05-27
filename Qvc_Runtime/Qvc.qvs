@@ -1411,10 +1411,10 @@ IF len('$(_vEndDateField)')<> 0 THEN
 // No Enddate, we will compute it from the previous row.
 ELSEIF len('$(_vGrouping)')=0 THEN			// If no grouping specified,
 	SET _qvctemp.er.EndDateStatement=		//  then we use StartDate from previous row as EndDate
-	,if(NOT IsNull(previous($(_vStartDateField)))
-		,previous($(_vStartDateField))-$(_qvctemp.Interval)
+	,if(NOT IsNull(previous([$(_vStartDateField)]))
+		,previous([$(_vStartDateField)])-$(_qvctemp.Interval)
 		// Expand first interval to RangeCeiling if present, else use the StartField
-		,alt('$(Qvc.ExpandInterval.v.RangeCeiling)', $(_vStartDateField))
+		,alt('$(Qvc.ExpandInterval.v.RangeCeiling)', [$(_vStartDateField)])
 	) as _qvctemp.er.EndDate;	
 	
 	SET _qvctemp.er.OrderBy = ORDER BY [$(_vStartDateField)] DESC;
@@ -1423,9 +1423,9 @@ ELSE		// Grouping param is specified.
 	// Otherwise we will use '' - an open ended interval.	
 	SET _qvctemp.er.EndDateStatement=		
 	,if(previous(Hash256($(_vGrouping))) = Hash256($(_vGrouping))
-		,previous($(_vStartDateField))-1
+		,previous([$(_vStartDateField)])-1
 		// Expand first interval to RangeCeiling if present, else use the StartField
-		,alt('$(Qvc.ExpandInterval.v.RangeCeiling)', $(_vStartDateField))
+		,alt('$(Qvc.ExpandInterval.v.RangeCeiling)', [$(_vStartDateField)])
 	) as _qvctemp.er.EndDate;	
 	
 	SET _qvctemp.er.OrderBy = ORDER BY $(_vGrouping), [$(_vStartDateField)] DESC;
