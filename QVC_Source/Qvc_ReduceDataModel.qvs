@@ -1,0 +1,53 @@
+///$tab LoadFileContentAsString
+SUB Qvc.ReduceDataModel(_qvctemp.reducetablename)
+/**
+@source ReduceDataModel.qvs
+Reduces data model tables based on the associatoins defined in the supplied table. 
+    
+@syntax CALL Qvc.ReduceDataModel('LimitTables');
+
+@param 1 String. Table Name with two columns:
+					* First column contains tablename to reference for association link to reduce against.
+					* Second column contains table name to limit based on association to first column. 
+
+*/
+
+
+Let _qvctemp.reducekeepfield = FieldName(1, '$(_qvctemp.reducetablename)');
+Let _qvctemp.reducetablefield = FieldName(2, '$(_qvctemp.reducetablename)');
+
+
+For _qvctemp.r = 0 to NoOfRows('$(_qvctemp.reducetablename)') - 1
+
+
+	Let _qvctemp.keeptable = peek('$(_qvctemp.reducekeepfield)',$(_qvctemp.r),'$(_qvctemp.reducetablename)');
+	Let _qvctemp.reducetable = peek('$(_qvctemp.reducetablefield)',$(_qvctemp.r),'$(_qvctemp.reducetablename)');
+
+	Rename Table [$(_qvctemp.reducetable)] to [_qvctemp.reducedatamodel.$(_qvctemp.reducetable)];
+
+	// Reduce table basec on matching values of reference table.
+	Left Keep([$(_qvctemp.keeptable)]) 
+
+	[$(_qvctemp.reducetable)]:
+	Load
+	 	*
+	Resident
+		[_qvctemp.reducedatamodel.$(_qvctemp.reducetable)];
+
+	Drop Table [_qvctemp.reducedatamodel.$(_qvctemp.reducetable)];
+
+
+	SET _qvctemp.keeptable=;
+	SET _qvctemp.reducetable=;
+
+Next _qvctemp.r
+
+
+//Delete variables
+SET _qvctemp.reducetablename=; 
+SET _qvctemp.reducekeepfield=;
+SET _qvctemp.reducetablefield=;
+SET _qvctemp.r=;
+	
+END SUB
+
